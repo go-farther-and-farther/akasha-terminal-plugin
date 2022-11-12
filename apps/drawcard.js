@@ -70,7 +70,7 @@ export class drawcard extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
-    async signin(e) {
+    async weapen(e) {
         let user_id = e.user_id;
         let filename = `${user_id}.json`;
         //判断冷却
