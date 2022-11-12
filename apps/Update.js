@@ -1,7 +1,9 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import { createRequire } from "module";
 import lodash from "lodash";
-import { Restart } from '../../other/restart.js'
+import Version from "../model/version.js";
+import xxCfg from "../model/xxCfg.js";
+import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 
 const require = createRequire(import.meta.url);
 const { exec, execSync } = require("child_process");
@@ -16,22 +18,25 @@ export class update extends plugin {
   constructor() {
     super({
       name: "更新插件",
+      dsc: "更新插件代码",
       event: "message",
-      priority: 1000,
+      priority: 1145,
       rule: [
         {
-          reg: "^#*(akasha|虚空)(插件)?(强制)?更新$",
+          reg: "^#*虚空(插件)?(强制)?更新",
           fnc: "update",
         },
       ],
     });
+
+    this.versionData = xxCfg.getdefSet("version", "version");
   }
 
   /**
-   * rule - 更新akasha插件
+   * rule - 更新虚空插件
    * @returns
    */
-  async update() {
+   async update() {
     if (!this.e.isMaster) return false;
 
     /** 检查是否正在更新中 */
@@ -50,50 +55,46 @@ export class update extends plugin {
 
     /** 是否需要重启 */
     if (this.isUp) {
-      // await this.reply("更新完毕，请重启云崽后生效")
-      setTimeout(() => this.restart(), 2000)
+      await this.reply("更新完毕，请重启云崽后生效")
     }
   }
-
-  restart() {
-    new Restart(this.e).restart()
-  }
+ 
 
   /**
-   * akasha插件更新函数
+   * 虚空插件更新函数
    * @param {boolean} isForce 是否为强制更新
    * @returns
    */
   async runUpdate(isForce) {
-    let command = "git -C ./plugins/akasha-terminal-plugin/ pull --no-rebase";
+    let command = "git -C ./plugins/earth-k-plugin/ pull --no-rebase";
     if (isForce) {
-      command = `git -C ./plugins/akasha-terminal-plugin/ checkout . && ${command}`;
+      command = `git -C ./plugins/earth-k-plugin/ checkout . && ${command}`;
       this.e.reply("正在执行强制更新操作，请稍等");
     } else {
       this.e.reply("正在执行更新操作，请稍等");
     }
     /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
-    this.oldCommitId = await this.getcommitId("akasha-terminal-plugin");
+    this.oldCommitId = await this.getcommitId("earth-k-plugin");
     uping = true;
     let ret = await this.execSync(command);
     uping = false;
 
     if (ret.error) {
-      logger.mark(`${this.e.logFnc} 更新失败：akasha插件`);
+      logger.mark(`${this.e.logFnc} 更新失败：虚空插件`);
       this.gitErr(ret.error, ret.stdout);
       return false;
     }
 
     /** 获取插件提交的最新时间 */
-    let time = await this.getTime("akasha-terminal-plugin");
+    let time = await this.getTime("earth-k-plugin");
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
-      await this.reply(`akasha插件已经是最新版本\n最后更新时间：${time}`);
+      await this.reply(`虚空插件已经是最新版本\n最后更新时间：${time}`);
     } else {
-      await this.reply(`akasha插件\n最后更新时间：${time}`);
+      await this.reply(`虚空插件\n最后更新时间：${time}`);
       this.isUp = true;
-      /** 获取akasha组件的更新日志 */
-      let log = await this.getLog("akasha-terminal-plugin");
+      /** 获取虚空组件的更新日志 */
+      let log = await this.getLog("earth-k-plugin");
       await this.reply(log);
     }
 
@@ -103,12 +104,12 @@ export class update extends plugin {
   }
 
   /**
-   * 获取akasha插件的更新日志
+   * 获取虚空插件的更新日志
    * @param {string} plugin 插件名称
    * @returns
    */
   async getLog(plugin = "") {
-    let cm = `cd ./plugins/${plugin}/ && git log  -20 --oneakashae --pretty=format:"%h||[%cd]  %s" --date=format:"%m-%d %H:%M"`;
+    let cm = `cd ./plugins/${plugin}/ && git log  -20 --oneline --pretty=format:"%h||[%cd]  %s" --date=format:"%m-%d %H:%M"`;
 
     let logAll;
     try {
@@ -129,16 +130,16 @@ export class update extends plugin {
       if (str[1].includes("Merge branch")) continue;
       log.push(str[1]);
     }
-    let akashae = log.length;
+    let line = log.length;
     log = log.join("\n\n");
 
     if (log.length <= 0) return "";
 
     let end = "";
     end =
-      "更多详细信息，请前往gitee查看\nhttps://gitee.com/go-farther-and-farther/akasha-terminal-plugin";
+      "更多详细信息，请前往gitee查看\nhttps://gitee.com/SmallK111407/earth-k-plugin/commits/master";
 
-    log = await this.makeForwardMsg(`akasha插件更新日志，共${akashae}条`, log, end);
+    log = await this.makeForwardMsg(`虚空插件更新日志，共${line}条`, log, end);
 
     return log;
   }
@@ -163,7 +164,7 @@ export class update extends plugin {
    * @returns
    */
   async getTime(plugin = "") {
-    let cm = `cd ./plugins/${plugin}/ && git log -1 --oneakashae --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`;
+    let cm = `cd ./plugins/${plugin}/ && git log -1 --oneline --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`;
 
     let time = "";
     try {
@@ -254,8 +255,8 @@ export class update extends plugin {
     if (errMsg.includes("be overwritten by merge")) {
       await this.reply(
         msg +
-        `存在冲突：\n${errMsg}\n` +
-        "请解决冲突后再更新，或者执行#强制更新，放弃本地修改"
+          `存在冲突：\n${errMsg}\n` +
+          "请解决冲突后再更新，或者执行#强制更新，放弃本地修改"
       );
       return;
     }
@@ -299,3 +300,4 @@ export class update extends plugin {
     return true;
   }
 }
+
