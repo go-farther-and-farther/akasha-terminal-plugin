@@ -4,7 +4,7 @@ import { segment } from "oicq";
 const dirpath = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
 const dirpath2 = "plugins/akasha-terminal-plugin/resources/Legendaryweapon/Legendaryweapon.json";
 let Template = {//创建该用户
-    "money": 0,
+    "money": 5,
 };
 let exerciseCD = {};
 let Cool_time = 5;
