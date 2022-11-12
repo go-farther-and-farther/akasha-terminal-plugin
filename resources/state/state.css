@@ -103,7 +103,7 @@ hr {
     height: 75px;
     border-radius: 50%;
     text-align: center;
-    akashae-height: 75px;
+    line-height: 75px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -153,7 +153,7 @@ hr {
 
 .progress .word {
     position: absolute;
-    akashae-height: 25px;
+    line-height: 25px;
     left: 50%;
     transform: translate(-50%, 0);
 }

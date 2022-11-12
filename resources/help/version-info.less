@@ -1,5 +1,5 @@
-.akashaear-bg(@color) {
-  background-image: akashaear-gradient(to right, @color, @color 80%, fade(@color, 0) 100%);
+.linear-bg(@color) {
+  background-image: linear-gradient(to right, @color, @color 80%, fade(@color, 0) 100%);
 }
 
 * {
@@ -62,7 +62,7 @@ body {
 
   .cmd {
     color: #d3bc8e;
-    display: inakashae-block;
+    display: inline-block;
     border-radius: 3px;
     background: rgba(0, 0, 0, 0.5);
     padding: 0 3px;
@@ -74,14 +74,14 @@ body {
   }
 
   .new {
-    display: inakashae-block;
+    display: inline-block;
     width: 18px;
     margin: 0 -3px 0 1px;
   }
 
   .new:before {
     content: "NEW";
-    display: inakashae-block;
+    display: inline-block;
     transform: scale(0.6);
     transform-origin: 0 0;
     color: #d3bc8e;

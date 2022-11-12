@@ -43,7 +43,7 @@ body {
 }
 .log-cont .cmd {
   color: #d3bc8e;
-  display: inakashae-block;
+  display: inline-block;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.5);
   padding: 0 3px;
@@ -53,13 +53,13 @@ body {
   color: #24d5cd;
 }
 .log-cont .new {
-  display: inakashae-block;
+  display: inline-block;
   width: 18px;
   margin: 0 -3px 0 1px;
 }
 .log-cont .new:before {
   content: "NEW";
-  display: inakashae-block;
+  display: inline-block;
   transform: scale(0.6);
   transform-origin: 0 0;
   color: #d3bc8e;

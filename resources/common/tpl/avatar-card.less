@@ -61,7 +61,7 @@
     .talent-item {
       width: 20px;
       height: 16px;
-      akashae-height: 17px;
+      line-height: 17px;
       margin: 0 2px;
       text-align: center;
       display: block;
@@ -98,7 +98,7 @@
   }
 
   &.card-mini {
-    .wide, .akashae {
+    .wide, .line {
       display: none;
     }
   }
@@ -111,14 +111,14 @@
       font-size: 14px;
       display: block;
       height: 23px;
-      akashae-height: 20px;
+      line-height: 20px;
     }
 
     .cons {
       position: initial;
       border-radius: 4px;
       padding: 1px 3px;
-      vertical-align: baseakashae;
+      vertical-align: baseline;
     }
   }
 
@@ -149,12 +149,12 @@
       width: 70px;
     }
 
-    .akashae {
+    .line {
       display: block;
       height: 1px;
       width: 100%;
       margin: 5px 0;
-      background: akashaear-gradient(to right, rgba(0, 0, 0, 0), rgba(100, 100, 100, .5) 20%, rgba(100, 100, 100, .5) 80%, rgba(0, 0, 0, 0));
+      background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(100, 100, 100, .5) 20%, rgba(100, 100, 100, .5) 80%, rgba(0, 0, 0, 0));
       transform: scale(.8)
     }
   }

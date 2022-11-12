@@ -35,9 +35,9 @@ body {
   margin-bottom: 10px;
   background: rgba(203, 196, 190, 0);
 }
-.cfg-akashae {
+.cfg-line {
   color: #4e5769;
-  akashae-height: 36px;
+  line-height: 36px;
   padding-left: 20px;
   font-weight: bold;
   border-radius: 16px;
@@ -58,7 +58,7 @@ body {
   height: 36px;
   width: 160px;
   text-align: center;
-  akashae-height: 36px;
+  line-height: 36px;
   font-size: 20px;
   color: #495366;
   font-weight: bold;

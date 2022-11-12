@@ -24,7 +24,7 @@
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   height: 18px;
-  akashae-height: 18px;
+  line-height: 18px;
   padding: 0 3px;
   color: #fff;
   font-size: 12px;
@@ -63,7 +63,7 @@
   position: initial;
   width: 100%;
   display: table;
-  akashae-height: 26px;
+  line-height: 26px;
   height: 26px;
 }
 .arti-detail ul.detail li.nouse span {

@@ -49,7 +49,7 @@ body {
   text-shadow: 0 0 1px #000, 1px 1px 3px rgba(0, 0, 0, 0.9);
 }
 .head-box .title .label {
-  display: inakashae-block;
+  display: inline-block;
   margin-left: 10px;
 }
 .head-box .genshin_logo {
@@ -89,12 +89,12 @@ body {
 }
 .copyright .version {
   color: #d3bc8e;
-  display: inakashae-block;
+  display: inline-block;
   padding: 0 3px;
 }
 /*  */
 .cons {
-  display: inakashae-block;
+  display: inline-block;
   vertical-align: middle;
   padding: 0 5px;
   border-radius: 4px;
@@ -170,7 +170,7 @@ body {
 .fetter {
   width: 50px;
   height: 50px;
-  display: inakashae-block;
+  display: inline-block;
   background: url('./item/fetter.png');
   background-size: auto 100%;
 }
@@ -281,7 +281,7 @@ body {
   font-weight: normal;
 }
 .cont-title.border-less {
-  background: akashaear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   box-shadow: none;
   padding-bottom: 5px;
 }
@@ -350,7 +350,7 @@ ul.cont-msg li strong,
 .cont-table .thead > td {
   color: #d3bc8e;
   background: rgba(0, 0, 0, 0.4);
-  akashae-height: 40px;
+  line-height: 40px;
   height: 40px;
 }
 .cont-table .title,

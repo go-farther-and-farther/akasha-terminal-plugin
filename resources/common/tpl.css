@@ -87,7 +87,7 @@
   background: #e9e5dc;
   width: 100%;
   font-size: 12px;
-  akashae-height: 16px;
+  line-height: 16px;
   white-space: nowrap;
   overflow: hidden;
   padding: 0 3px;
@@ -190,7 +190,7 @@
 .avatar-card .avatar-talent .talent-item {
   width: 20px;
   height: 16px;
-  akashae-height: 17px;
+  line-height: 17px;
   margin: 0 2px;
   text-align: center;
   display: block;
@@ -221,7 +221,7 @@
   margin-left: -1px;
 }
 .avatar-card.card-mini .wide,
-.avatar-card.card-mini .akashae {
+.avatar-card.card-mini .line {
   display: none;
 }
 .avatar-card .avatar-name {
@@ -232,13 +232,13 @@
   font-size: 14px;
   display: block;
   height: 23px;
-  akashae-height: 20px;
+  line-height: 20px;
 }
 .avatar-card .avatar-name .cons {
   position: initial;
   border-radius: 4px;
   padding: 1px 3px;
-  vertical-align: baseakashae;
+  vertical-align: baseline;
 }
 .avatar-card.card-wide .mini {
   display: none;
@@ -261,12 +261,12 @@
 .avatar-card.card-wide .avatar-info {
   width: 70px;
 }
-.avatar-card.card-wide .akashae {
+.avatar-card.card-wide .line {
   display: block;
   height: 1px;
   width: 100%;
   margin: 5px 0;
-  background: akashaear-gradient(to right, rgba(0, 0, 0, 0), rgba(100, 100, 100, 0.5) 20%, rgba(100, 100, 100, 0.5) 80%, rgba(0, 0, 0, 0));
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(100, 100, 100, 0.5) 20%, rgba(100, 100, 100, 0.5) 80%, rgba(0, 0, 0, 0));
   transform: scale(0.8);
 }
 .avatar-card.wide2 .card {

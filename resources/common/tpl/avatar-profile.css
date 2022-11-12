@@ -55,11 +55,11 @@
   position: relative;
   font-family: YS;
   height: 32px;
-  akashae-height: 32px;
+  line-height: 32px;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
 }
 .profile .attr li i {
-  display: inakashae-block;
+  display: inline-block;
   height: 20px;
   width: 20px;
   background-image: url("../../character/icon.png");
@@ -101,7 +101,7 @@
   background: rgba(50, 50, 50, 0.4);
 }
 .profile .detail li strong {
-  display: inakashae-block;
+  display: inline-block;
   position: absolute;
   right: 85px;
   text-align: right;
@@ -113,7 +113,7 @@
   right: 0;
   text-align: left;
   width: 75px;
-  display: inakashae-block;
+  display: inline-block;
   font-family: Number, sans-serif;
   color: #90e800;
   font-size: 15px;
@@ -146,7 +146,7 @@
   background: #fff;
   width: 34px;
   height: 26px;
-  akashae-height: 26px;
+  line-height: 26px;
   font-size: 17px;
   text-align: center;
   border-radius: 5px;
