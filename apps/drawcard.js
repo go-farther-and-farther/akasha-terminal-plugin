@@ -1,8 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from "fs";
-import YAML from 'yaml'
+import { segment } from "oicq";
 const dirpath = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
-const dirpath2 = "plugins/akasha-terminal-plugin/resources/Legendaryweapon/Legendaryweapon.yaml";
+const dirpath2 = "plugins/akasha-terminal-plugin/resources/Legendaryweapon/Legendaryweapon.json";
 let Template = {//创建该用户
     "money": 0,
 };
@@ -70,14 +70,10 @@ export class drawcard extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
-    async weapen(e) {
+    async weapon(e) {
         let user_id = e.user_id;
         let filename = `${user_id}.json`;
         //判断冷却
-        if (exerciseCD[user_id]) { //判定是否在冷却中
-            e.reply(`你刚刚进行了签到，等待${Cool_time}分钟后再次签到吧！`);
-            return;
-        }
         //如果文件不存在，创建文件
         if (!fs.existsSync(dirpath + "/" + filename)) {
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
@@ -85,6 +81,7 @@ export class drawcard extends plugin {
         }
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
+        var Legendaryweapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
         if (!json.hasOwnProperty("money")) {//如果json中不存在该用户
             json = Template
             json['money']--
@@ -96,17 +93,14 @@ export class drawcard extends plugin {
             e.reply(`你没有钱了！`);
             return;
         }
-        let num = Math.round(1 * Math.random())
-        let Grade = Math.floor(5.05 - Math.random())
-        let Legendaryweapon = YAML.parse(fs.readFileSync(dirpath2, 'utf8'));
+        let num = Math.round(1 + 1 * Math.random())
+        let Grade = 5//Math.floor(5.05 - Math.random())
         let name = Legendaryweapon[Grade][num];
-        json[5][name] = 1
-        let picture = `plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}`
-        let msg = [
-            `恭喜你`,
-            picture,
-        ];
-        e.reply(msg)
+        if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
+            json[Grade] = { "name": 1 }
+        }
+        json[Grade][name] = 1
+        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`),`恭喜你`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
