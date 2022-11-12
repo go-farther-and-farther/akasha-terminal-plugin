@@ -56,11 +56,11 @@ export class drawcard extends plugin {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
         if (!json.hasOwnProperty("money")) {//如果这个用户现在没有钱
             json = Template
-            e.reply(`恭喜你注册成功，你现在的纠错之缘数量是${json['money']}`)
+            e.reply(`恭喜你注册成功，你现在的纠缠之缘数量是${json['money']}`)
         }
         else {
             json['money']++
-            e.reply(`你获得了一颗纠缠之缘，你现在的纠错之缘数量是${json['money']}`)
+            e.reply(`你获得了一颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
         }
         //下面是添加冷却
         exerciseCD[user_id] = true;
@@ -98,11 +98,11 @@ export class drawcard extends plugin {
         let Grade = Math.floor(5.05 - Math.random())
         let num4 = 0
         let num5 = 0
-        for (i in Legendaryweapon[4]) {
-            num4++;
+        for (let key in Legendaryweapon[4]) {
+            if (Legendaryweapon[4].hasOwnProperty(key)) num4++;
         }
-        for (i in Legendaryweapon[5]) {
-            num5++;
+        for (let key in Legendaryweapon[5]) {
+            if (Legendaryweapon[4].Legendaryweapon(key)) num5++;
         }
         let num = Math.round(1 + num5 * Math.random()) * (Grade == 5) + Math.round(num4 + 1 * Math.random()) * (Grade == 4)
         let name = Legendaryweapon[Grade][num];
