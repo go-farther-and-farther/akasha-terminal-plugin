@@ -1,37 +1,44 @@
-# Akasha Terminal-plugin
+# akasha-terminal-plugin
+
+本人水平有限，有Bug请下老版本，或者等待一段时间重新拉取更新版本，重新拉取不能解决可以反馈到Issues，谢谢。
 
 #### 介绍
-Yunzai-Bot插件包——虚空终端。有问题直接提出修改方案就好了，欢迎来画饼群906539561参与我们的创作。
+一个Yunzai-BotV3.0+的插件包（plugin），提供了QQ群内决斗小游戏、随机时间给全部好友点赞、点歌和点动漫（支持选择歌曲版本）。
 
-#### 软件架构
-软件架构说明
+- [Yunzai-Bot V3](https://github.com/Le-niao/Yunzai-Bot)
+
+### 使用说明
+
+- 推荐使用git进行安装，以方便后续升级。在BOT根目录夹打开终端，运行
+
+`git clone https://gitee.com/go-farther-and-farther/akasha ./plugins/akasha-terminal-plugin/`
+
+或者
+
+`git clone https://github.com/go-farther-and-farther/akasha ./plugins/akasha-terminal-plugin/`
+
+使用`akasha更新`来更新插件。
+
+### 现有功能
+|功能   |描述   |
+|---|---|
+|决斗   |请使用`#虚空帮助`和`#决斗规则`获取指令和游戏规则。   |
+|点赞部分   |自动点赞，可以去config里面配置   |
+|ai   |配置了青云客ai自动回复消息。可以使用`ai开启`，`ai关闭`，`太吵了`，`太安静了`调节ai触发概率   |
+|跑路   |输入'#跑路'，'#回来'控制Bot跑路，可输入xx跑路指定Bot跑路，不影响其他Bot|
+|点歌   |`#点歌+（歌名）`根据回复选择`#听+序号`   |
+|碧落   |`#我在人间凑数的日子`，`#摸鱼日记`，`#来份动漫图`，`#xx天气`，`#来句诗`，`#王者xx语音`，`#生成签名xx`，`#骂我`，`#举牌xx`，`#知乎热榜`，`#查询手机号xx`，`#翻译xx`，`#舔狗日记`，`#网易云热评，``#微博热搜`，`#历史上的今天`|
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+1.  @越追越远 提供了决斗、点赞和自动回复插件。
+
+2.  @地球生物 提供了点歌和点动漫插件。
+
+### 特别感谢
+
+@FanSky_Qs
 
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
