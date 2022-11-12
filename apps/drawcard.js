@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from "fs";
 import { segment } from "oicq";
-const dirpath = "plugins/akasha-terminal-plugin/data/UserData/";//文件夹路径
+const dirpath = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
 const dirpath2 = "plugins/akasha-terminal-plugin/resources/Legendaryweapon/Legendaryweapon.json";
 let Template = {//创建该用户
     "money": 5,
