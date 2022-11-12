@@ -112,7 +112,7 @@ export class drawcard extends plugin {
             else
                 json[Grade][num]++
         }
-        let msg = [`你已经有${json[Grade][num]}把${name}了(内测：武器库代号${num4}-${num5}，武器代号${Grade}-${num}),你还有${json['money']}纠缠之缘`,
+        let msg = [`你已经有${json[Grade][num]}把${name}了(内测：武器库总量三星${num3}四星${num4}五星${num5}，武器${Grade}星${num}号),你还有${json['money']}纠缠之缘`,
         segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}/awaken.webp`)]
         e.reply(msg)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
