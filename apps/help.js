@@ -80,7 +80,7 @@ async function help(e) {
 }
 
 const rodom = async function () {
-  var image = fs.readdirSync(`./plugins/akasha-plugin/resources/help/imgs/`);
+  var image = fs.readdirSync(`./plugins/akasha-terminal-plugin/resources/help/imgs/`);
   var list_img = [];
   for (let val of image) {
     list_img.push(val)
