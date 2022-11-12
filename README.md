@@ -11,11 +11,7 @@
 
 - 推荐使用git进行安装，以方便后续升级。在BOT根目录夹打开终端，运行
 
-`git clone https://gitee.com/go-farther-and-farther/akasha ./plugins/akasha-terminal-plugin/`
-
-或者
-
-`git clone https://github.com/go-farther-and-farther/akasha ./plugins/akasha-terminal-plugin/`
+`git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin ./plugins/akasha-terminal-plugin/`
 
 使用`akasha更新`来更新插件。
 
