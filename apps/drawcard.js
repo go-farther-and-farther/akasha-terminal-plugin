@@ -78,23 +78,17 @@ export class drawcard extends plugin {
         //判断冷却
         //如果文件不存在，创建文件
         if (!fs.existsSync(dirpath + "/" + filename)) {
-            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
-            }));
+            e.reply('你还没有注册呢，请使用 #虚空签到 注册')
+            return
         }
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
         var Legendaryweapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
-        if (!json.hasOwnProperty("money")) {//如果json中不存在该用户
-            json = Template
-            json['money']--
-        }
-        else {
-            json['money']--
-        }
         if (json['money'] <= 0) { //判定是否有钱
             e.reply(`好可惜，但是你没有纠缠之缘了！`);
             return;
         }
+        json['money']--
         let Grade = Math.floor(5.05 - Math.random())
         let num4 = 0
         let num5 = 0
