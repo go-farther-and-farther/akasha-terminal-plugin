@@ -66,15 +66,15 @@ export class update extends plugin {
    * @returns
    */
   async runUpdate(isForce) {
-    let command = "git -C ./plugins/earth-k-plugin/ pull --no-rebase";
+    let command = "git -C ./plugins/akasha-terminal-plugin/ pull --no-rebase";
     if (isForce) {
-      command = `git -C ./plugins/earth-k-plugin/ checkout . && ${command}`;
+      command = `git -C ./plugins/akasha-terminal-plugin/ checkout . && ${command}`;
       this.e.reply("正在执行强制更新操作，请稍等");
     } else {
       this.e.reply("正在执行更新操作，请稍等");
     }
     /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
-    this.oldCommitId = await this.getcommitId("earth-k-plugin");
+    this.oldCommitId = await this.getcommitId("akasha-terminal-plugin");
     uping = true;
     let ret = await this.execSync(command);
     uping = false;
@@ -86,7 +86,7 @@ export class update extends plugin {
     }
 
     /** 获取插件提交的最新时间 */
-    let time = await this.getTime("earth-k-plugin");
+    let time = await this.getTime("akasha-terminal-plugin");
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
       await this.reply(`虚空插件已经是最新版本\n最后更新时间：${time}`);
@@ -94,7 +94,7 @@ export class update extends plugin {
       await this.reply(`虚空插件\n最后更新时间：${time}`);
       this.isUp = true;
       /** 获取虚空组件的更新日志 */
-      let log = await this.getLog("earth-k-plugin");
+      let log = await this.getLog("akasha-terminal-plugin");
       await this.reply(log);
     }
 
@@ -137,7 +137,7 @@ export class update extends plugin {
 
     let end = "";
     end =
-      "更多详细信息，请前往gitee查看\nhttps://gitee.com/SmallK111407/earth-k-plugin/commits/master";
+      "更多详细信息，请前往gitee查看\nhttps://gitee.com/go-farther-and-farther/akasha-terminal-plugin/commits/master";
 
     log = await this.makeForwardMsg(`虚空插件更新日志，共${line}条`, log, end);
 
