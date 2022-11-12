@@ -94,7 +94,10 @@ export class drawcard extends plugin {
         let num5 = 0
         num4 = Legendaryweapon["四星数量"]
         num5 = Legendaryweapon["五星数量"]
-        let num = Math.round(1 + num5 * Math.random()) * (Grade == 5) + Math.round(num4 + 1 * Math.random()) * (Grade == 4)
+        if (Grade == 5)
+            var num = Math.floor(1 + num5 * Math.random())
+        else
+            var num = Math.floor(1 + num4 * Math.random())
         let name = Legendaryweapon[Grade][num];
         if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
             json[Grade] = { "name": 1 }
