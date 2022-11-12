@@ -96,7 +96,7 @@ export class drawcard extends plugin {
             if (Legendaryweapon[4].hasOwnProperty(key)) num4++;
         }
         for (let key in Legendaryweapon[5]) {
-            if (Legendaryweapon[4].Legendaryweapon(key)) num5++;
+            if (Legendaryweapon[4].hasOwnProperty(key)) num5++;
         }
         let num = Math.round(1 + num5 * Math.random()) * (Grade == 5) + Math.round(num4 + 1 * Math.random()) * (Grade == 4)
         let name = Legendaryweapon[Grade][num];
