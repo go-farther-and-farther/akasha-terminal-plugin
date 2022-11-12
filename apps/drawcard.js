@@ -54,11 +54,13 @@ export class drawcard extends plugin {
         }
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
-        if (!json.hasOwnProperty("money")) {//如果json中不存在该用户
+        if (!json.hasOwnProperty("money")) {//如果这个用户现在没有钱
             json = Template
+            e.reply(`恭喜你注册成功，你现在的纠错之缘数量是${json['money']}`)
         }
         else {
             json['money']++
+            e.reply(`你获得了一颗纠缠之缘，你现在的纠错之缘数量是${json['money']}`)
         }
         //下面是添加冷却
         exerciseCD[user_id] = true;
@@ -90,17 +92,24 @@ export class drawcard extends plugin {
             json['money']--
         }
         if (json['money'] <= 0) { //判定是否有钱
-            e.reply(`你没有钱了！`);
+            e.reply(`好可惜，但是你没有纠缠之缘了！`);
             return;
         }
-        let num = Math.round(1 + 1 * Math.random())
-        let Grade = 5//Math.floor(5.05 - Math.random())
+        let Grade = Math.floor(5.05 - Math.random())
+        let num4 = 1
+        let num5 = 2
+        let num = Math.round(1 + num5 * Math.random()) * (Grade == 5) + Math.round(num4 + 1 * Math.random()) * (Grade == 4)
         let name = Legendaryweapon[Grade][num];
         if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
             json[Grade] = { "name": 1 }
         }
-        json[Grade][name] = 1
-        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`),`恭喜你`)
+        else {
+            if (!json[Grade].hasOwnProperty(num))
+                json[Grade][num] = 1
+            else
+                json[Grade][num]++
+        }
+        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg,你已经有${json[Grade][num]}把${name}了`), `恭喜你`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
