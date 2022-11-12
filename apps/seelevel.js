@@ -2,7 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fs from "fs";
 //项目路径
 //如果报错请删除Yunzai/data/目录中akasha文件夹
-const dirpath = "data/akasha/";//文件夹路径
+const dirpath = "plugins/akasha-terminal-plugin/data/";//文件夹路径
 var filename = `battle`;//文件名
 if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
     filename = filename + ".json";//添加.json
