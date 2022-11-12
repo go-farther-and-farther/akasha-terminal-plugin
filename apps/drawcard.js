@@ -109,7 +109,8 @@ export class drawcard extends plugin {
             else
                 json[Grade][num]++
         }
-        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`, `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`), `恭喜你`)
+        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`),`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`)
+
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
