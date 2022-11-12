@@ -92,12 +92,8 @@ export class drawcard extends plugin {
         let Grade = Math.floor(5.25 - Math.random())
         let num4 = 0
         let num5 = 0
-        for (let key in Legendaryweapon[4]) {
-            if (Legendaryweapon[4].hasOwnProperty(key)) num4++;
-        }
-        for (let key in Legendaryweapon[5]) {
-            if (Legendaryweapon[4].hasOwnProperty(key)) num5++;
-        }
+        num4 = Legendaryweapon["四星数量"]
+        num5 = Legendaryweapon["五星数量"]
         let num = Math.round(1 + num5 * Math.random()) * (Grade == 5) + Math.round(num4 + 1 * Math.random()) * (Grade == 4)
         let name = Legendaryweapon[Grade][num];
         if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
@@ -112,7 +108,7 @@ export class drawcard extends plugin {
         let msg = [`你已经有${json[Grade][num]}把${name}了(内测：武器库代号${num4}-${num5}，武器代号${Grade}-${num}),你还有${json['money']}纠缠之缘`,
         segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`)]
         e.reply(msg)
-        
+
 
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
