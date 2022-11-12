@@ -89,7 +89,7 @@ export class drawcard extends plugin {
             return;
         }
         json['money']--
-        let Grade = Math.floor(5.05 - Math.random())
+        let Grade = Math.floor(5.25 - Math.random())
         let num4 = 0
         let num5 = 0
         for (let key in Legendaryweapon[4]) {
@@ -109,7 +109,10 @@ export class drawcard extends plugin {
             else
                 json[Grade][num]++
         }
-        e.reply(segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`),`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`)
+        let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`,
+        segment.image(`plugins/akasha-terminal-plugin/resources/Legendaryweapon/${name}.jpg`)]
+        e.reply(msg)
+        
 
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
