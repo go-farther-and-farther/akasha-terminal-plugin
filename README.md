@@ -1,6 +1,6 @@
 <div align="center">
 
-[![虚空终端](resources/虚空终端.png)]
+<img width="200" src="resources/虚空终端.png">
 
 <h1 align="center">Akasha-Terminal-plugin</h1>
 
@@ -19,7 +19,9 @@
 
 - 推荐使用git进行安装，以方便后续升级。在BOT根目录夹打开终端，运行
 
-`git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin/`
+```base
+git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin/`
+```
 
 使用`虚空更新`来更新插件。
 
