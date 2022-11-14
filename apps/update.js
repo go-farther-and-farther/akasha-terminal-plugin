@@ -49,12 +49,11 @@ export class update extends plugin {
 
     /** 检查git安装 */
     if (!(await this.checkGit())) return;
-    await this.reply("已安装git");
 
     const isForce = this.e.msg.includes("强制");
 
     /** 执行更新 */
-    await this.reply("开始更新");
+
     await this.runUpdate(isForce);
 
     /** 是否需要重启 */
