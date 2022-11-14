@@ -83,6 +83,7 @@ export class update extends plugin {
     } else {
       this.e.reply("正在执行更新操作，请稍等");
     }
+    let ret = await this.execSync(command);
     return true;
   }
 
