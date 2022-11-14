@@ -89,14 +89,14 @@ export class drawcard extends plugin {
             return;
         }
         if (user_id == '2859167710') { json['money']++ }
-        json['money']--
+        else { json['money']-- }
         let Grade = Math.floor(1000 * Math.random())
         if (Grade < 16) { Grade = 5 }
         else if (Grade < 150) { Grade = 4 }
         else { Grade = 3 }
-        let num3 = weapon["三星数量"]
-        let num4 = weapon["四星数量"]
-        let num5 = weapon["五星数量"]
+        let num3 = weapon[`${Grade}星数量`]
+        let num4 = weapon[`${Grade}星数量`]
+        let num5 = weapon[`${Grade}星数量`]
         if (Grade == 5)
             var num = Math.floor(1 + num5 * Math.random())
         else if (Grade == 4)
