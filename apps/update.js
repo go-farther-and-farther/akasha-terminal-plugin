@@ -84,32 +84,6 @@ export class update extends plugin {
     } else {
       this.e.reply("正在执行更新操作，请稍等");
     }
-    /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
-    this.oldCommitId = await this.getcommitId("akasha-terminal-plugin");
-    uping = true;
-    let ret = await this.execSync(command);
-    uping = false;
-
-    if (ret.error) {
-      logger.mark(`${this.e.logFnc} 更新失败：虚空插件`);
-      this.gitErr(ret.error, ret.stdout);
-      return false;
-    }
-
-    /** 获取插件提交的最新时间 */
-    let time = await this.getTime("akasha-terminal-plugin");
-
-    if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
-      await this.reply(`虚空插件已经是最新版本\n最后更新时间：${time}`);
-    } else {
-      await this.reply(`虚空插件\n最后更新时间：${time}`);
-      this.isUp = true;
-      /** 获取虚空组件的更新日志 */
-      let log = await this.getLog("akasha-terminal-plugin");
-      await this.reply(log);
-    }
-    logger.mark(`${this.e.logFnc} 最后更新时间：${time}`);
-
     return true;
   }
 
