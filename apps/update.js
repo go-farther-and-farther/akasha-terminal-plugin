@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const { exec, execSync } = require("child_process");
 
 // 是否在更新中
-let uping = true;
+let uping = false;
 
 /**
  * 处理插件更新
