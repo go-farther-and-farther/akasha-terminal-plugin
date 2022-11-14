@@ -87,7 +87,7 @@ export class update extends plugin {
                 //me.restartApp();
             }
         });
-
+        e.reply("更新完成啦，请手动重启~");
     }
     async restartApp() {
         if (!this.e.isMaster) {
