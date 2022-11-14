@@ -1,115 +1,132 @@
-import plugin from "../../../lib/plugins/plugin.js";
+import plugin from '../../../lib/plugins/plugin.js'
+import fetch from 'node-fetch'
 import { createRequire } from "module";
-import lodash from "lodash";
-import { Restart } from "../../other/restart.js";
-import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 
 const require = createRequire(import.meta.url);
 const { exec, execSync } = require("child_process");
 
-// 是否在更新中
-let uping = false;
+const _path = process.cwd();
 
-/**
- * 处理插件更新
- */
 export class update extends plugin {
-  constructor() {
-    super({
-      name: "更新插件",
-      dsc: "更新插件代码",
-      event: "message",
-      priority: 4000,
-      rule: [
-        {
-          reg: "^#*虚空(插件)?(强制)?更新",
-          fnc: "update",
-        },
-        {
-          reg: "^#*虚空(插件)?版本$",
-          fnc: "version",
-        },
-      ],
-    });
-
-  }
-
-  /**
-   * rule - 更新虚空插件
-   * @returns
-   */
-  async update() {
-    if (!this.e.isMaster) return false;
-
-    /** 检查是否正在更新中 */
-    if (uping) {
-      await this.reply("已有命令更新中..请勿重复操作");
-      return;
+    constructor() {
+        super({
+            /** 功能名称 */
+            name: '虚空更新',
+            /** 功能描述 */
+            dsc: '虚空更新自身',
+            /** https://oicqjs.github.io/oicq/#events */
+            event: 'message',
+            /** 优先级，数字越小等级越高 */
+            priority: 999,
+            rule: [
+                {
+                    /** 命令正则匹配 */
+                    reg: '^#(虚空更新|虚空强制更新)$',
+                    /** 执行方法 */
+                    fnc: 'update'
+                },
+                {
+                    /** 命令正则匹配 */
+                    reg: '^#重启$',
+                    /** 执行方法 */
+                    fnc: 'restartApp'
+                }
+            ]
+        })
     }
 
-    /** 检查git安装 */
-    if (!(await this.checkGit())) return;
+    /**
+     * 
+     * @param e oicq传递的事件参数e
+     */
+    async update(e) {
+        if (!this.e.isMaster) {
+            await this.e.reply("您无权操作");
+            return true;
+        }
 
-    const isForce = this.e.msg.includes("强制");
+        let isForce = this.e.msg.includes("强制") ? true : false;
 
-    /** 执行更新 */
+        let command = "git pull";
 
-    await this.runUpdate(isForce);
+        if (isForce) {
+            command = "git checkout . && git pull";
+            await this.e.reply("正在执行强制更新操作，请稍等");
+        } else {
+            await this.e.reply("正在执行更新操作，请稍等");
+        }
+        var me = this;
+        var ls = exec(command, { cwd: `${_path}/plugins/akasha-terminal-plugin/` }, async function (error, stdout, stderr) {
+            if (error) {
+                let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
 
-    /** 是否需要重启 */
-    if (this.isUp) {
-      setTimeout(() => this.restart(), 2000);
+                let isNetwork = error.toString().includes("fatal: unable to access") ? true : false;
+
+                if (isChanges) {
+                    //git stash && git pull && git stash pop stash@{0}
+                    //需要设置email和username，暂不做处理
+                    await me.e.reply(
+                        "失败！\nError code: " +
+                        error.code +
+                        "\n" +
+                        error.stack +
+                        "\n\n本地代码与远程代码存在冲突,上面报错信息中包含冲突文件名称及路径，请尝试处理冲突\n如果不想保存本地修改请使用【#强制更新】\n(注意：强制更新命令会忽略所有本地对akasha-terminal-plugin插件本身文件的修改，本地修改均不会保存，请注意备份)"
+                    );
+                } else if (isNetwork) {
+                    await me.e.reply(
+                        "失败！\nError code: " + error.code + "\n" + error.stack + "\n\n可能是网络问题，请关闭加速器之类的网络工具，或请过一会尝试。"
+                    );
+                } else {
+                    await me.e.reply("失败！\nError code: " + error.code + "\n" + error.stack + "\n\n出错了。请尝试处理错误");
+                }
+            } else {
+                if (/Already up to date/.test(stdout)) {
+                    e.reply("目前已经是最新了~");
+                    return true;
+                }
+                me.restartApp();
+            }
+        });
+
     }
-  }
+    async restartApp() {
+        if (!this.e.isMaster) {
+            await this.e.reply("您无权操作");
+            return true;
+        }
+        await this.e.reply("开始执行重启，请稍等...");
+        Bot.logger.mark("开始执行重启，请稍等...");
 
+        let data = JSON.stringify({
+            isGroup: this.e.isGroup ? true : false,
+            id: this.e.isGroup ? this.e.group_id : this.e.user_id,
+        });
 
-  /**
-   * 云崽重启操作
-   */
-  restart() {
-    new Restart(this.e).restart();
-  }
+        try {
 
-  /**
-   * 虚空插件更新函数
-   * @param {boolean} isForce 是否为强制更新
-   * @returns
-   */
-  async runUpdate(isForce) {
-    let command = "git ./plugins/akasha-terminal-plugin/ pull --no-rebase";
-    if (isForce) {
-      command = `git ./plugins/akasha-terminal-plugin/ checkout . && ${command}`;
-      this.e.reply("正在执行强制更新操作，请稍等");
-    } else {
-      this.e.reply("正在执行更新操作，请稍等");
+            await redis.set("Yunzai:akasha-terminal-plugin:restart", data, { EX: 120 });
+
+            let cm = `npm run start`;
+            if (process.argv[1].includes("pm2")) {
+                cm = `npm run restart`;
+            }
+
+            exec(cm, async (error, stdout, stderr) => {
+                if (error) {
+                    redis.del(`Yunzai:akasha-terminal-plugin:restart`);
+                    await this.e.reply(`操作失败！\n${error.stack}`);
+                    Bot.logger.error(`重启失败\n${error.stack}`);
+                } else if (stdout) {
+                    Bot.logger.mark("重启成功，运行已转为后台，查看日志请用命令：npm run log");
+                    Bot.logger.mark("停止后台运行命令：npm stop");
+                    process.exit();
+                }
+            });
+        } catch (error) {
+            redis.del(`Yunzai:akasha-terminal-plugin:restart`);
+            await this.e.reply(`操作失败！\n${error.stack}`);
+        }
+
+        return true;
     }
-    let ret = await this.execSync(command);
-    return true;
-  }
-
-  /**
-   * 异步执行git相关命令
-   * @param {string} cmd git命令
-   * @returns
-   */
-  async execSync(cmd) {
-    return new Promise((resolve, reject) => {
-      exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
-        resolve({ error, stdout, stderr });
-      });
-    });
-  }
-
-  /**
-   * 检查git是否安装
-   * @returns
-   */
-  async checkGit() {
-    let ret = await execSync("git --version", { encoding: "utf-8" });
-    if (!ret || !ret.includes("git version")) {
-      await this.reply("请先安装git");
-      return false;
-    }
-    return true;
-  }
 }
