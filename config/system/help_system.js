@@ -38,8 +38,12 @@ export const helpCfg = {
 
 // 帮助菜单内容
 export const helpList = [{
-  group: '内力系统',
+  group: '属性系统',
   list: [{
+    icon: 20,
+    title: '#加入决斗/决斗状态',
+    desc: '创建/查看状态'
+}, {
     icon: 21,
     title: '#锻炼',
     desc: '生命在于运动。锻炼提升你的内力吧'
