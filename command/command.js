@@ -18,7 +18,7 @@ async function getConfig(name, key) {//获取
     let config = YAML.parse(fs.readFileSync(configyamlpath, 'utf8'));
 
     if (!config[name][key]) {
-        logger.error(`没有设置[${name}]:[${key}],请使用“#akasha重置配置”指令或者前往[${configyamlpath}]设置！`);
+        logger.error(`没有设置[${name}]:[${key}],请使用“#虚空重置配置”指令或者前往[${configyamlpath}]设置！`);
     }
     return config[name][key];
 
@@ -28,7 +28,7 @@ async function getresources(name, key) {//获取
     let resources = YAML.parse(fs.readFileSync(resourcespath, 'utf8'));
 
     if (!resources[name][key]) {
-        logger.error(`没有设置[${name}]:[${key}],请使用“#akasha重置配置”指令或者前往[${resourcespath}]设置！`);
+        logger.error(`没有设置[${name}]:[${key}],请使用“#虚空重置配置”指令或者前往[${resourcespath}]设置！`);
     }
     return resources[name][key];
 
