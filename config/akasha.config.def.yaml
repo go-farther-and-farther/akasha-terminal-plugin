@@ -5,8 +5,8 @@ duel_cfg:
   Magnification: 1
   Magnification2: 1
   # 命令间隔时间，单位秒，这是决斗的冷却时间#初始为300秒
-  Cooakashag_time: 300
-  # 命令间隔时间，单位分钟，这是修炼的冷却时间#初始为300分钟
-  Cooakashag_time2: 300
+  Cooling_time: 300
+  # 命令间隔时间，单位分钟，这是锻炼的冷却时间#初始为300分钟
+  Cooling_time2: 300
   # 命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
-  Cooakashag_time3: 30
+  Cooling_time3: 30

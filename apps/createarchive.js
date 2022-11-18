@@ -11,7 +11,7 @@ let Combat = {//创建用户战斗属性
     "防御": 100,//防御
 };
 //项目路径
-export class createahchive extends plugin {//修炼
+export class createahchive extends plugin {//锻炼
     constructor(){
     super({
 			/** 功能名称 */

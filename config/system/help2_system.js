@@ -46,15 +46,15 @@ export const helpList = [{
 }, {
     icon: 21,
     title: '#锻炼',
-    desc: '生命在于运动。锻炼提升你的内力吧'
+    desc: '生命在于运动。锻炼提升你的经验吧'
 }, {
     icon: 22,
     title: '#闭关突破',
-    desc: '当内力满足时，即可提升境界'
+    desc: '当经验满足时，即可提升等级'
 }, {
     icon: 23,
-    title: '#我的境界',
-    desc: '查看自己的境界'
+    title: '#我的等级',
+    desc: '查看自己的等级'
   }]
 }, {
   group: '抽卡系统',

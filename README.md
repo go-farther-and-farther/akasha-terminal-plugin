@@ -30,7 +30,7 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |功能   |描述   |
 |---|---|
 |决斗系统   |与一名群友开始决斗   |
-|内力系统   |通过各种方式提升内力   |
+|经验系统   |通过各种方式提升经验   |
 |签到&委托系统   |做做日常，抽抽卡   |
 |更多功能   |敬请期待。或提交Issues   |
 

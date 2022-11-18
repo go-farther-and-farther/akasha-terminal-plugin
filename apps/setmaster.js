@@ -12,20 +12,20 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 	filename = filename + ".json";//添加.json
 }
 let Template = {//创建该用户
-	"energy": 0,
+	"experience": 0,
 	"level": 0,
-	"levels": '无境界',
+	"level": '无等级',
 	"Privilege": 0,
 };
 //配置一些有意思的参数
 let Magnification = 1 //战斗力依赖系数，这个越大，战斗力意义越大
-let Cooakashag_time = 300 //命令间隔时间，单位秒，这是决斗的冷却时间#初始为300秒
-let Cooakashag_time2 = 300 //命令间隔时间，单位分钟，这是锻炼的冷却时间#初始为300分钟
+let Cooling_time = 300 //命令间隔时间，单位秒，这是决斗的冷却时间#初始为300秒
+let Cooling_time2 = 300 //命令间隔时间，单位分钟，这是锻炼的冷却时间#初始为300分钟
 export class setmaster extends plugin {//设置半步管理员
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '我的境界',
+			name: '我的等级',
 			/** 功能描述 */
 			dsc: '',
 			/** https://oicqjs.github.io/oicq/#events */

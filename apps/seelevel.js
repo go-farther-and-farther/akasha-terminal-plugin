@@ -8,9 +8,9 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
     filename = filename + ".json";//添加.json
 }
 let Template = {//创建该用户
-    "energy": 0,
+    "experience": 0,
     "level": 0,
-    "levels": '无境界',
+    "level": '无等级',
     "Privilege": 0,
 };
 //配置一些有意思的参数
@@ -19,7 +19,7 @@ export class seelevel extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '我的境界',
+            name: '我的等级',
             /** 功能描述 */
             dsc: '',
             /** https://oicqjs.github.io/oicq/#events */
@@ -29,7 +29,7 @@ export class seelevel extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: "^#我的(境界|内力)$", //匹配消息正则，命令正则
+                    reg: "^#我的(等级|经验)$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'seelevel'
                 }
@@ -53,10 +53,10 @@ export class seelevel extends plugin {
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[e.user_id] = Template
         }
-        if (json[e.user_id].energy < 1) {
-            json[e.user_id].energy = 0
-        }//当内力小于1时，自动归零
-        e.reply(`你的境界是${json[e.user_id].levels},你的内力是${json[e.user_id].energy},是否是半步管理员${json[e.user_id].Privilege}`)
+        if (json[e.user_id].experience < 1) {
+            json[e.user_id].experience = 0
+        }//当经验小于1时，自动归零
+        e.reply(`你的等级是${json[e.user_id].level},你的经验是${json[e.user_id].experience},是否是半步管理员${json[e.user_id].Privilege}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
