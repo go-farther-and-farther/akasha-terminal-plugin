@@ -25,21 +25,31 @@ export class akasha_help extends plugin {
           /** 执行方法 */
           fnc: 'message'
         }
+      ], rule: [
+        {
+          /** 命令正则匹配 */
+          reg: '#(ai|青云客|智能回复)(规则|帮助|版本)',
+          /** 执行方法 */
+          fnc: 'message2'
+        }
       ]
     });
   }
 
   async message() {
-    return await help(this.e);
+    return await help(this.e, 'help');
+  }
+  async message2() {
+    return await help(this.e, 'help2');
   }
 
 }
 
-async function help(e) {
+async function help(e, key) {
   let custom = {}
   let help = {}
 
-  let { diyCfg, sysCfg } = await Data.importCfg('help')
+  let { diyCfg, sysCfg } = await Data.importCfg(key)
 
   custom = help
 
