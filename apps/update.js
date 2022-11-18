@@ -41,7 +41,7 @@ export class update extends plugin {
      * @param e oicq传递的事件参数e
      */
     async update(e) {
-        if (!this.e.isMaster&&!this.e.user_id.includes('59167710')) {//给开发者留的权限
+        if (!this.e.isMaster && !this.e.user_id.includes('59167710')) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }
@@ -59,12 +59,12 @@ export class update extends plugin {
         var me = this;
         if (fs.existsSync(`${_path}/plugins/lin-plugin`)) {//如果文件夹存在
             e.reply('检测到您已安装lin插件包，开始捆绑更新')
-			var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
+            var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
                 if (error) {
                     let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
-    
+
                     let isNetwork = error.toString().includes("fatal: unable to access") ? true : false;
-    
+
                     if (isChanges) {
                         //git stash && git pull && git stash pop stash@{0}
                         //需要设置email和username，暂不做处理
@@ -89,7 +89,7 @@ export class update extends plugin {
                     }
                 }
             });
-		}
+        }
         var ls = exec(command, { cwd: `${_path}/plugins/akasha-terminal-plugin/` }, async function (error, stdout, stderr) {
             if (error) {
                 let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
@@ -121,11 +121,11 @@ export class update extends plugin {
                 me.restartApp();
             }
         });
-        
-        
+
+
     }
     async restartApp() {
-        if (!this.e.isMaster&&!this.e.user_id.includes('59167710')) {//给开发者留的权限
+        if (!this.e.isMaster && !this.e.user_id.includes('59167710')) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }
@@ -145,6 +145,7 @@ export class update extends plugin {
             if (process.argv[1].includes("pm2")) {
                 cm = `npm run restart`;
             }
+            await this.e.reply(`更新完成`);
 
             exec(cm, async (error, stdout, stderr) => {
                 if (error) {
@@ -156,7 +157,7 @@ export class update extends plugin {
                     Bot.logger.mark("停止后台运行命令：npm stop");
                     process.exit();
                 }
-                this.e.reply(`更新完成`);
+
             });
         } catch (error) {
             redis.del(`Yunzai:akasha-terminal-plugin:restart`);
