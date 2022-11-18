@@ -7,7 +7,7 @@
 
 export const helpCfg = {
   // 帮助标题
-  title: 'akasha帮助',
+  title: 'akasha帮助2',
 
   // 帮助副标题
   subTitle: 'Yunzai-Bot & akasha-terminal-plugin',
