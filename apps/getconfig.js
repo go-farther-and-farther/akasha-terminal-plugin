@@ -1,8 +1,8 @@
 import fs from 'node:fs'
 import YAML from 'yaml'
-const _defpath = `./plugins/lin-plugin/config/lin.config.def.yaml`;
-const configyamlpath = `./plugins/lin-plugin/config/lin.config.yaml`;
-const configyamlbackpath = `./plugins/lin-plugin/config/lin.config.back.yaml`;
+const _defpath = `./plugins/akasha-terminal-plugin//config/lin.config.def.yaml`;
+const configyamlpath = `./plugins/akasha-terminal-plugin//config/lin.config.yaml`;
+const configyamlbackpath = `./plugins/akasha-terminal-plugin//config/lin.config.back.yaml`;
 const _path = process.cwd().replace(/\\/g, '/');
 
 export class getconfig extends plugin {
@@ -19,13 +19,13 @@ export class getconfig extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: "^#(强制)?重置虚空配置$", //匹配消息正则，命令正则
+                    reg: "^#?(强制)?重置虚空配置$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'command'
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: "^#(发送|获取)?虚空配置$", //匹配消息正则，命令正则
+                    reg: "^#?(发送|获取)?虚空配置$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'getconfig'
                 }

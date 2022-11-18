@@ -156,6 +156,7 @@ export class update extends plugin {
                     Bot.logger.mark("停止后台运行命令：npm stop");
                     process.exit();
                 }
+                await this.e.reply(`更新完成`);
             });
         } catch (error) {
             redis.del(`Yunzai:akasha-terminal-plugin:restart`);
