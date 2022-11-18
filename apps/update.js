@@ -84,7 +84,7 @@ export class update extends plugin {
                     e.reply("目前已经是最新了~");
                     return true;
                 }
-                //me.restartApp();
+                me.restartApp();
             }
         });
         e.reply("更新完成啦，请手动重启~");
