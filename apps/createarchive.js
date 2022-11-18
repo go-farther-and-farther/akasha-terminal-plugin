@@ -6,9 +6,9 @@ const dirpath = "plugins/akasha-terminal-plugin/data/CombatDate/";
 let Combat = {//创建用户战斗属性
     "jcsm": 1000,//基础生命
     "gjl": 50,//基础攻击与加成攻击总和
-    "bj": 0.05,//暴击
-    "bs": 0.5,//爆伤
-    "fy": 100,//防御
+    "暴击率": 0.05,//暴击
+    "爆伤": 0.5,//爆伤
+    "防御": 100,//防御
 };
 //项目路径
 export class createahchive extends plugin {//修炼
