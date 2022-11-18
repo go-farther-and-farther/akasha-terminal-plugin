@@ -5,13 +5,9 @@ import schedule from "node-schedule";
 import cfg from '../../../lib/config/config.js'
 //项目路径
 let exerciseCD = {};
-let exerciseCD_ = {};
 //如果报错请删除Yunzai/data/目录中akasha文件夹
 const dirpath = "plugins/akasha-terminal-plugin/data/";//文件夹路径
-var filename = `battle`;//文件名
-if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
-    filename = filename + ".json";//添加.json
-}
+var filename = `battle.json`;//文件名
 let Template = {//创建该用户
     "experience": 0,
     "level": 0,
@@ -46,7 +42,6 @@ export class exercise extends plugin {//锻炼
      */
     async exercise(e) {
         console.log("用户命令：", e.msg);
-        e.reply('正在升级当中，请多更新哦')
         let user_id = e.user_id;
         if (exerciseCD[user_id]) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次锻炼，请耐心一点，等待${Cooling_time}分钟后再次锻炼吧！`);
@@ -76,12 +71,10 @@ export class exercise extends plugin {//锻炼
             }
         }, Cooling_time * 1000 * 60);
         experience_ = 10
-
         json[user_id].experience += experience_
         json[user_id].level = floor(Sqrt(json[user_id].experience))
         e.reply([segment.at(user_id),
         `\n由于熬夜，你只获得了${experience_}点经验！\n你的经验为:${json[user_id].experience}\n你的等级为${json[user_id].level}`]);//发送消息
-
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
