@@ -22,7 +22,7 @@ export class drawcard extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: "^#(决斗|虚空|抽卡)?(签到|做每日委托)$", //匹配消息正则，命令正则
+                    reg: "^#(决斗|虚空|抽卡)?(签到|做委托)$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'signin'
                 },
@@ -94,9 +94,9 @@ export class drawcard extends plugin {
         if (Grade < 16) { Grade = 5 }
         else if (Grade < 150) { Grade = 4 }
         else { Grade = 3 }
-        let num3 = weapon[`${Grade}星数量`]
-        let num4 = weapon[`${Grade}星数量`]
-        let num5 = weapon[`${Grade}星数量`]
+        let num3 = weapon[`3星数量`]
+        let num4 = weapon[`4星数量`]
+        let num5 = weapon[`5星数量`]
         if (Grade == 5)
             var num = Math.floor(1 + num5 * Math.random())
         else if (Grade == 4)
@@ -107,10 +107,10 @@ export class drawcard extends plugin {
         if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
             json[Grade] = { "name": 1 }
         }
-        else {
-            if (!json[Grade].hasOwnProperty(num))
+        if (!json[Grade].hasOwnProperty(num)){
                 json[Grade][num] = 1
-            else
+        }
+        else{
                 json[Grade][num]++
         }
         //(内测：武器库总量三星${num3}四星${num4}五星${num5}，武器${Grade}星${num}号)
