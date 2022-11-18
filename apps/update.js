@@ -1,5 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
+import fs from "fs";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
