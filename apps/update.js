@@ -57,7 +57,39 @@ export class update extends plugin {
             await this.e.reply("正在执行更新操作，请稍等");
         }
         var me = this;
-        
+        if (fs.existsSync(`${_path}/plugins/lin-plugin`)) {//如果文件夹存在
+            e.reply('检测到您已安装lin插件包，开始捆绑更新')
+			var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
+                if (error) {
+                    let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
+    
+                    let isNetwork = error.toString().includes("fatal: unable to access") ? true : false;
+    
+                    if (isChanges) {
+                        //git stash && git pull && git stash pop stash@{0}
+                        //需要设置email和username，暂不做处理
+                        await me.e.reply(
+                            "失败！\nError code: " +
+                            error.code +
+                            "\n" +
+                            error.stack +
+                            "\n\n本地代码与远程代码存在冲突,上面报错信息中包含冲突文件名称及路径，请尝试处理冲突\n如果不想保存本地修改请使用【#强制更新】\n(注意：强制更新命令会忽略所有本地对akasha-terminal-plugin插件本身文件的修改，本地修改均不会保存，请注意备份)"
+                        );
+                    } else if (isNetwork) {
+                        await me.e.reply(
+                            "失败！\nError code: " + error.code + "\n" + error.stack + "\n\n可能是网络问题，请关闭加速器之类的网络工具，或请过一会尝试。"
+                        );
+                    } else {
+                        await me.e.reply("失败！\nError code: " + error.code + "\n" + error.stack + "\n\n出错了。请尝试处理错误");
+                    }
+                } else {
+                    if (/Already up to date/.test(stdout)) {
+                        e.reply("目前已经是最新了~");
+                        return true;
+                    }
+                }
+            });
+		}
         var ls = exec(command, { cwd: `${_path}/plugins/akasha-terminal-plugin/` }, async function (error, stdout, stderr) {
             if (error) {
                 let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
@@ -89,40 +121,7 @@ export class update extends plugin {
                 me.restartApp();
             }
         });
-        if (fs.existsSync(`${_path}/plugins/lin-plugin`)) {//如果文件夹存在
-            e.reply('检测到您已安装lin插件包，开始捆绑更新')
-			var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
-                if (error) {
-                    let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
-    
-                    let isNetwork = error.toString().includes("fatal: unable to access") ? true : false;
-    
-                    if (isChanges) {
-                        //git stash && git pull && git stash pop stash@{0}
-                        //需要设置email和username，暂不做处理
-                        await me.e.reply(
-                            "失败！\nError code: " +
-                            error.code +
-                            "\n" +
-                            error.stack +
-                            "\n\n本地代码与远程代码存在冲突,上面报错信息中包含冲突文件名称及路径，请尝试处理冲突\n如果不想保存本地修改请使用【#强制更新】\n(注意：强制更新命令会忽略所有本地对akasha-terminal-plugin插件本身文件的修改，本地修改均不会保存，请注意备份)"
-                        );
-                    } else if (isNetwork) {
-                        await me.e.reply(
-                            "失败！\nError code: " + error.code + "\n" + error.stack + "\n\n可能是网络问题，请关闭加速器之类的网络工具，或请过一会尝试。"
-                        );
-                    } else {
-                        await me.e.reply("失败！\nError code: " + error.code + "\n" + error.stack + "\n\n出错了。请尝试处理错误");
-                    }
-                } else {
-                    if (/Already up to date/.test(stdout)) {
-                        e.reply("目前已经是最新了~");
-                        return true;
-                    }
-                    me.restartApp();
-                }
-            });
-		}
+        
         
     }
     async restartApp() {
