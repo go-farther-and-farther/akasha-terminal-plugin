@@ -10,3 +10,130 @@ duel_cfg:
   Cooling_time2: 300
   # 命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
   Cooling_time3: 30
+ # 圣遗物配置[小叶提供]
+buweis : ['生之花', '死之羽', '时之沙', '空之杯', '理之冠']
+
+shizhishazhucitiaos : ['攻击力', '充能', '精通', '防御力', '生命值']
+
+kongzhibeizhucitiaos : ['攻击力', '精通', '防御力', '生命值', '草元素伤害加成', '雷元素伤害加成', '风元素伤害加成', '岩元素伤害加成', '火元素伤害加成', '水元素伤害加成', '冰元素伤害加成']
+
+lizhiguanzhucitiaos : ['攻击力', '精通', '防御力', '生命值', '暴击率', '暴击伤害', '治疗加成']
+
+fucitiaos : ['小攻击', '攻击力', '暴击率', '暴击伤害', '精通', '小生命', '生命值', '小防御', '防御力', '充能']
+
+baojishanghai : ['5.4', '6.2', '7.0', '7.8']
+
+baojilv : ['2.7', '3.1', '3.5', '3.9']
+
+gongjili : ['4.1', '4.7', '5.3', '5.8']
+
+xiaogongji : ['14', '16', '18', '19']
+
+shengmingzhi : ['4.1', '4.7', '5.3', '5.8']
+
+xiaoshengming : ['209', '239', '269', '299']
+
+fangyuli : ['5.1', '5.8', '6.6', '7.3']
+
+xiaofangyu : ['16', '19', '21', '23']
+
+chongneng : ['4.5', '5.2', '5.8', '6.5']
+
+jingtong : ['16', '19', '21', '23']
+
+
+huoben : {
+    '生之花': [['魔女的炎之花', 'resourcessyw/img/炽烈的炎之魔女/魔女的炎之花.png'], ['渡火着的决绝', 'resourcessyw/img/渡过烈火的贤人/渡火者的决绝.png']],
+    '死之羽': [['魔女常燃之羽', 'resourcessyw/img/炽烈的炎之魔女/魔女常燃之羽.png'], ['渡火者的解脱', 'resourcessyw/img/渡过烈火的贤人/渡火者的解脱.png']],
+    '时之沙': [['魔女破灭之时', 'resourcessyw/img/炽烈的炎之魔女/魔女破灭之时.png'], ['渡火者的煎熬', 'resourcessyw/img/渡过烈火的贤人/渡火者的煎熬.png']],
+    '空之杯': [['魔女的心之火', 'resourcessyw/img/炽烈的炎之魔女/魔女的心之火.png'], ['渡火者的醒悟', 'resourcessyw/img/渡过烈火的贤人/渡火者的醒悟.png']],
+    '理之冠': [['焦灼的魔女帽', 'resourcessyw/img/炽烈的炎之魔女/焦灼的魔女帽.png'], ['渡火者的智慧', 'resourcessyw/img/渡过烈火的贤人/渡火者的智慧.png']],
+}
+
+binben : {
+    '生之花': [['历经风雪的思念', 'resourcessyw/img/冰风迷途的勇士/历经风雪的思念.png'], ['饰金胸花', 'resourcessyw/img/沉沦之心/饰金胸花.png']],
+    '死之羽': [['摧冰而行的执望', 'resourcessyw/img/冰风迷途的勇士/摧冰而行的执望.png'], ['追忆之风', 'resourcessyw/img/沉沦之心/追忆之风.png']],
+    '时之沙': [['冰雪故园的终期', 'resourcessyw/img/冰风迷途的勇士/冰雪故园的终期.png'], ['坚铜罗盘', 'resourcessyw/img/沉沦之心/坚铜罗盘.png']],
+    '空之杯': [['遍结寒霜的傲骨', 'resourcessyw/img/冰风迷途的勇士/遍结寒霜的傲骨.png'], ['沉波之盏', 'resourcessyw/img/沉沦之心/沉波之盏.png']],
+    '理之冠': [['破冰踏雪的回音', 'resourcessyw/img/冰风迷途的勇士/破冰踏雪的回音.png'], ['酒渍船帽', 'resourcessyw/img/沉沦之心/酒渍船帽.png']]
+}
+
+leiben : {
+    '生之花': [['雷鸟的怜悯', 'resourcessyw/img/如雷的盛怒/雷鸟的怜悯.png'], ['平雷之心', 'resourcessyw/img/平息鸣雷的尊者/平雷之心.png']],
+    '死之羽': [['雷灾的孑遗', 'resourcessyw/img/如雷的盛怒/雷灾的孑遗.png'], ['平雷之羽', 'resourcessyw/img/平息鸣雷的尊者/平雷之羽.png']],
+    '时之沙': [['雷霆的时计', 'resourcessyw/img/如雷的盛怒/雷霆的时计.png'], ['平雷之刻', 'resourcessyw/img/平息鸣雷的尊者/平雷之刻.png']],
+    '空之杯': [['降雷的凶兆', 'resourcessyw/img/如雷的盛怒/降雷的凶兆.png'], ['平雷之器', 'resourcessyw/img/平息鸣雷的尊者/平雷之器.png']],
+    '理之冠': [['唤雷的头冠', 'resourcessyw/img/如雷的盛怒/唤雷的头冠.png'], ['平雷之冠', 'resourcessyw/img/平息鸣雷的尊者/平雷之冠.png']]
+}
+
+fengben : {
+    '生之花': [['野花记忆的绿野', 'resourcessyw/img/翠绿之影/野花记忆的绿野.png'], ['远方的少女之心', 'resourcessyw/img/被怜爱的少女/远方的少女之心.png']],
+    '死之羽': [['猎人青翠的箭羽', 'resourcessyw/img/翠绿之影/猎人青翠的箭羽.png'], ['少女摇摆的思念', 'resourcessyw/img/被怜爱的少女/少女摇摆的思念.png']],
+    '时之沙': [['翠绿猎人的笃定', 'resourcessyw/img/翠绿之影/翠绿猎人的笃定.png'], ['少女苦短的良辰', 'resourcessyw/img/被怜爱的少女/少女苦短的良辰.png']],
+    '空之杯': [['翠绿猎人的容器', 'resourcessyw/img/翠绿之影/翠绿猎人的容器.png'], ['少女片刻的闲暇', 'resourcessyw/img/被怜爱的少女/少女片刻的闲暇.png']],
+    '理之冠': [['翠绿的猎人之冠', 'resourcessyw/img/翠绿之影/翠绿的猎人之冠.png'], ['少女易逝的芳颜', 'resourcessyw/img/被怜爱的少女/少女易逝的芳颜.png']]
+}
+
+yanben : {
+    '生之花': [['磐陀裂生之花', 'resourcessyw/img/悠古的磐岩/磐陀裂生之花.png'], ['夏祭之花', 'resourcessyw/img/逆飞的流星/夏祭之花.png']],
+    '死之羽': [['嵯峨群峰之翼', 'resourcessyw/img/悠古的磐岩/嵯峨群峰之翼.png'], ['夏祭终末', 'resourcessyw/img/逆飞的流星/夏祭终末.png']],
+    '时之沙': [['星罗圭璧之晷', 'resourcessyw/img/悠古的磐岩/星罗圭璧之晷.png'], ['夏祭之刻', 'resourcessyw/img/逆飞的流星/夏祭之刻.png']],
+    '空之杯': [['巉岩琢塑之樽', 'resourcessyw/img/悠古的磐岩/巉岩琢塑之樽.png'], ['夏祭水玉', 'resourcessyw/img/逆飞的流星/夏祭水玉.png']],
+    '理之冠': [['不动玄石之相', 'resourcessyw/img/悠古的磐岩/不动玄石之相.png'], ['夏祭之面', 'resourcessyw/img/逆飞的流星/夏祭之面.png']]
+}
+
+zongshi : {
+    '生之花': [['染血的铁之心', 'resourcessyw/img/染血的骑士道/染血的铁之心.png'], ['宗室之花', 'resourcessyw/img/昔日宗室之仪/宗室之花.png']],
+    '死之羽': [['染血的黑之羽', 'resourcessyw/img/染血的骑士道/染血的黑之羽.png'], ['宗室之翎', 'resourcessyw/img/昔日宗室之仪/宗室之翎.png']],
+    '时之沙': [['骑士染血之时', 'resourcessyw/img/染血的骑士道/骑士染血之时.png'], ['宗室时计', 'resourcessyw/img/昔日宗室之仪/宗室时计.png']],
+    '空之杯': [['染血骑士之杯', 'resourcessyw/img/染血的骑士道/染血骑士之杯.png'], ['宗室银瓮', 'resourcessyw/img/昔日宗室之仪/宗室银瓮.png']],
+    '理之冠': [['染血的铁假面', 'resourcessyw/img/染血的骑士道/染血的铁假面.png'], ['宗室面具', 'resourcessyw/img/昔日宗室之仪/宗室面具.png']]
+}
+
+qianyan : {
+    '生之花': [['勋绩之花', 'resourcessyw/img/千岩牢固/勋绩之花.png'], ['无垢之花', 'resourcessyw/img/苍白之火/无垢之花.png']],
+    '死之羽': [['昭武翎羽', 'resourcessyw/img/千岩牢固/昭武翎羽.png'], ['贤医之羽', 'resourcessyw/img/苍白之火/贤医之羽.png']],
+    '时之沙': [['金铜时晷', 'resourcessyw/img/千岩牢固/金铜时晷.png'], ['停摆之刻', 'resourcessyw/img/苍白之火/停摆之刻.png']],
+    '空之杯': [['盟誓金爵', 'resourcessyw/img/千岩牢固/盟誓金爵.png'], ['超越之盏', 'resourcessyw/img/苍白之火/超越之盏.png']],
+    '理之冠': [['将帅兜鍪', 'resourcessyw/img/千岩牢固/将帅兜鍪.png'], ['嗤笑之面', 'resourcessyw/img/苍白之火/嗤笑之面.png']]
+}
+
+jueyuan : {
+    '生之花': [['明威之镡', 'resourcessyw/img/绝缘之旗印/明威之镡.png'], ['羁缠之花', 'resourcessyw/img/追忆之注连/羁缠之花.png']],
+    '死之羽': [['切落之羽', 'resourcessyw/img/绝缘之旗印/切落之羽.png'], ['思忆之矢', 'resourcessyw/img/追忆之注连/思忆之矢.png']],
+    '时之沙': [['雷云之笼', 'resourcessyw/img/绝缘之旗印/雷云之笼.png'], ['朝露之时', 'resourcessyw/img/追忆之注连/朝露之时.png']],
+    '空之杯': [['绯花之壶', 'resourcessyw/img/绝缘之旗印/绯花之壶.png'], ['祈望之心', 'resourcessyw/img/追忆之注连/祈望之心.png']],
+    '理之冠': [['华饰之兜', 'resourcessyw/img/绝缘之旗印/华饰之兜.png'], ['无常之面', 'resourcessyw/img/追忆之注连/无常之面.png']]
+}
+
+huaguan : {
+    '生之花': [['荣花之期', 'resourcessyw/img/华馆梦醒形骸记/荣花之期.png'], ['海染之花', 'resourcessyw/img/海染砗磲/海染之花.png']],
+    '死之羽': [['华馆之羽', 'resourcessyw/img/华馆梦醒形骸记/华馆之羽.png'], ['渊宫之羽', 'resourcessyw/img/海染砗磲/渊宫之羽.png']],
+    '时之沙': [['众生之谣', 'resourcessyw/img/华馆梦醒形骸记/众生之谣.png'], ['离别之贝', 'resourcessyw/img/海染砗磲/离别之贝.png']],
+    '空之杯': [['梦醒之瓢', 'resourcessyw/img/华馆梦醒形骸记/梦醒之瓢.png'], ['真珠之笼', 'resourcessyw/img/海染砗磲/真珠之笼.png']],
+    '理之冠': [['形骸之笠', 'resourcessyw/img/华馆梦醒形骸记/形骸之笠.png'], ['海祇之冠', 'resourcessyw/img/海染砗磲/海祇之冠.png']]
+}
+
+chensha : {
+    '生之花': [['生灵之华', 'resourcessyw/img/辰砂往生录/生灵之华.png'], ['魂香之花', 'resourcessyw/img/来歆余响/魂香之花.png']],
+    '死之羽': [['潜光片羽', 'resourcessyw/img/辰砂往生录/潜光片羽.png'], ['垂玉之叶', 'resourcessyw/img/来歆余响/垂玉之叶.png']],
+    '时之沙': [['阳辔之遗', 'resourcessyw/img/辰砂往生录/阳辔之遗.png'], ['祝祀之凭', 'resourcessyw/img/来歆余响/祝祀之凭.png']],
+    '空之杯': [['结契之刻', 'resourcessyw/img/辰砂往生录/结契之刻.png'], ['涌泉之盏', 'resourcessyw/img/来歆余响/涌泉之盏.png']],
+    '理之冠': [['虺雷之姿', 'resourcessyw/img/辰砂往生录/虺雷之姿.png'], ['浮溯之珏', 'resourcessyw/img/来歆余响/浮溯之珏.png']]
+}
+
+caoben : {
+    '生之花': [['迷宫的游人', 'resourcessyw/img/深林的记忆/迷宫的游人.png'], ['梦中的铁花', 'resourcessyw/img/饰金之梦/梦中的铁花.png']],
+    '死之羽': [['翠蔓的智者', 'resourcessyw/img/深林的记忆/翠蔓的智者.png'], ['裁断的翎羽', 'resourcessyw/img/饰金之梦/裁断的翎羽.png']],
+    '时之沙': [['贤智的定期', 'resourcessyw/img/深林的记忆/贤智的定期.png'], ['沉金的岁月', 'resourcessyw/img/饰金之梦/沉金的岁月.png']],
+    '空之杯': [['迷误者之灯', 'resourcessyw/img/深林的记忆/迷误者之灯.png'], ['如蜜的终宴', 'resourcessyw/img/饰金之梦/如蜜的终宴.png']],
+    '理之冠': [['月桂的宝冠', 'resourcessyw/img/深林的记忆/月桂的宝冠.png'], ['沙王的投影', 'resourcessyw/img/饰金之梦/沙王的投影.png']]
+}
+
+qita : {
+    '生之花': [['角斗士的留恋', 'resourcessyw/img/角斗士的终幕礼/角斗士的留恋.png'], ['乐团的晨光', 'resourcessyw/img/流浪大地的乐团/乐团的晨光.png']],
+    '死之羽': [['角斗士的归宿', 'resourcessyw/img/角斗士的终幕礼/角斗士的归宿.png'], ['琴师的箭羽', 'resourcessyw/img/流浪大地的乐团/琴师的箭羽.png']],
+    '时之沙': [['角斗士的希冀', 'resourcessyw/img/角斗士的终幕礼/角斗士的希冀.png'], ['终幕的时计', 'resourcessyw/img/流浪大地的乐团/终幕的时计.png']],
+    '空之杯': [['角斗士的酣醉', 'resourcessyw/img/角斗士的终幕礼/角斗士的酣醉.png'], ['吟游者之壶', 'resourcessyw/img/流浪大地的乐团/吟游者之壶.png']],
+    '理之冠': [['角斗士的凯旋', 'resourcessyw/img/角斗士的终幕礼/角斗士的凯旋.png'], ['指挥的礼帽', 'resourcessyw/img/流浪大地的乐团/指挥的礼帽.png']]
+}
