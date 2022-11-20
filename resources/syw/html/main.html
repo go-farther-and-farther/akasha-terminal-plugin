@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 746px;
+            height: 769px;
+        }
+
+        .body {
+            width: 746px;
+            height: 769px;
+            background: url({{pluResPath}}/resources/syw/html/bgimg.jpg) no-repeat;
+            /* background: url(./1.jpg); */
+        }
+
+        .ul {
+            font-size: 40px;
+            position: absolute;
+            top: 530px;
+            left: 70px;
+        }
+
+        .name {
+            position: absolute;
+            top: 12px;
+            left: 42px;
+            color: white;
+            font-size: 47px;
+        }
+
+        .img {
+            position: absolute;
+            top: 120px;
+            left: 440px;
+        }
+
+        .buwei {
+            position: absolute;
+            top: 100px;
+            left: 42px;
+            color: white;
+            font-size: 29px;
+        }
+
+        .zhucitiao {
+            position: absolute;
+            top: 240px;
+            left: 50px;
+            color: white;
+            font-size: 25px;
+        }
+
+        .zhucitiaoData {
+            position: absolute;
+            top: 280px;
+            left: 50px;
+            color: white;
+            font-size: 50px;
+        }
+
+        .level {
+            position: absolute;
+            top: 470px;
+            left: 50px;
+            color: white;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <div class="name">{{shengyiwu[0]}}</div>
+        <div class="img"><img src="{{pluResPath}}/{{shengyiwu[1]}}"></div>
+        <div class="buwei">{{buwei}}</div>
+        <div class="zhucitiao">{{zhucitiao}}</div>
+        <div class="zhucitiaoData">{{zhucitiaoData}}</div>
+        <div class="level">+{{level}}</div>
+        <div style="display: {{display[0]}};">
+            <ul class="ul">
+                <li>{{fucitiao[0]}}+{{fucitiaoData[0]}}</li>
+                <li>{{fucitiao[1]}}+{{fucitiaoData[1]}}</li>
+                <li>{{fucitiao[2]}}+{{fucitiaoData[2]}}</li>
+            </ul>
+        </div>
+        <div style="display: {{display[1]}};">
+            <ul class="ul">
+                <li>{{fucitiao[0]}}+{{fucitiaoData[0]}}</li>
+                <li>{{fucitiao[1]}}+{{fucitiaoData[1]}}</li>
+                <li>{{fucitiao[2]}}+{{fucitiaoData[2]}}</li>
+                <li>{{fucitiao[3]}}+{{fucitiaoData[3]}}</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
