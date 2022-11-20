@@ -9,8 +9,7 @@
 [![访问量](https://profile-counter.glitch.me/akasha-terminal-plugin/count.svg)](https://gitee.com/go-farther-and-farther/akasha-terminal-plugin)
 
 #### 声明📣
-本人水平有限，有bug请重新拉取更新版本，重新拉取不能解决可以反馈到Issues，谢谢！
-
+此为测bug分支
 ### 简介📖
 
 这是一个- [Yunzai-Bot V3](https://github.com/Le-niao/Yunzai-Bot)插件包，提供群内决斗游戏。
