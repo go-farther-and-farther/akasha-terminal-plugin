@@ -13,6 +13,7 @@ let Template = {//创建该用户
     "level": 0,
     "Privilege": 0,
 };
+var experience_ = 10
 //配置一些有意思的参数
 let Cooling_time = 300 //命令间隔时间，单位分钟，这是锻炼的冷却时间#初始为300分钟
 export class exercise extends plugin {//锻炼
@@ -70,11 +71,10 @@ export class exercise extends plugin {//锻炼
                 delete exerciseCD[user_id];
             }
         }, Cooling_time * 1000 * 60);
-        experience_ = 10
         json[user_id].experience += experience_
-        json[user_id].level = floor(Sqrt(json[user_id].experience))
+        //json[user_id].level = floor(Sqrt(json[user_id].experience))
         e.reply([segment.at(user_id),
-        `\n由于熬夜，你只获得了${experience_}点经验！\n你的经验为:${json[user_id].experience}\n你的等级为${json[user_id].level}`]);//发送消息
+        `\n恭喜你获得了${experience_}点经验！\n你的经验为:${json[user_id].experience}\n你的等级为${json[user_id].level}`]);//发送消息
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
