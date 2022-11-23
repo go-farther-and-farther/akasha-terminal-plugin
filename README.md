@@ -4,9 +4,8 @@
 
 <h1 align="center">Akasha-Terminal-plugin</h1>
 
-<div align="center">
-
 [![访问量](https://profile-counter.glitch.me/akasha-terminal-plugin/count.svg)](https://gitee.com/go-farther-and-farther/akasha-terminal-plugin)
+</div>
 
 #### 声明📣
 本人水平有限，有bug请重新拉取更新版本，重新拉取不能解决可以反馈到Issues，谢谢！
