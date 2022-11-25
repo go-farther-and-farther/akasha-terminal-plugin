@@ -11,7 +11,7 @@ let Template = {//创建该用户
     "experience": 0,
     "energy": 0,
     "level": 0,
-    "levels": '无等级',
+    "levelname": '无等级',
     "Privilege": 0,
 };
 //配置一些有意思的参数
@@ -81,7 +81,7 @@ export class duel_seelevel extends plugin {
         if (json[e.user_id].energy < 1) {
             json[e.user_id].energy = 0
         }//当内力小于1时，自动归零
-        e.reply(`你的境界是${json[e.user_id].levels},你的内力是${json[e.user_id].energy},是否是开挂${json[e.user_id].Privilege}`)
+        e.reply(`你的境界是${json[e.user_id].levelname},你的内力是${json[e.user_id].energy},是否是开挂${json[e.user_id].Privilege}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }

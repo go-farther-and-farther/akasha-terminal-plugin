@@ -13,7 +13,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 let Template = {//创建该用户
 	"experience": 0,
 	"level": 0,
-	"levels": '无等级',
+	"levelname": '无等级',
 	"Privilege": 0,
 };
 //配置一些有意思的参数
@@ -142,7 +142,7 @@ export class duel extends plugin {//决斗
 		let random = Math.random() * 100
 		let random_time = Math.round(Math.random() * 4) + 1
 		e.reply([segment.at(e.user_id),
-		`\n你的等级为${json[user_id].levels}\n${user_id2_nickname}的等级是${json[user_id2].levels}\n决斗开始!战斗力意义系数${Magnification},等级差${win_level},你的获胜概率是${win}`]);//发送消息
+		`\n你的等级为${json[user_id].levelname}\n${user_id2_nickname}的等级是${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},等级差${win_level},你的获胜概率是${win}`]);//发送消息
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
 				e.group.muteMember(user_id2, 60 * random_time); //禁言

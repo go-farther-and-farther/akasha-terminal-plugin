@@ -14,7 +14,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 let Template = {//创建该用户
     "energy": 0,
     "level": 0,
-    "levels": '无境界',
+    "levelname": '无境界',
     "Privilege": 0,
 };
 //配置一些有意思的参数
@@ -158,25 +158,25 @@ export class duel_exercise extends plugin {//修炼
             return
         }
         json[user_id].level++
-        if (json[user_id].level == 0) json[user_id].levels = '无境界'
-        else if (json[user_id].level == 1) json[user_id].levels = '小乘境初期'
-        else if (json[user_id].level == 2) json[user_id].levels = '小乘境中期'
-        else if (json[user_id].level == 3) json[user_id].levels = '小乘境后期'
-        else if (json[user_id].level == 4) json[user_id].levels = '小乘境巅峰'
-        else if (json[user_id].level == 5) json[user_id].levels = '大乘境初期'
-        else if (json[user_id].level == 6) json[user_id].levels = '大乘境中期'
-        else if (json[user_id].level == 7) json[user_id].levels = '大乘境后期'
-        else if (json[user_id].level == 8) json[user_id].levels = '大乘境巅峰'
-        else if (json[user_id].level == 9) json[user_id].levels = '宗师境初期'
-        else if (json[user_id].level == 10) json[user_id].levels = '宗师境中期'
-        else if (json[user_id].level == 11) json[user_id].levels = '宗师境后期'
-        else if (json[user_id].level == 12) json[user_id].levels = '宗师境巅峰'
-        else if (json[user_id].level == 13) json[user_id].levels = '至臻境初期'
-        else if (json[user_id].level == 14) json[user_id].levels = '至臻境中期'
-        else if (json[user_id].level == 15) json[user_id].levels = '至臻境后期'
-        else if (json[user_id].level == 16) json[user_id].levels = '至臻境巅峰'
-        else if (json[user_id].level > 16) json[user_id].levels = '返璞归真'
-        e.reply(`突破成功，当前境界${json[user_id].levels}`)
+        if (json[user_id].level == 0) json[user_id].levelname = '无境界'
+        else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
+        else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
+        else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
+        else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
+        else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
+        else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
+        else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
+        else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
+        else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
+        else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
+        else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
+        else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
+        else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
+        else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
+        else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
+        else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
+        else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
+        e.reply(`突破成功，当前境界${json[user_id].levelname}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
@@ -223,13 +223,13 @@ export class duel_exercise extends plugin {//修炼
                 energy_ = Math.round(3 + 2 * Math.random())
                 json[user_id].energy += energy_
                 e.reply([segment.at(user_id),
-                `\n恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);
+                `\n恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);
             }
             else {
                 energy_ = Math.round(1 + 1 * Math.random())
                 json[user_id].energy += energy_
                 e.reply([segment.at(user_id),
-                `\n现在一点也不早了，你只或得了${energy_}点内力。\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);
+                `\n现在一点也不早了，你只或得了${energy_}点内力。\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);
             }
             return
         } else if (e.msg.includes('睡觉') || e.msg.includes('早睡')) {
@@ -238,20 +238,20 @@ export class duel_exercise extends plugin {//修炼
                 energy_ = Math.round(3 + 3 * Math.random())
                 json[user_id].energy += energy_
                 e.reply([segment.at(user_id),
-                `\n🎉早睡早起好习惯，恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+                `\n🎉早睡早起好习惯，恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             else if (hours >= 12 && hours <= 14) {
                 e.group.muteMember(user_id, 60 * 60 * 1); //禁言
                 energy_ = Math.round(1 + 2 * Math.random())
                 json[user_id].energy += energy_
                 e.reply([segment.at(user_id),
-                `\n🎉感谢你获得了${energy_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+                `\n🎉感谢你获得了${energy_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
             } else if (hours > 23 || hours <= 5) {
                 e.group.muteMember(user_id, 60 * 60 * 8); //禁言
                 energy_ = Math.round(1 + 2 * Math.random())
                 json[user_id].energy += energy_
                 e.reply([segment.at(user_id),
-                `\n现在睡觉一点也不早了，你只获得了${energy_}点内力，快去睡觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+                `\n现在睡觉一点也不早了，你只获得了${energy_}点内力，快去睡觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             return
         }
@@ -259,17 +259,17 @@ export class duel_exercise extends plugin {//修炼
             energy_ = Math.round(3 + 2 * Math.random())
             json[user_id].energy += energy_
             e.reply([segment.at(user_id),
-            `\n🎉恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+            `\n🎉恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
         } else if (hours >= 8 && hours <= 20) {
             energy_ = Math.round(1 + 2 * Math.random())
             json[user_id].energy += energy_
             e.reply([segment.at(user_id),
-            `\n🎉恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+            `\n🎉恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
         } else {
             energy_ = 1
             json[user_id].energy += energy_
             e.reply([segment.at(user_id),
-            `\n由于熬夜，你只获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levels}`]);//发送消息
+            `\n由于熬夜，你只获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
