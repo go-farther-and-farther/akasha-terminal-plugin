@@ -36,7 +36,7 @@ body {
 
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #dd2d8e;
+  color: #46c900;
 }
 
 .help-group {
@@ -64,7 +64,7 @@ body {
 .help-table .th {
   font-size: 14px;
   display: table-cell;
-  box-shadow: 0 0 1px 0 #888 inset;
+  box-shadow: 1px 2px 1px black;
   padding: 12px 0 12px 50px;
   line-height: 24px;
   position: relative;
@@ -77,7 +77,7 @@ body {
 }
 
 .help-table .th {
-  background: rgba(34, 41, 51, 0.5);
+  background: rgba(243, 239, 239, 0.898);
 }
 
 .help-icon {
@@ -95,7 +95,7 @@ body {
 
 .help-title {
   display: block;
-  color: #dd2d8e;
+  color: #55ff00;
   font-size: 16px;
   line-height: 24px;
 }
