@@ -58,7 +58,7 @@ export class update extends plugin {
         }
         var me = this;
         if (fs.existsSync(`${_path}/plugins/lin-plugin`)) {//如果文件夹存在
-            e.reply('检测到您已安装lin插件包，开始捆绑更新')
+            //e.reply('检测到您已安装lin插件包，开始捆绑更新')
             var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
                 if (error) {
                     let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
