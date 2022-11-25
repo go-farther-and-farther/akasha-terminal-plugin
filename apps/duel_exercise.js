@@ -14,7 +14,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 let Template = {//创建该用户
     "energy": 0,
     "level": 0,
-    "levelname": '无境界',
+    "levelname": '练习生',
     "Privilege": 0,
 };
 //配置一些有意思的参数
@@ -158,7 +158,7 @@ export class duel_exercise extends plugin {//修炼
             return
         }
         json[user_id].level++
-        if (json[user_id].level == 0) json[user_id].levelname = '无境界'
+        if (json[user_id].level == 0) json[user_id].levelname = '练习生'
         else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
         else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
         else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
