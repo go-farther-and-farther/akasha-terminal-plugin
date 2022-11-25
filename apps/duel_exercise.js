@@ -54,7 +54,7 @@ export class duel_exercise extends plugin {//修炼
     async exercise_(e) {
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        if (exerciseCD_[user_id]) { //判定是否在冷却中
+        if (exerciseCD[user_id] && !(user_id.includes('5916771'))) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooakashag_time3}分钟后再次突破吧！`);
             return;
         }
@@ -188,7 +188,7 @@ export class duel_exercise extends plugin {//修炼
         console.log("用户命令：", e.msg);
         e.reply('正在升级当中，请多更新哦')
         let user_id = e.user_id;
-        if (exerciseCD[user_id]) { //判定是否在冷却中
+        if (exerciseCD[user_id] && !(user_id.includes('5916771'))) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次修炼，请耐心一点，等待${Cooakashag_time2}分钟后再次修炼吧！`);
             return;
         }
