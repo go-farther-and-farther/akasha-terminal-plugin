@@ -143,7 +143,7 @@ export class duel extends plugin {//决斗
 		let random_time = Math.round(Math.random() * 4) + 1
 		//提示
 		e.reply([segment.at(e.user_id),
-		`\n你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win}`]);//发送消息
+		`\n你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},败者将被禁言1~6分钟`]);//发送消息
 		//----
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
