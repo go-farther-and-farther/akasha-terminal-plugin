@@ -274,23 +274,3 @@ export class duel_exercise extends plugin {//修炼
         return true;
     }
 }
-schedule.scheduleJob('0 0 4 * * *', function () {//每日内力-1
-    if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-        fs.mkdirSync(dirpath);//创建文件夹
-    }
-    if (!fs.existsSync(dirpath + "/" + filename)) {//如果文件不存在
-        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({//创建文件
-        }));
-    }
-    var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename));//读取文件
-    for (let key in json) {//遍历json
-        if (json[key].energy < 1) {
-            json[key].energy = 0
-        }
-        if (json[key].energy >= 1) {
-            json[key].energy--
-        }
-    }
-    fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-}
-);
