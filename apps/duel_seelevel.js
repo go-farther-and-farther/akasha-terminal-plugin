@@ -9,14 +9,14 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 }
 let Template = {//创建该用户
     "experience": 0,
-    "energy":0,
+    "energy": 0,
     "level": 0,
     "levels": '无等级',
     "Privilege": 0,
 };
 //配置一些有意思的参数
 
-export class seelevel extends plugin {
+export class duel_seelevel extends plugin {
     constructor() {
         super({
             /** 功能名称 */
@@ -41,10 +41,10 @@ export class seelevel extends plugin {
             ]
         })
     }
-	/**
-	 * 
-	 * @param e oicq传递的事件参数e
-	 */
+    /**
+     * 
+     * @param e oicq传递的事件参数e
+     */
     async seelevel(e) {
         let user_id = e.user_id;
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -61,7 +61,7 @@ export class seelevel extends plugin {
         if (json[e.user_id].experience < 1) {
             json[e.user_id].experience = 0
         }//当经验小于1时，自动归零
-        e.reply(`你的等级是${json[e.user_id].level},你的经验是${json[e.user_id].experience},是否是半步管理员${json[e.user_id].Privilege}`)
+        e.reply(`你的等级是${json[e.user_id].level},你的经验是${json[e.user_id].experience},是否是开挂${json[e.user_id].Privilege}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
@@ -81,7 +81,7 @@ export class seelevel extends plugin {
         if (json[e.user_id].energy < 1) {
             json[e.user_id].energy = 0
         }//当内力小于1时，自动归零
-        e.reply(`你的境界是${json[e.user_id].levels},你的内力是${json[e.user_id].energy},是否是半步管理员${json[e.user_id].Privilege}`)
+        e.reply(`你的境界是${json[e.user_id].levels},你的内力是${json[e.user_id].energy},是否是开挂${json[e.user_id].Privilege}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }

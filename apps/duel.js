@@ -18,7 +18,6 @@ let Template = {//创建该用户
 };
 //配置一些有意思的参数
 let Magnification = await command.getConfig("duel_cfg", "Magnification");
-let Magnification2 = await command.getConfig("duel_cfg", "Magnification2");
 let Cooling_time = await command.getConfig("duel_cfg", "Cooling_time");
 
 export class duel extends plugin {//决斗
@@ -41,7 +40,7 @@ export class duel extends plugin {//决斗
 				},
 				{
 					/** 命令正则匹配 */
-					reg: "^#*(设置)天时地利随机系数(.*)$", //匹配消息正则，命令正则
+					reg: "^#*(设置)战斗力意义系数(.*)$", //匹配消息正则，命令正则
 					/** 执行方法 */
 					fnc: 'Magnification_'
 				}
@@ -57,10 +56,13 @@ export class duel extends plugin {//决斗
 		if (!e.is_admin)
 			return
 		let msg = e.msg.replace("设置", "").trim()
-		msg = msg.replace("天时地利随机系数", "").trim()
+		msg = msg.replace("战斗力意义系数", "").trim()
 		if (typeof (msg) == 'number') {
-			Magnification = number
+			if (number > 3 || number < 1) {
+				e.reply(`战斗力意义系数应该是1~3之间`)
+			} else { Magnification = number }
 		}
+		return
 	}
 	/**
 	 * 
@@ -95,7 +97,7 @@ export class duel extends plugin {//决斗
 		if (!json.hasOwnProperty(user_id2)) {//如果json中不存在该用户
 			json[user_id2] = Template
 		}
-		//判定双方存在管理员或群主则结束,将设置的半步管理员纳入管理员之中
+		//判定双方存在管理员或群主则结束,将设置的开挂纳入管理员之中
 		let level = json[user_id].level
 		let experience = json[user_id].experience
 		let level2 = json[user_id2].level
@@ -133,44 +135,37 @@ export class duel extends plugin {//决斗
 		}, Cooling_time * 1000);
 		//计算实时经验的影响,等级在1-13级之间
 		//  随机加成部分    +      等级加成部分 * 经验 * 随机发挥效果 //最大经验差为18*1.5*experience
-		let i = Math.random() * 10 * Magnification
-		let i_2 = level * Magnification2
-		let j = Math.random() * 10 * Magnification
-		let j_2 = level2 * Magnification2
-		let k = Math.round(i + i_2 - j - j_2)//取整数
-		i = Math.round(i)
-		i_2 = Math.round(i_2)
-		j = Math.round(j)
-		j_2 = Math.round(j_2)
+		let win = 50 + Magnification * (level - level2)
+		let random = Math.random() * 100
+		let random_time = Math.round(Math.random() * 4) + 1
 		e.reply([segment.at(e.user_id),
-		`\n你的等级为${json[user_id].level}\n${user_id2_nickname}的等级是${json[user_id2].level}\n决斗开始！天时地利随机系数${Magnification}`]);//发送消息
+		`\n你的等级为${json[user_id].levels}\n${user_id2_nickname}的等级是${json[user_id2].levels}\n决斗开始!战斗力意义系数${Magnification},你的获胜概率是${win}`]);//发送消息
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
-				e.group.muteMember(user_id2, 60); //禁言
-				e.reply([segment.at(e.user_id), `你不讲武德，使用了管理员之力获得了胜利。\n恭喜你与${user_id2_nickname}决斗成功。\n${user_id2_nickname}接受惩罚，已被禁言1分钟！\n你的经验-3`]);//发送消息
+				e.group.muteMember(user_id2, 60 * random_time); //禁言
+				e.reply([segment.at(e.user_id), `你不讲武德，使用了管理员之力获得了胜利。\n恭喜你与${user_id2_nickname}决斗成功。\n${user_id2_nickname}接受惩罚，已被禁言${random_time}分钟！`]);//发送消息
 			}, 3000);//设置延时
 		}
 		else if (json[user_id].Privilege == 1 || e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin) {
 			setTimeout(() => {
-				e.group.muteMember(user_id, 60); //禁言
-				e.reply([segment.at(e.user_id), `对方不讲武德，使用了管理员之力获得了胜利。\n你接受惩罚，已被禁言1分钟！\n你的经验-1。`]);//发送消息
+				e.group.muteMember(user_id, 60 * random_time); //禁言
+				e.reply([segment.at(e.user_id), `对方不讲武德，使用了管理员之力获得了胜利。\n你接受惩罚，已被禁言1分钟!`]);//发送消息
 			}, 3000);//设置延时
 		}
-		else if (k > 0) {//判断是否成功
+		else if (win > random) {//判断是否成功
 			setTimeout(() => {//延迟5秒
-				e.group.muteMember(user_id2, (k) * 60); //禁言
+				e.group.muteMember(user_id2, random_time * 60); //禁言
 				e.reply([segment.at(e.user_id),
-				`你获得天时地利随机加成${i},综合实力${i_2},\n${user_id2_nickname}天时地利随机加成${j},综合经验${j_2}\n恭喜你与${user_id2_nickname}决斗成功。\n${user_id2_nickname}接受惩罚，已被禁言${k}分钟！`]);//发送消息
+				`恭喜你与${user_id2_nickname}决斗成功。\n${user_id2_nickname}接受惩罚，已被禁言${random_time}分钟！`]);//发送消息
 			}, 3000);//设置延时
 		}
 		else {
-			k = -k + 1
 			setTimeout(() => {
-				e.group.muteMember(user_id, (k) * 60); //禁言
-				e.reply([segment.at(e.user_id), `你获得天时地利随机加成${i},综合实力${i_2},\n${user_id2_nickname}天时地利随机加成${j},综合经验${j_2}\n你与${user_id2_nickname}决斗失败。\n你接受惩罚，已被禁言${k + 1}分钟！`]);//发送消息
+				e.group.muteMember(user_id, random_time * 60); //禁言
+				e.reply([segment.at(e.user_id), `你与${user_id2_nickname}决斗失败。\n你接受惩罚，已被禁言${random_time + 1}分钟！`]);//发送消息
 			}, 3000);//设置延时
 		}//经验小于0时候重置经验
-		console.log(`发起者：${user_id}被动者： ${user_id2}随机时间：${k}分钟`); //输出日志
+		console.log(`发起者：${user_id}被动者： ${user_id2}随机时间：${random_time}分钟`); //输出日志
 		fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
 		return true; //返回true 阻挡消息不再往下}
 	}

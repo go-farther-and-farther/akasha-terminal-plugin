@@ -20,7 +20,7 @@ let Template = {//创建该用户
 //配置一些有意思的参数
 let Cooakashag_time2 = 300 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为300分钟
 let Cooakashag_time3 = 30 //命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
-export class exercise extends plugin {//修炼
+export class duel_exercise extends plugin {//修炼
     constructor() {
         super({
             /** 功能名称 */
