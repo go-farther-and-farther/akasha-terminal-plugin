@@ -18,8 +18,8 @@ let Template = {//创建该用户
     "Privilege": 0,
 };
 //配置一些有意思的参数
-let Cooakashag_time2 = 300 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为300分钟
-let Cooakashag_time3 = 30 //命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
+let Cooling_time2 = 300 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为300分钟
+let Cooling_time3 = 30 //命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
 export class duel_exercise extends plugin {//修炼
     constructor() {
         super({
@@ -55,7 +55,7 @@ export class duel_exercise extends plugin {//修炼
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
         let user_id = e.user_id;
         if (exerciseCD[user_id] && !(user_id==2859167710)) { //判定是否在冷却中
-            e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooakashag_time3}分钟后再次突破吧！`);
+            e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
             return;
         }
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -74,7 +74,7 @@ export class duel_exercise extends plugin {//修炼
             if (exerciseCD_[user_id]) {
                 delete exerciseCD_[user_id];
             }
-        }, Cooakashag_time3 * 1000 * 60);
+        }, Cooling_time3 * 1000 * 60);
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0
         }//当内力小于1时，自动归零
@@ -188,7 +188,7 @@ export class duel_exercise extends plugin {//修炼
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
         if (exerciseCD[user_id] && !(user_id==2859167710)) { //判定是否在冷却中
-            e.reply(`你刚刚进行了一次修炼，请耐心一点，等待${Cooakashag_time2}分钟后再次修炼吧！`);
+            e.reply(`你刚刚进行了一次修炼，请耐心一点，等待${Cooling_time2}分钟后再次修炼吧！`);
             return;
         }
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -213,7 +213,7 @@ export class duel_exercise extends plugin {//修炼
             if (exerciseCD[user_id]) {
                 delete exerciseCD[user_id];
             }
-        }, Cooakashag_time2 * 1000 * 60);
+        }, Cooling_time2 * 1000 * 60);
         const date = new Date();
         let experience_ = 0
         let hours = date.getHours()
