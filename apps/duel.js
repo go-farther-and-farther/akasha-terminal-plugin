@@ -154,7 +154,7 @@ export class duel extends plugin {//决斗
 		else if (json[user_id].Privilege == 1 || e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin) {
 			setTimeout(() => {
 				e.group.muteMember(user_id, 60 * random_time); //禁言
-				e.reply([segment.at(e.user_id), `对方不讲武德，使用了管理员之力获得了胜利。\n你接受惩罚，已被禁言1分钟!`]);//发送消息
+				e.reply([segment.at(e.user_id), `对方不讲武德，使用了管理员之力获得了胜利。\n你接受惩罚，已被禁言${random_time}分钟!`]);//发送消息
 			}, 3000);//设置延时
 		}
 		else if (win > random) {//判断是否成功
