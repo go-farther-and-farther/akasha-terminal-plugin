@@ -14,7 +14,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 let Template = {//创建该用户
     "experience": 0,
     "level": 0,
-    "levelname": '无内力',
+    "levelname": '无等级',
     "Privilege": 0,
 };
 //配置一些有意思的参数

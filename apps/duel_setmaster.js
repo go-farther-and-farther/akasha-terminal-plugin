@@ -10,10 +10,10 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 	filename = filename + ".json";//添加.json
 }
 let Template = {//创建该用户
-	"experience": 0,
-	"level": 0,
-	"level": '无等级',
-	"Privilege": 0,
+    "experience": 0,
+    "level": 0,
+    "levelname": '无等级',
+    "Privilege": 0,
 };
 //配置一些有意思的参数
 export class duel_setmaster extends plugin {//设置开挂
