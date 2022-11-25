@@ -9,7 +9,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 }
 let Template = {//创建该用户
     "experience": 0,
-    "energy": 0,
+    "experience": 0,
     "level": 0,
     "levelname": '无等级',
     "Privilege": 0,
@@ -78,10 +78,10 @@ export class duel_seelevel extends plugin {
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[e.user_id] = Template
         }
-        if (json[e.user_id].energy < 1) {
-            json[e.user_id].energy = 0
+        if (json[e.user_id].experience < 1) {
+            json[e.user_id].experience = 0
         }//当内力小于1时，自动归零
-        e.reply(`你的境界是${json[e.user_id].levelname},你的内力是${json[e.user_id].energy},是否是开挂${json[e.user_id].Privilege}`)
+        e.reply(`你的境界是${json[e.user_id].levelname},你的内力是${json[e.user_id].experience},是否是开挂${json[e.user_id].Privilege}`)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }

@@ -12,7 +12,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
     filename = filename + ".json";//添加.json
 }
 let Template = {//创建该用户
-    "energy": 0,
+    "experience": 0,
     "level": 0,
     "levelname": '无内力',
     "Privilege": 0,
@@ -75,79 +75,79 @@ export class duel_exercise extends plugin {//修炼
                 delete exerciseCD_[user_id];
             }
         }, Cooakashag_time3 * 1000 * 60);
-        if (json[user_id].energy < 1) {
-            json[user_id].energy = 0
+        if (json[user_id].experience < 1) {
+            json[user_id].experience = 0
         }//当内力小于1时，自动归零
 
-        if (json[user_id].energy < 5) json[user_id].level = 0
-        else if (json[user_id].energy < 10 && json[user_id].level >= 1) {
+        if (json[user_id].experience < 5) json[user_id].level = 0
+        else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 20 && json[user_id].level >= 2) {
+        else if (json[user_id].experience < 20 && json[user_id].level >= 2) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 30 && json[user_id].level >= 3) {
+        else if (json[user_id].experience < 30 && json[user_id].level >= 3) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 40 && json[user_id].level >= 4) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-
-        else if (json[user_id].energy < 65 && json[user_id].level >= 5) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].energy < 70 && json[user_id].level >= 6) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].energy < 85 && json[user_id].level >= 7) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].energy < 100 && json[user_id].level >= 8) {
+        else if (json[user_id].experience < 40 && json[user_id].level >= 4) {
             e.reply('修为不足,请再接再厉')
             return
         }
 
-        else if (json[user_id].energy < 125 && json[user_id].level >= 9) {
+        else if (json[user_id].experience < 65 && json[user_id].level >= 5) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 150 && json[user_id].level >= 10) {
+        else if (json[user_id].experience < 70 && json[user_id].level >= 6) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 175 && json[user_id].level >= 11) {
+        else if (json[user_id].experience < 85 && json[user_id].level >= 7) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 200 && json[user_id].level >= 12) {
+        else if (json[user_id].experience < 100 && json[user_id].level >= 8) {
             e.reply('修为不足,请再接再厉')
             return
         }
 
-        else if (json[user_id].energy < 230 && json[user_id].level >= 13) {
+        else if (json[user_id].experience < 125 && json[user_id].level >= 9) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 260 && json[user_id].level >= 14) {
+        else if (json[user_id].experience < 150 && json[user_id].level >= 10) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 290 && json[user_id].level >= 15) {
+        else if (json[user_id].experience < 175 && json[user_id].level >= 11) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy < 320 && json[user_id].level >= 16) {
+        else if (json[user_id].experience < 200 && json[user_id].level >= 12) {
             e.reply('修为不足,请再接再厉')
             return
         }
-        else if (json[user_id].energy >= 320 && json[user_id].level < 16 + (json[user_id].energy - 320) / 80) {
+
+        else if (json[user_id].experience < 230 && json[user_id].level >= 13) {
+            e.reply('修为不足,请再接再厉')
+            return
+        }
+        else if (json[user_id].experience < 260 && json[user_id].level >= 14) {
+            e.reply('修为不足,请再接再厉')
+            return
+        }
+        else if (json[user_id].experience < 290 && json[user_id].level >= 15) {
+            e.reply('修为不足,请再接再厉')
+            return
+        }
+        else if (json[user_id].experience < 320 && json[user_id].level >= 16) {
+            e.reply('修为不足,请再接再厉')
+            return
+        }
+        else if (json[user_id].experience >= 320 && json[user_id].level < 16 + (json[user_id].experience - 320) / 80) {
             e.reply('修为不足,请再接再厉')
             return
         }
@@ -206,7 +206,7 @@ export class duel_exercise extends plugin {//修炼
             if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
                 json[i] = Template
             }
-            json[i].energy++
+            json[i].experience++
         }
         exerciseCD[user_id] = true;
         exerciseCD[user_id] = setTimeout(() => {//冷却时间
@@ -215,60 +215,60 @@ export class duel_exercise extends plugin {//修炼
             }
         }, Cooakashag_time2 * 1000 * 60);
         const date = new Date();
-        let energy_ = 0
+        let experience_ = 0
         let hours = date.getHours()
         if (e.msg.includes('早') || e.msg.includes('晨练')) {
             if (hours >= 6 && hours <= 8) {
-                energy_ = Math.round(3 + 2 * Math.random())
-                json[user_id].energy += energy_
+                experience_ = Math.round(3 + 2 * Math.random())
+                json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);
+                `\n恭喜你获得了${experience_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
             }
             else {
-                energy_ = Math.round(1 + 1 * Math.random())
-                json[user_id].energy += energy_
+                experience_ = Math.round(1 + 1 * Math.random())
+                json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n现在一点也不早了，你只或得了${energy_}点内力。\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);
+                `\n现在一点也不早了，你只或得了${experience_}点内力。\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
             }
             return
         } else if (e.msg.includes('睡觉') || e.msg.includes('早睡')) {
             if (hours >= 20 && hours <= 22) {
                 e.group.muteMember(user_id, 60 * 60 * 8); //禁言
-                energy_ = Math.round(3 + 3 * Math.random())
-                json[user_id].energy += energy_
+                experience_ = Math.round(3 + 3 * Math.random())
+                json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n🎉早睡早起好习惯，恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+                `\n🎉早睡早起好习惯，恭喜你获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             else if (hours >= 12 && hours <= 14) {
                 e.group.muteMember(user_id, 60 * 60 * 1); //禁言
-                energy_ = Math.round(1 + 2 * Math.random())
-                json[user_id].energy += energy_
+                experience_ = Math.round(1 + 2 * Math.random())
+                json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n🎉感谢你获得了${energy_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+                `\n🎉感谢你获得了${experience_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             } else if (hours > 23 || hours <= 5) {
                 e.group.muteMember(user_id, 60 * 60 * 8); //禁言
-                energy_ = Math.round(1 + 2 * Math.random())
-                json[user_id].energy += energy_
+                experience_ = Math.round(1 + 2 * Math.random())
+                json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n现在睡觉一点也不早了，你只获得了${energy_}点内力，快去睡觉吧！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+                `\n现在睡觉一点也不早了，你只获得了${experience_}点内力，快去睡觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             return
         }
         if (hours >= 6 && hours <= 8) {
-            energy_ = Math.round(3 + 2 * Math.random())
-            json[user_id].energy += energy_
+            experience_ = Math.round(3 + 2 * Math.random())
+            json[user_id].experience += experience_
             e.reply([segment.at(user_id),
-            `\n🎉恭喜你获得了${energy_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+            `\n🎉恭喜你获得了${experience_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         } else if (hours >= 8 && hours <= 20) {
-            energy_ = Math.round(1 + 2 * Math.random())
-            json[user_id].energy += energy_
+            experience_ = Math.round(1 + 2 * Math.random())
+            json[user_id].experience += experience_
             e.reply([segment.at(user_id),
-            `\n🎉恭喜你获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+            `\n🎉恭喜你获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         } else {
-            energy_ = 1
-            json[user_id].energy += energy_
+            experience_ = 1
+            json[user_id].experience += experience_
             e.reply([segment.at(user_id),
-            `\n由于熬夜，你只获得了${energy_}点内力！\n你的内力为:${json[user_id].energy}\n你的境界为${json[user_id].levelname}`]);//发送消息
+            `\n由于熬夜，你只获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
