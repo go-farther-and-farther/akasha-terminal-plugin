@@ -13,7 +13,7 @@ if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
 let Template = {//创建该用户
 	"experience": 0,
 	"level": 0,
-	"level": '无等级',
+	"levels": '无等级',
 	"Privilege": 0,
 };
 //配置一些有意思的参数
@@ -99,9 +99,7 @@ export class duel extends plugin {//决斗
 		}
 		//判定双方存在管理员或群主则结束,将设置的开挂纳入管理员之中
 		let level = json[user_id].level
-		let experience = json[user_id].experience
 		let level2 = json[user_id2].level
-		let experience2 = json[user_id2].experience
 		if ((e.sender.role == "owner" || e.sender.role == "admin" || json[user_id].Privilege == 1) && (e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin || json[e.at].Privilege == 1)) {//判定双方是否存在管理员或群主
 			e.reply("你们两人都是管理员，御前决斗无法进行哦")
 			return true
@@ -135,11 +133,16 @@ export class duel extends plugin {//决斗
 		}, Cooling_time * 1000);
 		//计算实时经验的影响,等级在1-13级之间
 		//  随机加成部分    +      等级加成部分 * 经验 * 随机发挥效果 //最大经验差为18*1.5*experience
-		let win = 50 + Magnification * (level - level2)
+		if (!level)
+			level = 0
+		if (!level2)
+			level2 = 0
+		var win_level = level - level2
+		let win = 50 + Magnification * win_level
 		let random = Math.random() * 100
 		let random_time = Math.round(Math.random() * 4) + 1
 		e.reply([segment.at(e.user_id),
-		`\n你的等级为${json[user_id].levels}\n${user_id2_nickname}的等级是${json[user_id2].levels}\n决斗开始!战斗力意义系数${Magnification},你的获胜概率是${win}`]);//发送消息
+		`\n你的等级为${json[user_id].levels}\n${user_id2_nickname}的等级是${json[user_id2].levels}\n决斗开始!战斗力意义系数${Magnification},等级差${win_level},你的获胜概率是${win}`]);//发送消息
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
 				e.group.muteMember(user_id2, 60 * random_time); //禁言
