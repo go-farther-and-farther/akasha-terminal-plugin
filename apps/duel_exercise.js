@@ -54,84 +54,6 @@ export class duel_exercise extends plugin {//修炼
     async exercise_(e) {
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
-            e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
-            return;
-        }
-        if (json[user_id].experience < 5) json[user_id].level = 0
-        else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 20 && json[user_id].level >= 2) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 30 && json[user_id].level >= 3) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 40 && json[user_id].level >= 4) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-
-        else if (json[user_id].experience < 65 && json[user_id].level >= 5) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 70 && json[user_id].level >= 6) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 85 && json[user_id].level >= 7) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 100 && json[user_id].level >= 8) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-
-        else if (json[user_id].experience < 125 && json[user_id].level >= 9) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 150 && json[user_id].level >= 10) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 175 && json[user_id].level >= 11) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 200 && json[user_id].level >= 12) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-
-        else if (json[user_id].experience < 230 && json[user_id].level >= 13) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 260 && json[user_id].level >= 14) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 290 && json[user_id].level >= 15) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience < 320 && json[user_id].level >= 16) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-        else if (json[user_id].experience >= 320 && json[user_id].level < 16 + (json[user_id].experience - 320) / 80) {
-            e.reply('修为不足,请再接再厉')
-            return
-        }
-
-
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
             fs.mkdirSync(dirpath);//创建文件夹
         }
@@ -143,6 +65,87 @@ export class duel_exercise extends plugin {//修炼
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[user_id] = Template
         }
+
+
+        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
+            e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
+            return;
+        }
+        else {
+            if (json[user_id].experience < 5) json[user_id].level = 0
+            else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 20 && json[user_id].level >= 2) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 30 && json[user_id].level >= 3) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 40 && json[user_id].level >= 4) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+
+            else if (json[user_id].experience < 65 && json[user_id].level >= 5) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 70 && json[user_id].level >= 6) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 85 && json[user_id].level >= 7) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 100 && json[user_id].level >= 8) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+
+            else if (json[user_id].experience < 125 && json[user_id].level >= 9) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 150 && json[user_id].level >= 10) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 175 && json[user_id].level >= 11) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 200 && json[user_id].level >= 12) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+
+            else if (json[user_id].experience < 230 && json[user_id].level >= 13) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 260 && json[user_id].level >= 14) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 290 && json[user_id].level >= 15) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience < 320 && json[user_id].level >= 16) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+            else if (json[user_id].experience >= 320 && json[user_id].level < 16 + (json[user_id].experience - 320) / 80) {
+                e.reply('修为不足,请再接再厉')
+                return
+            }
+        }
+
         exerciseCD_[user_id] = true;
         exerciseCD_[user_id] = setTimeout(() => {//冷却时间
             if (exerciseCD_[user_id]) {
@@ -152,7 +155,6 @@ export class duel_exercise extends plugin {//修炼
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0
         }//当内力小于1时，自动归零
-
 
         let gailv = 100 - json[user_id].level * 5
         e.reply(`当前境界${json[user_id].level},突破成功概率${gailv},开始突破......`)
