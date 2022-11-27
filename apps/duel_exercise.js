@@ -54,7 +54,7 @@ export class duel_exercise extends plugin {//修炼
     async exercise_(e) {
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        if (exerciseCD[user_id] && !(user_id==2859167710)) { //判定是否在冷却中
+        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
             return;
         }
@@ -187,7 +187,7 @@ export class duel_exercise extends plugin {//修炼
     async exercise(e) {
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        if (exerciseCD[user_id] && !(user_id==2859167710)) { //判定是否在冷却中
+        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次修炼，请耐心一点，等待${Cooling_time2}分钟后再次修炼吧！`);
             return;
         }
@@ -200,7 +200,7 @@ export class duel_exercise extends plugin {//修炼
         }
         const json = JSON.parse(fs.readFileSync(dirpath + "/" + filename));//读取文件
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
-            json[user_id] = Template      
+            json[user_id] = Template
         }
         // for (let i of cfg.masterQQ) { //给所有主人发福利******************************
         //     if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
@@ -269,6 +269,9 @@ export class duel_exercise extends plugin {//修炼
             json[user_id].experience += experience_
             e.reply([segment.at(user_id),
             `\n由于熬夜，你只获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
+        }
+        if (e.isMaster) {//如果是主人，额外送两倍
+            json[user_id].experience += experience_ * 2
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
