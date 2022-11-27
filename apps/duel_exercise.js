@@ -58,27 +58,6 @@ export class duel_exercise extends plugin {//修炼
             e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
             return;
         }
-        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-            fs.mkdirSync(dirpath);//创建文件夹
-        }
-        if (!fs.existsSync(dirpath + "/" + filename)) {//如果文件不存在
-            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({//创建文件
-            }));
-        }
-        const json = JSON.parse(fs.readFileSync(dirpath + "/" + filename));//读取文件
-        if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
-            json[user_id] = Template
-        }
-        exerciseCD_[user_id] = true;
-        exerciseCD_[user_id] = setTimeout(() => {//冷却时间
-            if (exerciseCD_[user_id]) {
-                delete exerciseCD_[user_id];
-            }
-        }, Cooling_time3 * 1000 * 60);
-        if (json[user_id].experience < 1) {
-            json[user_id].experience = 0
-        }//当内力小于1时，自动归零
-
         if (json[user_id].experience < 5) json[user_id].level = 0
         else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
             e.reply('修为不足,请再接再厉')
@@ -151,32 +130,62 @@ export class duel_exercise extends plugin {//修炼
             e.reply('修为不足,请再接再厉')
             return
         }
+
+
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+            fs.mkdirSync(dirpath);//创建文件夹
+        }
+        if (!fs.existsSync(dirpath + "/" + filename)) {//如果文件不存在
+            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({//创建文件
+            }));
+        }
+        const json = JSON.parse(fs.readFileSync(dirpath + "/" + filename));//读取文件
+        if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
+            json[user_id] = Template
+        }
+        exerciseCD_[user_id] = true;
+        exerciseCD_[user_id] = setTimeout(() => {//冷却时间
+            if (exerciseCD_[user_id]) {
+                delete exerciseCD_[user_id];
+            }
+        }, Cooling_time3 * 1000 * 60);
+        if (json[user_id].experience < 1) {
+            json[user_id].experience = 0
+        }//当内力小于1时，自动归零
+
+
         let gailv = 100 - json[user_id.level] * 5
+        e.reply(`当前境界${json[user_id].level},突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i < gailv) {
-            e.reply('突破失败，请努力修行')
-            return
+            setTimeout(() => {//延迟5秒
+                e.reply('突破失败，请努力修行')
+            }, 3000 * (json[user_id.level] + 1));//设置延时
         }
-        json[user_id].level++
-        if (json[user_id].level == 0) json[user_id].levelname = '无内力'
-        else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
-        else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
-        else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
-        else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
-        else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
-        else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
-        else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
-        else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
-        else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
-        else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
-        else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
-        else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
-        else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
-        else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
-        else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
-        else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
-        else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
-        e.reply(`突破成功，当前境界${json[user_id].levelname}`)
+        else {
+            json[user_id].level++
+            if (json[user_id].level == 0) json[user_id].levelname = '无内力'
+            else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
+            else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
+            else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
+            else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
+            else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
+            else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
+            else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
+            else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
+            else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
+            else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
+            else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
+            else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
+            else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
+            else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
+            else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
+            else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
+            else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
+            setTimeout(() => {//延迟5秒
+                e.reply(`突破成功，当前境界${json[user_id].levelname}`)
+            }, 3000 * (json[user_id.level] + 1));//设置延时        
+        }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
