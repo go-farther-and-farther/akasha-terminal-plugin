@@ -4,19 +4,15 @@ import fs from "fs";
 import command from '../command/command.js'
 //项目路径
 let duelCD = {};
-//如果报错请删除Yunzai/data/目录中akasha文件夹
+//如果报错请删除plugins/akasha-terminal-plugin/data目录中文件battle.json
 const dirpath = "plugins/akasha-terminal-plugin/data";//文件夹路径
-var filename = `battle`;//文件名
-if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
-	filename = filename + ".json";//添加.json
-}
-let Template = {//创建该用户
-    "experience": 0,
-    "level": 0,
-    "levelname": '无等级',
-    "Privilege": 0,
+const filename = `battle.json`;//文件名
+var Template = {//创建该用户
+	"experience": 0,
+	"level": 0,
+	"levelname": '无等级',
+	"Privilege": 0,
 };
-//配置一些有意思的参数
 let Magnification = await command.getConfig("duel_cfg", "Magnification");
 let Cooling_time = await command.getConfig("duel_cfg", "Cooling_time");
 
@@ -53,8 +49,10 @@ export class duel extends plugin {//决斗
 	 */
 	//e.msg 用户的命令消息
 	async Magnification_(e) {
-		if (!e.is_admin)
+		if (!e.isMaster) {
+			e.reply('凡人，休得僭越!')
 			return
+		}
 		let msg = e.msg.replace("设置", "").trim()
 		msg = msg.replace("战斗力意义系数", "").trim()
 		if (typeof (msg) == 'number') {
@@ -101,15 +99,21 @@ export class duel extends plugin {//决斗
 		let level = json[user_id].level
 		let level2 = json[user_id2].level
 		if ((e.sender.role == "owner" || e.sender.role == "admin" || json[user_id].Privilege == 1) && (e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin || json[e.at].Privilege == 1)) {//判定双方是否存在管理员或群主
-			e.reply("你们两人都是管理员，御前决斗无法进行哦")
+			e.reply("你们两人都是管理员或者开挂，御前决斗无法进行哦")
 			return true
 		}
-		if (user_id == user_id2 && !(e.sender.role == "owner" || e.sender.role == "admin")) { //判定是否为自己
+		if (user_id == user_id2) { //判定是否为提出者
+			if (e.sender.role == "owner" || e.sender.role == "admin") {
+				e.reply(`请不要这样，我也很难的啦！`)
+			}
 			e.group.muteMember(e.user_id, 1);
 			e.reply([segment.at(e.user_id), `\n...好吧，成全你`]);
 			return true;
-		}
-		if (e.at == e.uin && !(e.sender.role == "owner" || e.sender.role == "admin")) {//@的人是bot
+		}//判定是否为Bot
+		if (e.at == e.uin) {//@的人是bot
+			if (e.sender.role == "owner" || e.sender.role == "admin") {
+				e.reply(`请不要这样，我也很难的啦！`)
+			}
 			e.group.muteMember(e.user_id, 1);
 			e.reply([segment.at(e.user_id), `\n你什么意思？举办了`]);
 			return true
@@ -139,12 +143,13 @@ export class duel extends plugin {//决斗
 			level2 = 0
 		var win_level = level - level2
 		let win = 50 + Magnification * win_level
-		let random = Math.random() * 100
-		let random_time = Math.round(Math.random() * 4) + 1
+		let random = Math.random() * 100//禁言随机数
+		let random_time = Math.round(Math.random() * 2) + 1//禁言时间
+		let random_time2 = Math.round(Math.random() * 4) + 1//禁言时间
 		//提示
 		e.reply([segment.at(e.user_id),
-		`\n你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},败者将被禁言1~6分钟`]);//发送消息
-		//----
+		`你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
+		//判断
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
 				e.group.muteMember(user_id2, 60 * random_time); //禁言
@@ -167,7 +172,7 @@ export class duel extends plugin {//决斗
 		else {
 			setTimeout(() => {
 				e.group.muteMember(user_id, random_time * 60); //禁言
-				e.reply([segment.at(e.user_id), `你与${user_id2_nickname}决斗失败。\n你接受惩罚，已被禁言${random_time + 1}分钟！`]);//发送消息
+				e.reply([segment.at(e.user_id), `你与${user_id2_nickname}决斗失败。\n你接受惩罚，已被禁言${random_time2}分钟！`]);//发送消息
 			}, 3000);//设置延时
 		}//经验小于0时候重置经验
 		console.log(`发起者：${user_id}被动者： ${user_id2}随机时间：${random_time}分钟`); //输出日志
