@@ -271,6 +271,7 @@ export class duel_exercise extends plugin {//修炼
             `\n由于熬夜，你只获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         }
         if (e.isMaster) {//如果是主人，额外送两倍
+            e.reply('给主人发放了额外奖励哦！')
             json[user_id].experience += experience_ * 2
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
