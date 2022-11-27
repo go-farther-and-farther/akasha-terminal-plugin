@@ -156,13 +156,13 @@ export class duel_exercise extends plugin {//修炼
             json[user_id].experience = 0
         }//当内力小于1时，自动归零
 
-        let gailv = 100 - json[user_id].level * 5
-        e.reply(`当前境界${json[user_id].level},突破成功概率${gailv},开始突破......`)
+        let gailv = json[user_id].level * 5
+        e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i < gailv) {
             setTimeout(() => {//延迟5秒
                 e.reply('突破失败，请努力修行')
-            }, 3000 * (json[user_id.level] + 1));//设置延时
+            }, 3000 * (json[user_id].level + 1));//设置延时
         }
         else {
             json[user_id].level++
