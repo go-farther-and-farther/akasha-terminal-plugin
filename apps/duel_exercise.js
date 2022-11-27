@@ -186,7 +186,7 @@ export class duel_exercise extends plugin {//修炼
             else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
             setTimeout(() => {//延迟5秒
                 e.reply(`突破成功，当前境界${json[user_id].levelname}`)
-            }, 3000 * (json[user_id.level] + 1));//设置延时        
+            }, 3000 * (3000 * (json[user_id].level + 1)));//设置延时        
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
