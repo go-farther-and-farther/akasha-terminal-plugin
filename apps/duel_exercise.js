@@ -156,7 +156,7 @@ export class duel_exercise extends plugin {//修炼
             json[user_id].experience = 0
         }//当内力小于1时，自动归零
 
-        let gailv = 100-json[user_id].level * 5
+        let gailv = 100 - json[user_id].level * 5
         e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i > gailv) {
@@ -186,7 +186,7 @@ export class duel_exercise extends plugin {//修炼
             else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
             setTimeout(() => {//延迟5秒
                 e.reply(`突破成功，当前境界${json[user_id].levelname}`)
-            }, 3000 * (3000 * (json[user_id].level + 1)));//设置延时        
+            }, 3000 * (json[user_id].level + 1));//设置延时        
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
