@@ -35,6 +35,15 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |抽武器   |抽取武器 后续将加入战力   |
 |更多功能   |敬请期待。或提交Issues   |
 
+#### 常见问题
+
+<details><summary>展开</summary>
+
+  - 我有其他问题!
+  - 联系我们 Q群 906539561
+
+</details>
+
 #### 参与贡献❤️
 
 1.  @越追越远$@尘封 提供了决斗功能
@@ -42,3 +51,8 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 ### 特别感谢🌱
 
 @FanSky_Qs
+
+### 帮助我们
+[爱发电](https://afdian.net/a/akasha667)
+
+点一个小小的star⭐吧~~球球了ヾ(≧▽≦*)o

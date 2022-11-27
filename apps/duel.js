@@ -110,7 +110,7 @@ export class duel extends plugin {//决斗
 			e.reply([segment.at(e.user_id), `\n...好吧，成全你`]);
 			return true;
 		}//判定是否为Bot
-		if (e.at == e.uin) {//@的人是bot
+		if (e.atme) {//@的人是bot
 			if (e.sender.role == "owner" || e.sender.role == "admin") {
 				e.reply(`请不要这样，我也很难的啦！`)
 			}
