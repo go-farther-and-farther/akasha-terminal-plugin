@@ -76,7 +76,7 @@ export class duel extends plugin {//决斗
 			e.reply('我不是管理员，不能主持御前决斗啦~');
 			return true;
 		}
-		if (!e.at) {//没有@的人
+		if (!e.at && !e.atme) {//没有@的人
 			e.reply('不知道你要与谁决斗哦，请@你想决斗的人~');
 			return true;
 		}
