@@ -192,7 +192,7 @@ export class drawcard extends plugin {
         if (json.hasOwnProperty(3)) {
             for (let i in Object.keys(json[3])) {
                 if (weapon[3][i]&&json[3][i])
-                    msg = msg + `\n${weapon[3][i]} 数量：${json[5][i]}`
+                    msg = msg + `\n${weapon[3][i]} 数量：${json[3][i]}`
             }
             e.reply(msg)
         }
