@@ -155,10 +155,10 @@ export class drawcard extends plugin {
 
 
         let msg = `三星武器：`;
-        if (!json.hasOwnProperty(3)) {
-            for (i in json[3]) {
+        if (json.hasOwnProperty(3)) {
+            for (let i in json[3]) {
                 if (isNaN(i))
-                    msg = msg + weapon[Grade][i]
+                    msg = msg + weapon[3][i]
             }
         }
         e.reply(msg)
