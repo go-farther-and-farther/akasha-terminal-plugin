@@ -89,6 +89,9 @@ export class drawcard extends plugin {
             e.reply(`你刚刚进行了签到，等待${Cool_time}分钟后再次签到吧！`);
             return;
         }
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+			fs.mkdirSync(dirpath);//创建文件夹
+		}
         //如果文件不存在，创建文件
         if (!fs.existsSync(dirpath + "/" + filename)) {
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
