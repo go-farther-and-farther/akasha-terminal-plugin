@@ -154,20 +154,20 @@ export class duel extends plugin {//决斗
 		if (fs.existsSync(dirpath2 + "/" + filename1)) {
 			var json1 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename1, "utf8"));
 			if (json1.hasOwnProperty(3))
-				num13 = Object.keys(json[3]).length
+				num13 = Object.keys(json1[3]).length
 			if (json1.hasOwnProperty(4))
-				num14 = Object.keys(json[4]).length
+				num14 = Object.keys(json1[4]).length
 			if (json1.hasOwnProperty(5))
-				num15 = Object.keys(json[5]).length
+				num15 = Object.keys(json1[5]).length
 		}
 		if (fs.existsSync(dirpath2 + "/" + filename2)) {
 			var json2 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename2, "utf8"));
 			if (json2.hasOwnProperty(3))
-				num23 = Object.keys(json[3]).length
+				num23 = Object.keys(json2[3]).length
 			if (json2.hasOwnProperty(4))
-				num24 = Object.keys(json[4]).length
+				num24 = Object.keys(json2[4]).length
 			if (json2.hasOwnProperty(5))
-				num25 = Object.keys(json[5]).length
+				num25 = Object.keys(json2[5]).length
 		}
 		//读取文件
 		var win_level = level - level2
