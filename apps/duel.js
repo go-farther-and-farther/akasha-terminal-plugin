@@ -142,7 +142,6 @@ export class duel extends plugin {//决斗
 		if (!level2)
 			level2 = 0
 
-
 		let filename1 = `${user_id}.json`;
 		let filename2 = `${user_id}.json`;
 		let num13 = 0
@@ -179,13 +178,13 @@ export class duel extends plugin {//决斗
 		e.reply([segment.at(e.user_id),
 		`你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
 		//判断
-		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
+		if (json[user_id].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
 				e.group.muteMember(user_id2, 60 * random_time); //禁言
 				e.reply([segment.at(e.user_id), `你不讲武德，使用了管理员之力获得了胜利。\n恭喜你与${user_id2_nickname}决斗成功。\n${user_id2_nickname}接受惩罚，已被禁言${random_time}分钟！`]);//发送消息
 			}, 3000);//设置延时
 		}
-		else if (json[user_id].Privilege == 1 || e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin) {
+		else if (json[user_id2].Privilege == 1 || e.group.pickMember(e.at).is_owner || e.group.pickMember(e.at).is_admin) {
 			setTimeout(() => {
 				e.group.muteMember(user_id, 60 * random_time2); //禁言
 				e.reply([segment.at(e.user_id), `对方不讲武德，使用了管理员之力获得了胜利。\n你接受惩罚，已被禁言${random_time2}分钟!`]);//发送消息
