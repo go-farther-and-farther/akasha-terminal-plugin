@@ -63,22 +63,20 @@ export class drawcard extends plugin {
         let msg = `武器库总量三星${num3}四星${num4}五星${num5}`
         msg = msg + `\n五星武器:`;
         if (weapon.hasOwnProperty(5)) {
-            for (let i in Object.values(weapon[5])) {
-                msg = msg + `\n${i}`
+            for (let i=1;i<=num5;i++) {
+                msg = msg + `\n${weapon[5][i]}`
             }
-            e.reply(msg)
         }
         msg = msg + `\n四星武器:`
         if (weapon.hasOwnProperty(4)) {
-            for (let i in Object.values(weapon[4])) {
-                msg = msg + `\n${i}`
+            for (let i=1;i<=num4;i++) {
+                msg = msg + `\n${weapon[4][i]}`
             }
-            e.reply(msg)
         }
         msg = msg + `\n三星武器:`
         if (weapon.hasOwnProperty(3)) {
-            for (let i in Object.values(weapon[3])) {
-                msg = msg + `\n${i}`
+            for (let i=1;i<=num3;i++) {
+                msg = msg + `\n${weapon[3][i]}`
             }
             e.reply(msg)
         }
