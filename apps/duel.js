@@ -136,19 +136,48 @@ export class duel extends plugin {//决斗
 			}
 		}, Cooling_time * 1000);
 		//计算实时经验的影响,等级在1-13级之间
-		//  随机加成部分    +      等级加成部分 * 经验 * 随机发挥效果 //最大经验差为18*1.5*experience
+		//  随机加成部分    +      等级加成部分 
 		if (!level)
 			level = 0
 		if (!level2)
 			level2 = 0
+
+
+		let filename1 = `${user_id}.json`;
+		let filename2 = `${user_id}.json`;
+		let num13 = 0
+		let num14 = 0
+		let num15 = 0
+		let num23 = 0
+		let num24 = 0
+		let num25 = 0
+		if (fs.existsSync(dirpath + "/" + filename1)) {
+			var json1 = JSON.parse(fs.readFileSync(dirpath + "/" + filename1, "utf8"));
+			if (json1.hasOwnProperty(3))
+				num13 = Object.keys(json[3]).length
+			if (json1.hasOwnProperty(4))
+				num14 = Object.keys(json[4]).length
+			if (json1.hasOwnProperty(5))
+				num15 = Object.keys(json[5]).length
+		}
+		if (fs.existsSync(dirpath + "/" + filename2)) {
+			var json2 = JSON.parse(fs.readFileSync(dirpath + "/" + filename2, "utf8"));
+			if (json2.hasOwnProperty(3))
+				num23 = Object.keys(json[3]).length
+			if (json2.hasOwnProperty(4))
+				num24 = Object.keys(json[4]).length
+			if (json2.hasOwnProperty(5))
+				num25 = Object.keys(json[5]).length
+		}
+		//读取文件
 		var win_level = level - level2
-		let win = 50 + Magnification * win_level
+		let win = 50 + Magnification * win_level + num13 + num14 * 2 + num15 * 3 - num23 - num24 * 2 - num25 * 3
 		let random = Math.random() * 100//禁言随机数
 		let random_time = Math.round(Math.random() * 2) + 1//禁言时间
 		let random_time2 = Math.round(Math.random() * 4) + 1//禁言时间
 		//提示
 		e.reply([segment.at(e.user_id),
-		`你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
+		`你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
 		//判断
 		if (json[user_id2].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒
