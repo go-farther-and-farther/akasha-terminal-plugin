@@ -80,7 +80,6 @@ export class drawcard extends plugin {
             }
             e.reply(msg)
         }
-        e.reply(msg)
     }
     async signin(e) {
         let user_id = e.user_id;
