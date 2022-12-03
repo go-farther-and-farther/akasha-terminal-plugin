@@ -174,21 +174,21 @@ export class drawcard extends plugin {
         let msg = `五星武器：`;
         if (json.hasOwnProperty(5)) {
             for (let i in Object.keys(json[5])) {
-                if (weapon[5][i]&&json[5][i])
+                if (weapon[5][i])
                     msg = msg + `\n${weapon[5][i]} 数量：${json[5][i]}`
             }
         }
         msg = msg + `\n四星武器:`
         if (json.hasOwnProperty(4)) {
             for (let i in Object.keys(json[4])) {
-                if (weapon[4][i]&&json[4][i])
+                if (weapon[4][i])
                     msg = msg + `\n${weapon[4][i]} 数量：${json[5][i]}`
             }
         }
         msg = msg + `\n三星武器:`
         if (json.hasOwnProperty(3)) {
             for (let i in Object.keys(json[3])) {
-                if (weapon[3][i]&&json[3][i])
+                if (weapon[3][i])
                     msg = msg + `\n${weapon[3][i]} 数量：${json[3][i]}`
             }
             e.reply(msg)
