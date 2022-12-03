@@ -152,7 +152,7 @@ export class duel extends plugin {//决斗
 		let num24 = 0
 		let num25 = 0
 		if (fs.existsSync(dirpath2 + "/" + filename1)) {
-			var json1 = JSON.parse(fs.readFileSync(dirpath + "/" + filename1, "utf8"));
+			var json1 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename1, "utf8"));
 			if (json1.hasOwnProperty(3))
 				num13 = Object.keys(json[3]).length
 			if (json1.hasOwnProperty(4))
@@ -161,7 +161,7 @@ export class duel extends plugin {//决斗
 				num15 = Object.keys(json[5]).length
 		}
 		if (fs.existsSync(dirpath2 + "/" + filename2)) {
-			var json2 = JSON.parse(fs.readFileSync(dirpath + "/" + filename2, "utf8"));
+			var json2 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename2, "utf8"));
 			if (json2.hasOwnProperty(3))
 				num23 = Object.keys(json[3]).length
 			if (json2.hasOwnProperty(4))
