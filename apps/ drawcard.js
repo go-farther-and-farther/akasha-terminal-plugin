@@ -60,7 +60,29 @@ export class drawcard extends plugin {
         let num3 = weapon[`3星数量`]
         let num4 = weapon[`4星数量`]
         let num5 = weapon[`5星数量`]
-        e.reply(`武器库总量三星${num3}四星${num4}五星${num5}`)
+        msg = `武器库总量三星${num3}四星${num4}五星${num5}`
+        msg = msg + `\n五星武器:`;
+        if (weapon.hasOwnProperty(5)) {
+            for (let i in Object.values(weapon[5])) {
+                msg = msg + `\n${i}`
+            }
+            e.reply(msg)
+        }
+        msg = msg + `\n四星武器:`
+        if (weapon.hasOwnProperty(4)) {
+            for (let i in Object.values(weapon[4])) {
+                msg = msg + `\n${i}`
+            }
+            e.reply(msg)
+        }
+        msg = msg + `\n三星武器:`
+        if (weapon.hasOwnProperty(3)) {
+            for (let i in Object.values(weapon[3])) {
+                msg = msg + `\n${i}`
+            }
+            e.reply(msg)
+        }
+        e.reply(msg)
     }
     async signin(e) {
         let user_id = e.user_id;
@@ -152,16 +174,30 @@ export class drawcard extends plugin {
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
         var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
-
-
-        let msg = `三星武器：`;
-        if (json.hasOwnProperty(3)) {
-            for (let i in json[3]) {
-                if (isNaN(i))
-                    msg = msg + weapon[3][i]
+        let msg = `五星武器：`;
+        if (json.hasOwnProperty(5)) {
+            for (let i in Object.keys(json[5])) {
+                if (weapon[5][i])
+                    msg = msg + `\n${weapon[5][i]}数量：${json[5][i]}`
             }
+            e.reply(msg)
         }
-        e.reply(msg)
+        msg = msg + `\n四星武器:`
+        if (json.hasOwnProperty(4)) {
+            for (let i in Object.keys(json[4])) {
+                if (weapon[4][i])
+                    msg = msg + `\n${weapon[4][i]}数量：${json[5][i]}`
+            }
+            e.reply(msg)
+        }
+        msg = msg + `\n三星武器:`
+        if (json.hasOwnProperty(3)) {
+            for (let i in Object.keys(json[3])) {
+                if (weapon[3][i])
+                    msg = msg + `\n${weapon[3][i]}数量：${json[5][i]}`
+            }
+            e.reply(msg)
+        }
         return
     }
 }
