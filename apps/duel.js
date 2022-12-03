@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import fs from "fs";
-import command from '../command/command.js'
+import command from '../components/command.js'
 //项目路径
 let duelCD = {};
 //如果报错请删除plugins/akasha-terminal-plugin/data目录中文件battle.json
