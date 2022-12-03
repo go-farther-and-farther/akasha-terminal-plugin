@@ -143,7 +143,7 @@ export class duel extends plugin {//决斗
 			level2 = 0
 
 		let filename1 = `${user_id}.json`;
-		let filename2 = `${user_id}.json`;
+		let filename2 = `${user_id2}.json`;
 		let num13 = 0
 		let num14 = 0
 		let num15 = 0
