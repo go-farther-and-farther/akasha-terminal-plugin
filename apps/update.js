@@ -28,7 +28,7 @@ export class update extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#重启$',
+                    reg: '^#虚空重启$',
                     /** 执行方法 */
                     fnc: 'restartApp'
                 }
