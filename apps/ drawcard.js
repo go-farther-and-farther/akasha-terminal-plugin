@@ -26,7 +26,7 @@ export class drawcard extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: "^#(决斗|虚空|抽卡)?(签到|做委托)$", //匹配消息正则，命令正则
+                    reg: "^#(决斗|虚空|抽卡)?(签到|做委托|开挂)$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'signin'
                 },
@@ -104,6 +104,10 @@ export class drawcard extends plugin {
             e.reply(`恭喜你注册成功，你现在的纠缠之缘数量是${json['money']}`)
         }
         else {
+            if (e.msg.includes('开挂') && e.isMaster) {
+                json['money'] += 100
+                e.reply(`你获得了100颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
+            }
             json['money']++
             e.reply(`你获得了一颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
         }
