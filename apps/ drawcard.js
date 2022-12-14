@@ -129,7 +129,7 @@ export class drawcard extends plugin {
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
         var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
-        if (e.msg.include("十连抽武器")) {
+        if (e.msg.includes("十连抽武器")) {
             if (json['money'] <= 9) { //判定是否有钱
                 e.reply(`好可惜，但是你没有纠缠之缘了！`);
                 return;
