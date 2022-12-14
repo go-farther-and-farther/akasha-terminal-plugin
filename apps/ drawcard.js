@@ -109,7 +109,7 @@ export class drawcard extends plugin {
                 e.reply(`你获得了100颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
             }
             json['money']++
-            e.reply(`你获得了一颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
+            e.reply(`获得了一颗纠缠之缘，你还有${json['money']}颗纠缠之缘`)
         }
         //下面是添加冷却
         exerciseCD[user_id] = true;
@@ -133,56 +133,18 @@ export class drawcard extends plugin {
         //读取文件
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));
         var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
-        if (e.msg.includes("十连抽武器")) {
-            if (json['money'] <= 9) { //判定是否有钱
-                e.reply(`好可惜，但是你没有纠缠之缘了！`);
-                return;
-            }
-            if (user_id == '2859167710') { json['money']++ }//开发者开挂
-            else { json['money'] = json['money'] - 10 }
-            //获取随机数，判断武器等级
-            let msg = ''
-            let msg2
-            for (let i = 1; i <= 10; i++) {
-                let Grade = Math.floor(1000 * Math.random())
-                if (Grade < 16) { Grade = 5 }
-                else if (Grade < 150) { Grade = 4 }
-                else { Grade = 3 }
-                if (Grade == 5)
-                    var num = Math.floor(1 + num5 * Math.random())
-                else if (Grade == 4)
-                    var num = Math.floor(1 + num4 * Math.random())
-                else if (Grade == 3)
-                    var num = Math.floor(1 + num3 * Math.random())
-                let name = weapon[Grade][num];
-                if (!json.hasOwnProperty(Grade)) {//如果json中不存在该用户
-                    json[Grade] = { num: 1 }//数量1
-                }
-                if (!json[Grade].hasOwnProperty(num)) {
-                    json[Grade][num] = 1
-                }
-                else {
-                    json[Grade][num]++
-                }
-
-                if (Grade == 5 || Grade == 4) {
-                    msg2 = [`恭喜你抽到了${Grade}星武器,你的第${json[Grade][num]}把${name}`, segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
-                    e.reply(msg2)
-                } else {
-                    msg = msg + `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`
-                }
-            }
-            e.reply(msg)
-
+        let num_chou = 1
+        if (e.msg.includes("十连抽武器")) num_chou = 10
+        if (json['money'] < num_chou) { //判定是否有钱
+            e.reply(`需要${num_chou}纠缠之缘，你没有纠缠之缘了！`);
+            return;
         }
-        else {
-            if (json['money'] <= 0) { //判定是否有钱
-                e.reply(`好可惜，但是你没有纠缠之缘了！`);
-                return;
-            }
-            if (user_id == '2859167710') { json['money']++ }//开发者开挂
-            else { json['money']-- }
-            //获取随机数，判断武器等级
+        if (user_id == '2859167710' || e.isMaster) { json['money'] += num_chou }//开发者开挂
+        else { json['money'] = json['money'] - num_chou }
+        //获取随机数，判断武器等级
+        let msg = '你抽到的三星武器：\n'
+        let msg2
+        for (let i = 1; i <= num_chou; i++) {
             let Grade = Math.floor(1000 * Math.random())
             if (Grade < 16) { Grade = 5 }
             else if (Grade < 150) { Grade = 4 }
@@ -203,12 +165,14 @@ export class drawcard extends plugin {
             else {
                 json[Grade][num]++
             }
-            let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`,
-            segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
-            e.reply(msg)
+            if (Grade == 5 || Grade == 4) {
+                msg2 = [`恭喜你抽到了${Grade}星武器,你的第${json[Grade][num]}把${name}`, segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
+                e.reply(msg2)
+            } else {
+                msg = msg + `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`
+            }
         }
-
-
+        e.reply(msg)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return
     }
