@@ -192,7 +192,7 @@ export class drawcard extends plugin {
             else {
                 json[Grade][num]++
             }
-            let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`,
+            let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`,
             segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
             e.reply(msg)
         }
