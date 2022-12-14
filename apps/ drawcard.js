@@ -138,6 +138,7 @@ export class drawcard extends plugin {
             else { json['money'] = json['money'] - 10 }
             //获取随机数，判断武器等级
             let msg = ''
+            let msg2
             for (let i = 1; i <= 10; i++) {
                 let Grade = Math.floor(1000 * Math.random())
                 if (Grade < 16) { Grade = 5 }
@@ -161,7 +162,8 @@ export class drawcard extends plugin {
                 }
                 msg = msg + `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`
                 if (Grade == 5 || Grade == 4) {
-                    msg = [msg, segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
+                    msg2 = segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)
+                    e.reply(msg2)
                 }
             }
             e.reply(msg)
