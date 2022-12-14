@@ -159,7 +159,10 @@ export class drawcard extends plugin {
                 else {
                     json[Grade][num]++
                 }
-                msg = msg + `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`
+                if (Grade == 5 || Grade == 4) {
+                    msg = msg + segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)
+                    msg = msg + `你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`
+                }
             }
             e.reply(msg)
 
@@ -192,7 +195,7 @@ export class drawcard extends plugin {
             else {
                 json[Grade][num]++
             }
-            let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘\n`,
+            let msg = [`你已经有${json[Grade][num]}把${name}了,你还有${json['money']}纠缠之缘`,
             segment.image(`plugins/akasha-terminal-plugin/resources/weapon/${Grade}/${name}.png`)]
             e.reply(msg)
         }
