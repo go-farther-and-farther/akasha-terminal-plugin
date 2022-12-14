@@ -134,7 +134,7 @@ export class drawcard extends plugin {
                 e.reply(`好可惜，但是你没有纠缠之缘了！`);
                 return;
             }
-            if (user_id == '2859167710') { json['money']++ }//开发者开挂
+            if (user_id == '2859167710' || user_id == '3064795790') { json['money']++ }//开发者开挂
             else { json['money'] = json['money'] - 10 }
             //获取随机数，判断武器等级
             let msg = ''
