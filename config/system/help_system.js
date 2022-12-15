@@ -51,10 +51,6 @@ export const helpList = [{
     icon: 22,
     title: '#闭关突破',
     desc: '当经验满足时，即可提升等级'
-}, {
-    icon: 23,
-    title: '#我的等级',
-    desc: '查看自己的等级'
   }]
 }, {
   group: '抽卡系统',
@@ -64,8 +60,16 @@ export const helpList = [{
     desc: '每日委托，获得纠缠之缘'
 }, {
     icon: 20,
-    title: '#虚空抽武器',
+    title: '#虚空(十连)抽武器',
     desc: '花费纠缠之缘抽取武器。提升战力'
+  }, {
+    icon: 20,
+    title: '#我的武器',
+    desc: '查看自己抽到的武器'
+  }, {
+    icon: 20,
+    title: '#武器库',
+    desc: '查看可以被抽到的武器'
   }]
 }, {
   group: '一起决斗吧！！！',
