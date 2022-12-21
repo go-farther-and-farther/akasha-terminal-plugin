@@ -15,7 +15,7 @@ import cfg from '../../../lib/config/config.js'
 import {segment} from "oicq";
 import sex from "oicq";
 import moment from "moment"
-const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
+const dirpath = "plugins/example/qylp"
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -26,7 +26,8 @@ var filename = `qylp.json`
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
             }))
         }
-const cdTime = 10*60 //wifecd时间,默认为10分钟
+const cdTime = 10*60 //随机娶群友时间,默认为10分钟
+const cdTime2 = 10*30 //强娶冷却，默认5分钟
 export class qqy extends plugin {
 	constructor() {
 		super({
@@ -67,7 +68,7 @@ export class qqy extends plugin {
                 },
                 {
                 /** 命令正则匹配 */
-                reg: '^#?(闹离婚|甩掉)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从他的老婆里移除掉
+                reg: '^#?(分手|甩掉)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从他的老婆里移除掉
                 /** 执行方法 */
                 fnc: 'fs'
                 },
@@ -121,7 +122,7 @@ async wife2(e) {
         let tips = [
             segment.at(e.user_id), "\n",
             `等会儿哦！(*/ω＼*)`, "\n",
-            `冷却中：${cdTime-seconds}s`
+            `冷却中：${cdTime2-seconds}s`
         ]
         e.reply(tips);
         return
@@ -151,13 +152,13 @@ async wife2(e) {
             ])
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             await redis.set(`potato:whois-my-wife-cd:${e.user_id}`, currentTime, {
-            EX: cdTime
+            EX: cdTime2
             });
         }
         else if(gailv<7){
             e.reply("很遗憾,你没能成功将对方娶走")
             await redis.set(`potato:whois-my-wife-cd:${e.user_id}`, currentTime, {
-            EX: cdTime
+            EX: cdTime2
             });
         }
         return
@@ -323,7 +324,7 @@ async Wife(e) {
 async fs(e){
     var id = e.user_id
     var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-    if(e.msg.includes("闹离婚")){
+    if(e.msg.includes("分手")){
         if(!json.hasOwnProperty(id)) {//如果json中不存在该用户
             e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
             return
