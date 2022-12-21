@@ -229,6 +229,7 @@ export class duel_exercise extends plugin {//修炼
         const date = new Date();
         let experience_ = 0
         let hours = date.getHours()
+        //早上好
         if (e.msg.includes('早') || e.msg.includes('晨练')) {
             if (hours >= 6 && hours <= 8) {
                 experience_ = Math.round(3 + 2 * Math.random())
@@ -244,34 +245,36 @@ export class duel_exercise extends plugin {//修炼
             }
             return
         }
+        //睡觉，会被禁言
         else if (e.msg.includes('睡觉') || e.msg.includes('早睡')) {
             if (hours >= 20 && hours <= 22) {
                 e.group.muteMember(user_id, 60 * 60 * 8); //禁言
-                experience_ = Math.round(3 + 3 * Math.random())
+                experience_ = Math.round(5 + 5 * Math.random())
                 json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
                 `\n🎉早睡早起好习惯，恭喜你获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             else if (hours >= 12 && hours <= 14) {
                 e.group.muteMember(user_id, 60 * 60 * 1); //禁言
-                experience_ = Math.round(1 + 2 * Math.random())
+                experience_ = Math.round(3 + 3 * Math.random())
                 json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
                 `\n🎉感谢你获得了${experience_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             } else if (hours > 23 || hours <= 5) {
-                e.group.muteMember(user_id, 60 * 60 * 8); //禁言
-                experience_ = Math.round(1 + 2 * Math.random())
+                e.group.muteMember(user_id, 60 * 60 * 6); //禁言
+                experience_ = Math.round(3 + 3 * Math.random())
                 json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
                 `\n现在睡觉一点也不早了，你只获得了${experience_}点内力，快去睡觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             }
             return
         }
+        //服用丹药
         else if (e.msg.includes('丹药')) {
             if (e.isMaster) {
                 json[user_id].experience += 100
                 e.reply([segment.at(user_id),
-                `\n服用丹药成功，你只获得了100点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
+                `\n服用丹药成功，你获得了100点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
             }
             else {
                 json[user_id].experience -= 1
@@ -279,8 +282,9 @@ export class duel_exercise extends plugin {//修炼
                 `\n没有得到祝福，你服用丹药失败，走火入魔损失了1点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
             }
         }
+        //正常情
         else if (hours >= 6 && hours <= 8) {
-            experience_ = Math.round(3 + 2 * Math.random())
+            experience_ = Math.round(2 + 2 * Math.random())
             json[user_id].experience += experience_
             e.reply([segment.at(user_id),
             `\n🎉恭喜你获得了${experience_}点内力,一日之计在于晨，清晨修炼效果更好哦！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
@@ -290,7 +294,7 @@ export class duel_exercise extends plugin {//修炼
             e.reply([segment.at(user_id),
             `\n🎉恭喜你获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         } else {
-            experience_ = 1
+            experience_ = Math.round(1 + 1 * Math.random())
             json[user_id].experience += experience_
             e.reply([segment.at(user_id),
             `\n由于熬夜，你只获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
