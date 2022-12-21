@@ -1,8 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import fs from "fs";
-import schedule from "node-schedule";
-import cfg from '../../../lib/config/config.js'
 //项目路径
 let exerciseCD = {};
 let exerciseCD_ = {};
@@ -153,8 +151,8 @@ export class duel_exercise extends plugin {//修炼
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0
         }//当内力小于1时，自动归零
-
-        let gailv = 100 - json[user_id].level * 5
+        if (json[user_id].level < 16) { var gailv = 100 - json[user_id].level * 5 }
+        else { var gailv = 20 - json[user_id].level * 1 }
         e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i > gailv) {
