@@ -141,7 +141,7 @@ export class duel_exercise extends plugin {//修炼
                 return
             }
         }
-        if (!e.isMaster()) {
+        if (!e.isMaster) {
             exerciseCD_[user_id] = true; exerciseCD_[user_id] = setTimeout(() => {//冷却时间
                 if (exerciseCD_[user_id]) {
                     delete exerciseCD_[user_id];
