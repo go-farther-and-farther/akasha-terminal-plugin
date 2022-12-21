@@ -140,7 +140,7 @@ export class duel_exercise extends plugin {//修炼
                 e.reply('修为不足,请再接再厉')
                 return
             }
-            else if (json[user_id].experience >= 320 && json[user_id].level < 16 + (json[user_id].experience - 320) / 80) {
+            else if (json[user_id].experience >= 320 && json[user_id].level > 16 + floor((json[user_id].experience - 320) / 80)) {
                 e.reply('修为不足,请再接再厉')
                 return
             }
@@ -183,7 +183,10 @@ export class duel_exercise extends plugin {//修炼
             else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
             else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
             else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
-            else if (json[user_id].level > 16) json[user_id].levelname = '返璞归真'
+            else if (json[user_id].level > 16) {
+                let level_name = json[user_id].levelname - 16
+                json[user_id].levelname = '返璞归真' + `第${level_name}重`
+            }
             setTimeout(() => {//延迟5秒
                 e.reply(`突破成功，当前境界${json[user_id].levelname}`)
             }, 3000 * (json[user_id].level + 1));//设置延时        
