@@ -15,7 +15,7 @@ import cfg from '../../../lib/config/config.js'
 import {segment} from "oicq";
 import sex from "oicq";
 import moment from "moment"
-const dirpath = "plugins/example/qylp"
+const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
