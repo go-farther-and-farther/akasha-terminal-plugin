@@ -9,10 +9,10 @@ let ret = []
 
 if (Bot?.logger?.info) {
     Bot.logger.info(chalk.green('------^-^------'))
-    Bot.logger.info(chalk.yellow(`麟插件${Version.version}初始化~`))
+    Bot.logger.info(chalk.yellow(`虚空插件${Version.version}初始化~`))
     Bot.logger.info(chalk.green('---------------'))
 } else {
-    console.log(`lin插件${Version.version}初始化~`)
+    console.log(`虚空插件${Version.version}初始化~`)
 }//这个改自碎月和喵喵
 
 
