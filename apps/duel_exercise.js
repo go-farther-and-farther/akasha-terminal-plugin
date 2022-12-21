@@ -34,7 +34,7 @@ export class duel_exercise extends plugin {//修炼
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: "^#(发起|开始)?(晨练|早|锻炼|早睡|睡觉|修炼)(.*)$", //匹配消息正则，命令正则
+                    reg: "^#(发起|开始)?(晨练|早|锻炼|早睡|睡觉|修炼|服用丹药)(.*)$", //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'exercise'
                 },
@@ -65,8 +65,6 @@ export class duel_exercise extends plugin {//修炼
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[user_id] = Template
         }
-
-
         if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
             e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
             return;
@@ -140,7 +138,7 @@ export class duel_exercise extends plugin {//修炼
                 e.reply('修为不足,请再接再厉')
                 return
             }
-            else if (json[user_id].experience >= 320 && json[user_id].level > 16 + floor((json[user_id].experience - 320) / 80)) {
+            else if (json[user_id].experience >= 320 && json[user_id].level > 16 + Math.floor((json[user_id].experience - 320) / 80)) {
                 e.reply('修为不足,请再接再厉')
                 return
             }
@@ -284,6 +282,20 @@ export class duel_exercise extends plugin {//修炼
             e.reply([segment.at(user_id),
             `\n由于熬夜，你只获得了${experience_}点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
         }
+        if (e.msg.includes('丹药')) {
+            if (e.isMaster) {
+                json[user_id].experience += 100
+                e.reply([segment.at(user_id),
+                `\n服用丹药成功，你只获得了100点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
+            }
+            else {
+                json[user_id].experience -= 1
+                e.reply([segment.at(user_id),
+                `\n没有得到祝福，你服用丹药失败，走火入魔损失了1点内力！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);
+            }
+        }
+        json['money']++
+        e.reply(`获得了一颗纠缠之缘，你还有${json['money']}颗纠缠之缘`)
         if (e.isMaster) {//如果是主人，额外送两倍
             e.reply('给主人发放了额外奖励哦！')
             json[user_id].experience += experience_ * 2
