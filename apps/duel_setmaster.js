@@ -53,7 +53,7 @@ export class duel_setmaster extends plugin {//设置开挂
 			return true;
 		}
 		if (!e.isMaster) {
-			e.group.muteMember(e.user_id, 1);
+			e.group.muteMember(e.user_id, 60);
 			e.reply([segment.at(e.user_id), `\n凡人，休得僭越！`]);
 			return true
 		}
