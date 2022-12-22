@@ -5,8 +5,6 @@ import cfg from '../../../lib/config/config.js'
 import moment from "moment"
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 //项目路径
-let exerciseCD = {};
-let exerciseCD_ = {};
 const dirpath = "plugins/akasha-terminal-plugin/data/";//文件夹路径
 var filename = `battle`;//文件名
 if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
@@ -18,9 +16,9 @@ let Template = {//创建该用户
     "levelname": '无等级',
     "Privilege": 0,
 };
-//配置一些有意思的参数
-let Cooling_time2 = 30 * 60 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为30分钟
-let Cooling_time3 = 30 * 60//命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
+
+let cdtime_exercise = 30 * 60 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为30分钟
+let cdtime_break = 30 * 60//命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
 export class duel_exercise extends plugin {//修炼
     constructor() {
         super({
@@ -43,7 +41,7 @@ export class duel_exercise extends plugin {//修炼
                     /** 命令正则匹配 */
                     reg: "^#闭关突破$", //匹配消息正则，命令正则
                     /** 执行方法 */
-                    fnc: 'exercise_'
+                    fnc: 'break'
                 },
                 {
                     /** 命令正则匹配 */
@@ -65,7 +63,7 @@ export class duel_exercise extends plugin {//修炼
      * 
      * @param e oicq传递的事件参数e
      */
-    async exercise_(e) {
+    async break(e) {
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
         let user_id = e.user_id;
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -80,22 +78,18 @@ export class duel_exercise extends plugin {//修炼
             json[user_id] = Template
         }
 
-        let lastTime = await redis.get(`duel:exercise-cd:${e.user_id}`);
+        let lastTime = await redis.get(`duel:break-cd:${e.user_id}`);
         let masterList = cfg.masterQQ
         if (lastTime && !masterList.includes(e.user_id)) {
             const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
             let tips = [
                 segment.at(e.user_id), "\n",
                 `你刚刚进行了一次突破!(*/ω＼*)`, "\n",
-                `冷却中：${Cooling_time2 - seconds}s`
+                `冷却中：${cdtime_break - seconds}s`
             ]
             e.reply(tips);
             return
         }
-        // if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
-        //     e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
-        //     return;
-        // }
         else {
             if (json[user_id].experience < 5) json[user_id].level = 0
             else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
@@ -170,17 +164,9 @@ export class duel_exercise extends plugin {//修炼
                 return
             }
         }
-
-        await redis.set(`duel:exercise-cd:${e.user_id}`, currentTime, {
-            EX: Cooling_time2
+        await redis.set(`duel:break-cd:${e.user_id}`, currentTime, {
+            EX: cdtime_break
         });
-
-        // exerciseCD_[user_id] = true;
-        // exerciseCD_[user_id] = setTimeout(() => {//冷却时间
-        //     if (exerciseCD_[user_id]) {
-        //         delete exerciseCD_[user_id];
-        //     }
-        // }, Cooling_time3 * 1000 * 60);
 
         if (json[user_id].level > 0) {
             if (json[user_id].level == 0) json[user_id].levelname = '无内力'
@@ -208,6 +194,7 @@ export class duel_exercise extends plugin {//修炼
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0
         }
+
         if (json[user_id].level < 16) { var gailv = 100 - json[user_id].level * 4 }
         else { var gailv = 36 - json[user_id].level * 1 }
         e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
@@ -254,10 +241,19 @@ export class duel_exercise extends plugin {//修炼
     async exercise(e) {
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
-            e.reply(`你刚刚进行了一次修炼，请耐心一点，等待${Cooling_time2}分钟后再次修炼吧！`);
-            return;
+        let lastTime = await redis.get(`duel:exercise-cd:${e.user_id}`);
+        let masterList = cfg.masterQQ
+        if (lastTime && !masterList.includes(e.user_id)) {
+            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+            let tips = [
+                segment.at(e.user_id), "\n",
+                `你刚刚进行了一次锻炼!(*/ω＼*)`, "\n",
+                `冷却中：${cdtime_exercise - seconds}s`
+            ]
+            e.reply(tips);
+            return
         }
+
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
             fs.mkdirSync(dirpath);//创建文件夹
         }
@@ -269,18 +265,10 @@ export class duel_exercise extends plugin {//修炼
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[user_id] = Template
         }
-        // for (let i of cfg.masterQQ) { //给所有主人发福利******************************
-        //     if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
-        //         json[i] = Template
-        //     }
-        //     json[i].experience++
-        // }
-        exerciseCD[user_id] = true;
-        exerciseCD[user_id] = setTimeout(() => {//冷却时间
-            if (exerciseCD[user_id]) {
-                delete exerciseCD[user_id];
-            }
-        }, Cooling_time2 * 1000 * 60);
+
+        await redis.set(`duel:break-cd:${e.user_id}`, currentTime, {
+            EX: cdtime_exercise
+        });
         const date = new Date();
         let experience_ = 0
         let hours = date.getHours()
