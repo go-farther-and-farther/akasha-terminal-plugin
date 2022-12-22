@@ -160,12 +160,32 @@ export class duel_exercise extends plugin {//修炼
                 delete exerciseCD_[user_id];
             }
         }, Cooling_time3 * 1000 * 60);
-
+        if (json[user_id].level == 0) json[user_id].levelname = '无内力'
+        else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
+        else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
+        else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
+        else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
+        else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
+        else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
+        else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
+        else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
+        else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
+        else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
+        else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
+        else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
+        else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
+        else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
+        else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
+        else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
+        else if (json[user_id].level > 16) {
+            let level_name = json[user_id].level - 16
+            json[user_id].levelname = '返璞归真' + `第${level_name}重`
+        }
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0
         }
-        if (json[user_id].level < 16) { var gailv = 100 - json[user_id].level * 5 }
-        else { var gailv = 20 - json[user_id].level * 1 }
+        if (json[user_id].level < 16) { var gailv = 100 - json[user_id].level * 4 }
+        else { var gailv = 36 - json[user_id].level * 1 }
         e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i > gailv) {
