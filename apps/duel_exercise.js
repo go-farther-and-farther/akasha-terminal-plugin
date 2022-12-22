@@ -1,6 +1,9 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import fs from "fs";
+import cfg from '../../../lib/config/config.js'
+import moment from "moment"
+const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 //项目路径
 let exerciseCD = {};
 let exerciseCD_ = {};
@@ -16,8 +19,8 @@ let Template = {//创建该用户
     "Privilege": 0,
 };
 //配置一些有意思的参数
-let Cooling_time2 = 30 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为300分钟
-let Cooling_time3 = 30 //命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
+let Cooling_time2 = 30 * 60 //命令间隔时间，单位分钟，这是修炼的冷却时间#初始为30分钟
+let Cooling_time3 = 30 * 60//命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
 export class duel_exercise extends plugin {//修炼
     constructor() {
         super({
@@ -76,10 +79,23 @@ export class duel_exercise extends plugin {//修炼
         if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
             json[user_id] = Template
         }
-        if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
-            e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
-            return;
+
+        let lastTime = await redis.get(`duel:exercise-cd:${e.user_id}`);
+        let masterList = cfg.masterQQ
+        if (lastTime && !masterList.includes(e.user_id)) {
+            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+            let tips = [
+                segment.at(e.user_id), "\n",
+                `你刚刚进行了一次突破!(*/ω＼*)`, "\n",
+                `冷却中：${Cooling_time2 - seconds}s`
+            ]
+            e.reply(tips);
+            return
         }
+        // if (exerciseCD[user_id] && !(user_id == 2859167710)) { //判定是否在冷却中
+        //     e.reply(`你刚刚进行了一次突破，请耐心一点，等待${Cooling_time3}分钟后再次突破吧！`);
+        //     return;
+        // }
         else {
             if (json[user_id].experience < 5) json[user_id].level = 0
             else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
@@ -154,32 +170,40 @@ export class duel_exercise extends plugin {//修炼
                 return
             }
         }
-        exerciseCD_[user_id] = true;
-        exerciseCD_[user_id] = setTimeout(() => {//冷却时间
-            if (exerciseCD_[user_id]) {
-                delete exerciseCD_[user_id];
+
+        await redis.set(`duel:exercise-cd:${e.user_id}`, currentTime, {
+            EX: Cooling_time2
+        });
+
+        // exerciseCD_[user_id] = true;
+        // exerciseCD_[user_id] = setTimeout(() => {//冷却时间
+        //     if (exerciseCD_[user_id]) {
+        //         delete exerciseCD_[user_id];
+        //     }
+        // }, Cooling_time3 * 1000 * 60);
+
+        if (json[user_id].level > 0) {
+            if (json[user_id].level == 0) json[user_id].levelname = '无内力'
+            else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
+            else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
+            else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
+            else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
+            else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
+            else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
+            else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
+            else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
+            else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
+            else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
+            else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
+            else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
+            else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
+            else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
+            else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
+            else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
+            else if (json[user_id].level > 16) {
+                let level_name = json[user_id].level - 16
+                json[user_id].levelname = '返璞归真' + `第${level_name}重`
             }
-        }, Cooling_time3 * 1000 * 60);
-        if (json[user_id].level == 0) json[user_id].levelname = '无内力'
-        else if (json[user_id].level == 1) json[user_id].levelname = '小乘境初期'
-        else if (json[user_id].level == 2) json[user_id].levelname = '小乘境中期'
-        else if (json[user_id].level == 3) json[user_id].levelname = '小乘境后期'
-        else if (json[user_id].level == 4) json[user_id].levelname = '小乘境巅峰'
-        else if (json[user_id].level == 5) json[user_id].levelname = '大乘境初期'
-        else if (json[user_id].level == 6) json[user_id].levelname = '大乘境中期'
-        else if (json[user_id].level == 7) json[user_id].levelname = '大乘境后期'
-        else if (json[user_id].level == 8) json[user_id].levelname = '大乘境巅峰'
-        else if (json[user_id].level == 9) json[user_id].levelname = '宗师境初期'
-        else if (json[user_id].level == 10) json[user_id].levelname = '宗师境中期'
-        else if (json[user_id].level == 11) json[user_id].levelname = '宗师境后期'
-        else if (json[user_id].level == 12) json[user_id].levelname = '宗师境巅峰'
-        else if (json[user_id].level == 13) json[user_id].levelname = '至臻境初期'
-        else if (json[user_id].level == 14) json[user_id].levelname = '至臻境中期'
-        else if (json[user_id].level == 15) json[user_id].levelname = '至臻境后期'
-        else if (json[user_id].level == 16) json[user_id].levelname = '至臻境巅峰'
-        else if (json[user_id].level > 16) {
-            let level_name = json[user_id].level - 16
-            json[user_id].levelname = '返璞归真' + `第${level_name}重`
         }
         if (json[user_id].experience < 1) {
             json[user_id].experience = 0

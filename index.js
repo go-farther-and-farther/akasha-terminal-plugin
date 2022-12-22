@@ -16,8 +16,8 @@ if (Bot?.logger?.info) {
 }//这个改自碎月和喵喵
 
 
-if (!await redis.get(`lin:notice:deltime`)) {
-    await redis.set(`lin:notice:deltime`, "600")
+if (!await redis.get(`akasha:notice:deltime`)) {
+    await redis.set(`akasha:notice:deltime`, "600")
 }
 
 
