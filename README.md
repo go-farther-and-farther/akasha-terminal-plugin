@@ -25,7 +25,11 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 使用`虚空更新`来更新插件。
 
 ### 游戏说明🌈
-使用#虚空帮助/#决斗帮助 查看具体说明
+使用#虚空帮助 查看具体说明
+<details><summary>展开</summary>
+
+<h1 align="center"><i>御前决斗!</i></h1>
+
 |功能   |描述   |
 |---|---|
 |决斗系统   |与一名群友开始决斗   |
@@ -34,6 +38,19 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |签到&委托系统   |做做日常,签个到领取奖励   |
 |抽武器   |抽取武器 后续将加入战力   |
 |更多功能   |敬请期待。或提交Issues   |
+
+<h1 align="center"><i>娶群友?!</i></h1>
+
+|功能   |描述   |
+|---|---|
+|随机娶群友   |随机娶一位群友   |
+|指定求婚   |娶指定的群友   |
+|配合求婚   |愿意还是拒绝?   |
+|强娶指定群友   |强行掳走群友   |
+|主动分手,被动甩掉   |不要老婆或被老婆甩掉   |
+|更多功能   |敬请期待。或提交Issues   |
+
+</details>
 
 #### 常见问题
 

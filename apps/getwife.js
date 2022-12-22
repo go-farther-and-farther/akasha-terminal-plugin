@@ -324,7 +324,7 @@ export class qqy extends plugin {
     async fs(e) {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        if (e.msg.includes("分手")) {
+        if (e.msg=="分手" || e.msg=="闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
                 return
