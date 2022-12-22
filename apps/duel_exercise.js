@@ -83,74 +83,74 @@ export class duel_exercise extends plugin {//修炼
         else {
             if (json[user_id].experience < 5) json[user_id].level = 0
             else if (json[user_id].experience < 10 && json[user_id].level >= 1) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${10 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 20 && json[user_id].level >= 2) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${20 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 30 && json[user_id].level >= 3) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${30 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 40 && json[user_id].level >= 4) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${40 - json[user_id].experience},请再接再厉`)
                 return
             }
 
-            else if (json[user_id].experience < 65 && json[user_id].level >= 5) {
-                e.reply('修为不足,请再接再厉')
+            else if (json[user_id].experience < 55 && json[user_id].level >= 5) {
+                e.reply(`修为不足,还差${55 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 70 && json[user_id].level >= 6) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${70 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 85 && json[user_id].level >= 7) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${85 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 100 && json[user_id].level >= 8) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${100 - json[user_id].experience},请再接再厉`)
                 return
             }
 
             else if (json[user_id].experience < 125 && json[user_id].level >= 9) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${125 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 150 && json[user_id].level >= 10) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${150 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 175 && json[user_id].level >= 11) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${175 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 200 && json[user_id].level >= 12) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${200 - json[user_id].experience},请再接再厉`)
                 return
             }
 
             else if (json[user_id].experience < 230 && json[user_id].level >= 13) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${230 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 260 && json[user_id].level >= 14) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${260 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 290 && json[user_id].level >= 15) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${290 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience < 320 && json[user_id].level >= 16) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${320 - json[user_id].experience},请再接再厉`)
                 return
             }
             else if (json[user_id].experience >= 320 && json[user_id].level > 16 + Math.floor((json[user_id].experience - 320) / 80)) {
-                e.reply('修为不足,请再接再厉')
+                e.reply(`修为不足,还差${(Math.floor(json[user_id].experience / 80) * 80 + 80) - json[user_id].experience},请再接再厉`)
                 return
             }
         }
