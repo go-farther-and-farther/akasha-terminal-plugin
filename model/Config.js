@@ -36,7 +36,7 @@ class Config {
 
     /** 发消息 */
     async getSend(msg) {
-        if (await redis.del(`akasha:notice:notificationsAll`,)) {
+        if (await redis.del(`lin:notice:notificationsAll`,)) {
             // 发送全部管理
             for (let index of cfg.masterQQ) {
                 await common.relpyPrivate(index, msg)

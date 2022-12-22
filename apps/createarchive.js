@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import fs from "fs";
-import command from '../command/command.js'
+ import command from '../components/command.js'
 const dirpath = "plugins/akasha-terminal-plugin/data/CombatDate/";
 let Combat = {//创建用户战斗属性
     "jcsm": 1000,//基础生命

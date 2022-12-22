@@ -38,7 +38,7 @@ export const helpCfg = {
 
 // 帮助菜单内容
 export const helpList = [{
-  group: '属性系统',
+  group: '决斗!属性系统',
   list: [{
     icon: 20,
     title: '#加入决斗/决斗状态',
@@ -51,21 +51,25 @@ export const helpList = [{
     icon: 22,
     title: '#闭关突破',
     desc: '当经验满足时，即可提升等级'
-}, {
-    icon: 23,
-    title: '#我的等级',
-    desc: '查看自己的等级'
   }]
 }, {
-  group: '抽卡系统',
+  group: '决斗!抽卡系统',
   list: [{
     icon: 19,
     title: '#虚空做委托',
     desc: '每日委托，获得纠缠之缘'
 }, {
     icon: 20,
-    title: '#虚空抽武器',
+    title: '#虚空(十连)抽武器',
     desc: '花费纠缠之缘抽取武器。提升战力'
+  }, {
+    icon: 20,
+    title: '#我的武器',
+    desc: '查看自己抽到的武器'
+  }, {
+    icon: 20,
+    title: '#武器库',
+    desc: '查看可以被抽到的武器'
   }]
 }, {
   group: '一起决斗吧！！！',
@@ -75,11 +79,50 @@ export const helpList = [{
     desc: '和群友决斗吧，败者可是有惩罚的哦'
   }]
 }, {
+  group: '群友?老婆?!',
+  list: [{
+    icon: 20,
+    title: '创建老婆',
+    desc: '创建老婆存档'
+  }, {
+    icon: 20,
+    title: '娶群友',
+    desc: '随机娶一位群友做老婆'
+  }, {
+    icon: 20,
+    title: '娶@群友',
+    desc: '指定求婚'
+  }, {
+    icon: 20,
+    title: '我愿意/拒绝@群友',
+    desc: '回应群友的求婚'
+  }, {
+    icon: 20,
+    title: '强娶@群友',
+    desc: '强行娶走一位群友'
+  }, {
+    icon: 20,
+    title: '我的群友老婆',
+    desc: '看看你娶了谁'
+  }, {
+    icon: 20,
+    title: '闹离婚',
+    desc: '将对方从你的老婆里删掉'
+  }, {
+    icon: 20,
+    title: '甩掉@群友',
+    desc: '让对方失去你这个老婆'
+  }, {
+    icon: 20,
+    title: '家庭信息',
+    desc: '这是个饼'
+  }]
+}, {
   group: '管理命令，仅bot管理员可用',
   auth: 'master',
   list: [{
     icon: 40,
-    title: '#设置/移除半步管理员@群员',
+    title: '#设置/移除开挂@群员',
     desc: '赋予/撤销一名群员特殊权能'
   }]
 }]

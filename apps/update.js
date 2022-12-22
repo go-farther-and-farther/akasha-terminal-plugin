@@ -28,7 +28,7 @@ export class update extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#重启$',
+                    reg: '^#虚空重启$',
                     /** 执行方法 */
                     fnc: 'restartApp'
                 }
@@ -41,7 +41,7 @@ export class update extends plugin {
      * @param e oicq传递的事件参数e
      */
     async update(e) {
-        if (!this.e.isMaster && !this.e.user_id.includes('59167710')) {//给开发者留的权限
+        if (!this.e.isMaster && !this.e.user_id==2859167710) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }
@@ -58,7 +58,7 @@ export class update extends plugin {
         }
         var me = this;
         if (fs.existsSync(`${_path}/plugins/lin-plugin`)) {//如果文件夹存在
-            e.reply('检测到您已安装lin插件包，开始捆绑更新')
+            //e.reply('检测到您已安装lin插件包，开始捆绑更新')
             var ls2 = exec(command, { cwd: `${_path}/plugins/lin-plugin/` }, async function (error, stdout, stderr) {
                 if (error) {
                     let isChanges = error.toString().includes("Your local changes to the following files would be overwritten by merge") ? true : false;
@@ -125,7 +125,7 @@ export class update extends plugin {
 
     }
     async restartApp() {
-        if (!this.e.isMaster && !this.e.user_id.includes('59167710')) {//给开发者留的权限
+        if (!this.e.isMaster && !this.e.user_id==2859167710) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }

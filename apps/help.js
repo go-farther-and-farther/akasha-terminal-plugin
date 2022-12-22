@@ -21,13 +21,13 @@ export class akasha_help extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '#(akasha|虚空|决斗|游戏)(规则|帮助|版本)',
+          reg: '#(akasha|虚空|决斗)(规则|帮助|版本)',
           /** 执行方法 */
           fnc: 'message'
         },
         {
           /** 命令正则匹配 */
-          reg: '#(ai|青云客|智能回复)(规则|帮助|版本)',
+          reg: '#(游戏)(规则|帮助|版本)',
           /** 执行方法 */
           fnc: 'message2'
         }

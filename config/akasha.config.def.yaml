@@ -1,15 +1,14 @@
 
 # 决斗系列插件 设置
 duel_cfg: 
-  # 随机依赖系数和战斗力依赖系数，不需要战斗力把Magnification2改成0就可以了
-  Magnification: 1
-  Magnification2: 1
+  # 战斗力依赖系数
+  Magnification: 2
   # 命令间隔时间，单位秒，这是决斗的冷却时间#初始为300秒
   Cooling_time: 300
   # 命令间隔时间，单位分钟，这是锻炼的冷却时间#初始为300分钟
-  Cooling_time2: 300
+  cdtime_exercise: 300
   # 命令间隔时间，单位分钟，这是突破的冷却时间#初始为30分钟
-  Cooling_time3: 30
+  cdtime_break: 30
  # 圣遗物配置[小叶提供]
 buweis : ['生之花', '死之羽', '时之沙', '空之杯', '理之冠']
 
