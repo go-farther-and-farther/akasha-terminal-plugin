@@ -151,7 +151,7 @@ export class qqy extends plugin {
         }
         if (e.msg.includes("强娶")) {
             if(json[id].money <= 50){
-                e.reply(`金币不足,你只剩下${money}金币了...还是去打工赚钱吧!`)
+                e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
                 return
             }
             var gailv = Math.round(Math.random() * 9);
@@ -261,7 +261,7 @@ export class qqy extends plugin {
             return
         }
         if(json[id].money <= 30){
-            e.reply(`金币不足,你只剩下${money}金币了...还是去打工赚钱吧!`)
+            e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
         let lastTime = await redis.get(`potato:whois-my-wife-cd:${e.user_id}`);
