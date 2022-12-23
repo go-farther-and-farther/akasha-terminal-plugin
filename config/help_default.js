@@ -104,10 +104,6 @@ export const helpList = [{
     desc: '强行娶走一位群友'
   }, {
     icon: 20,
-    title: '我的群友老婆',
-    desc: '看看你娶了谁'
-  }, {
-    icon: 20,
     title: '闹离婚',
     desc: '将对方从你的老婆里删掉'
   }, {
@@ -117,7 +113,11 @@ export const helpList = [{
   }, {
     icon: 20,
     title: '家庭信息',
-    desc: '这是个饼'
+    desc: '看看老婆,看看家'
+  }, {
+    icon: 20,
+    title: '打工赚钱',
+    desc: '有些事,是需要代价的'
   }]
 }, {
   group: '管理命令，仅bot管理员可用',
