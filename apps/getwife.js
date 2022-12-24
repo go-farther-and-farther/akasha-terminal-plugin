@@ -449,12 +449,16 @@ async gift(e){
         e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
         return
     }
+    if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
+        e.reply("醒醒,你还没有老婆!!")
+        return
+    }
     if(json[id].money <= 30){
         e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
         return
     }
     json[id].money -= Math.round(Math.random()*(60-30)+30)
-    json[id].love -= Math.round(Math.random()*(30-15)+30)
+    json[id].love += Math.round(Math.random()*(30-15)+30)
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
     e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
     return true;
