@@ -48,6 +48,9 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |配合求婚   |愿意还是拒绝?   |
 |强娶指定群友   |强行掳走群友   |
 |主动分手,被动甩掉   |不要老婆或被老婆甩掉   |
+|获取金币   |凡是都是需要付出的   |
+|花金币   |钱不能白赚   |
+|查看家庭   |看看和群友构建的家   |
 |更多功能   |敬请期待。或提交Issues   |
 
 </details>

@@ -42,7 +42,7 @@ export class qqy extends plugin {
             priority: 66,
             rule: [{
                 /** 命令正则匹配 */
-                reg: "^#?娶群友$",//随机娶一位群友
+                reg: "^#?(娶群友|娶老婆|娶群友老婆)$",//随机娶一位群友
                 /** 执行方法 */
                 fnc: 'Wife'
             },
@@ -87,6 +87,12 @@ export class qqy extends plugin {
                 reg: '^#?打工赚钱$', //获取金币
                 /** 执行方法 */
                 fnc: 'getmoney'
+            },
+            {
+                /** 命令正则匹配 */
+                reg: '^#?逛超(商|市)$', //获取金币
+                /** 执行方法 */
+                fnc: 'gift'
             }
             ]
         })
@@ -146,7 +152,7 @@ export class qqy extends plugin {
             ex = '先生'
         }
         if (!json[id].s == 0) {
-            e.reply("你似乎已经有爱人了,要不分手?")
+            e.reply("你似乎已经有老婆了,要不分手?")
             return
         }
         if (e.msg.includes("强娶")) {
@@ -434,6 +440,23 @@ async getmoney(e){
     json[id].money += Math.round(Math.random()*(80-40)+40)
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
     e.reply(`恭喜你!现在你有${json[id].money}金币了!`)
+    return true;
+}
+async gift(e){
+    var id = e.user_id
+    var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+    if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+        e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+        return
+    }
+    if(json[id].money <= 30){
+        e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
+        return
+    }
+    json[id].money -= Math.round(Math.random()*(60-30)+30)
+    json[id].love -= Math.round(Math.random()*(30-15)+30)
+    fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+    e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
     return true;
 }
 }
