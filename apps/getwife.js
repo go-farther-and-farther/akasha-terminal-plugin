@@ -131,7 +131,7 @@ export class qqy extends plugin {
             e.reply("不可以这样！")
             return
         }
-        let lastTime = await redis.get(`potato:whois-my-wife-cd:${e.user_id}`);
+        let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.user_id}`);
         let masterList = cfg.masterQQ
         if (lastTime && !masterList.includes(e.user_id)) {
             const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
@@ -173,7 +173,7 @@ export class qqy extends plugin {
                     "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`), "\n",
                 ])
                 fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-                await redis.set(`potato:whois-my-wife-cd:${e.user_id}`, currentTime, {
+                await redis.set(`potato:whois-my-wife2-cd:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
             }
@@ -182,7 +182,7 @@ export class qqy extends plugin {
                 json[id].money -= sbcf
                 fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
                 e.reply(`很遗憾,你没能成功将对方娶走,对方报警,你被罚款${sbcf}`)
-                await redis.set(`potato:whois-my-wife-cd:${e.user_id}`, currentTime, {
+                await redis.set(`potato:whois-my-wife2-cd:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
             }
