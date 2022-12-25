@@ -147,7 +147,7 @@ export class qqy extends plugin {
             return
         }
         if (this.is_wife(e.at)) {
-            e.reply("他/她已经有自己的情人了！")
+            e.reply("可是人家已经有自己的情人了！")
             return
         }
         //-------------------------------------------------------------------
