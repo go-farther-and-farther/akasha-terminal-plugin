@@ -147,8 +147,7 @@ export class qqy extends plugin {
             return
         }
         if (this.is_wife(e.at)) {
-            e.reply("可是人家已经有自己的情人了！")
-            return
+            e.reply("已经人喜欢她了哦！不过没关系！")
         }
         //-------------------------------------------------------------------
         let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.user_id}`);
