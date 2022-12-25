@@ -78,10 +78,10 @@ export class duel_exercise extends plugin {//修炼
             json[user_id] = Template
         }
 
-        let lastTime = await redis.get(`duel:break-cd:${e.user_id}`);
-        let masterList = cfg.masterQQ
-        if (lastTime && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+        let lastTime_break = await redis.get(`duel:break-cd:${e.user_id}`);
+        //let masterList = cfg.masterQQ
+        if (lastTime_break) {//&& !masterList.includes(e.user_id)
+            const seconds = moment(currentTime).diff(moment(lastTime_break), 'seconds')
             let tips = [
                 segment.at(e.user_id), "\n",
                 `你刚刚进行了一次突破!(*/ω＼*)`, "\n",
@@ -241,10 +241,10 @@ export class duel_exercise extends plugin {//修炼
     async exercise(e) {
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
-        let lastTime = await redis.get(`duel:exercise-cd:${e.user_id}`);
-        let masterList = cfg.masterQQ
-        if (lastTime && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+        let lastTime_exercise = await redis.get(`duel:exercise-cd:${e.user_id}`);
+        //let masterList = cfg.masterQQ
+        if (lastTime_exercise) {//&& !masterList.includes(e.user_id)
+            const seconds = moment(currentTime).diff(moment(lastTime_exercise), 'seconds')
             let tips = [
                 segment.at(e.user_id), "\n",
                 `你刚刚进行了一次锻炼!(*/ω＼*)`, "\n",
