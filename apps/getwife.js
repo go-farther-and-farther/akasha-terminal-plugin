@@ -30,8 +30,8 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
 const cdTime = 10 * 60 //随机娶群友时间,默认为10分钟
 const cdTime2 = 10 * 30 //强娶冷却，默认5分钟
 const cdTime3 = 10 * 120 //获取金币冷却，默认20分钟
-let qqwife = await command.getConfig("wife_cfg", "qqwife");
-let sjwife = await command.getConfig("wife_cfg", "sjwife");
+let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
+let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
     constructor() {
         super({
@@ -78,7 +78,7 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
-                reg: '^#?家庭信息$', //看看自己老婆是谁
+                reg: '^#?(家庭信息|我的(老婆|老公|对象))$', //看看自己老婆是谁
                 /** 执行方法 */
                 fnc: 'read'
             },
@@ -97,7 +97,7 @@ export class qqy extends plugin {
             ]
         })
     }
-    async creat(e) {
+    async creat(e) {//创建存档
         var data = {
             "s": 0,
             "wait": 0,
@@ -115,7 +115,7 @@ export class qqy extends plugin {
         e.reply(`你已经有老婆存档了`)
         return true;
     }
-    async wife2(e) {
+    async wife2(e) {//强行娶
         console.log(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -156,7 +156,7 @@ export class qqy extends plugin {
             return
         }
         if (e.msg.includes("强娶")) {
-            if(json[id].money <= 50){
+            if (json[id].money <= 50) {
                 e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
                 return
             }
@@ -164,7 +164,7 @@ export class qqy extends plugin {
             if (gailv < qqwife) {
                 json[id].s = e.at
                 json[id].money -= 50
-                json[id].love = Math.round(Math.random()*(40-10)+10)
+                json[id].love = Math.round(Math.random() * (40 - 10) + 10)
                 e.reply([
                     segment.at(id), "\n",
                     segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${id}`), "\n",
@@ -178,7 +178,7 @@ export class qqy extends plugin {
                 });
             }
             else if (gailv >= qqwife) {
-                var sbcf = Math.round(Math.random()*(20-10)+10)
+                var sbcf = Math.round(Math.random() * (20 - 10) + 10)
                 json[id].money -= sbcf
                 fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
                 e.reply(`很遗憾,你没能成功将对方娶走,对方报警,你被罚款${sbcf}`)
@@ -202,7 +202,7 @@ export class qqy extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
-    async yy(e) {
+    async yy(e) {//愿意
         if (e.atme || e.atall) {
             e.reply("6🙂")
             return
@@ -224,14 +224,14 @@ export class qqy extends plugin {
             json[id].wait = 0
             json[id].money += 20
             josn[e.user_id].money += 20
-            json[id].love = Math.round(Math.random()*(100-60)+60)
+            json[id].love = Math.round(Math.random() * (100 - 60) + 60)
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return
         }
         e.reply(`你不是${json[id].wait},就不要捣乱了`)
         return true;
     }
-    async jj(e) {
+    async jj(e) {//拒绝
         if (e.atme || e.atall) {
             e.reply("6🙂")
             return
@@ -255,7 +255,7 @@ export class qqy extends plugin {
         e.reply(`你不是${json[id].wait},就不要捣乱了`)
         return true;
     }
-    async Wife(e) {
+    async Wife(e) {//随机娶
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -266,7 +266,7 @@ export class qqy extends plugin {
             e.reply("你似乎已经有爱人了,要不分手?")
             return
         }
-        if(json[id].money <= 30){
+        if (json[id].money <= 30) {
             e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
@@ -337,14 +337,14 @@ export class qqy extends plugin {
             ]
             json[id].s = wife.user_id
             json[id].money -= 30
-            json[id].love = Math.round(Math.random()*(70-1)+1)
+            json[id].love = Math.round(Math.random() * (70 - 1) + 1)
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             await redis.set(`potato:whois-my-wife-cd:${e.user_id}`, currentTime, {
                 EX: cdTime
             });
         }
-        else if (gailv >= sjwife ) {
-            var dsp = Math.round(Math.random()*(20-10)+10)
+        else if (gailv >= sjwife) {
+            var dsp = Math.round(Math.random() * (20 - 10) + 10)
             msg = [
                 segment.at(e.user_id), "\n",
                 `好遗憾，你谁也没娶到,${dsp}金币打水漂了!`
@@ -358,10 +358,10 @@ export class qqy extends plugin {
         e.reply(msg);
         return true;
     }
-    async fs(e) {
+    async fs(e) {//分手
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        if (e.msg=="分手" || e.msg=="闹离婚") {
+        if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
                 return
@@ -396,7 +396,7 @@ export class qqy extends plugin {
         e.reply("你不是对方老婆或对方根本没老婆")
         return true;
     }
-    async read(e) {
+    async read(e) {//看自己的老婆
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -417,50 +417,52 @@ export class qqy extends plugin {
         ])
         return true;
     }
-async getmoney(e){
-    var id = e.user_id
-    var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-    if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-        e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
-        return
+    async getmoney(e) {//打工冷却20分钟，赚到40-80块钱
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            return
+        }
+        let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.user_id}`);
+        if (lastTime2) {
+            const seconds = moment(currentTime).diff(moment(lastTime2), 'seconds')
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `冷却中：${cdTime3 - seconds}s`
+            ]);
+            return
+        }
+        await redis.set(`potato:wife-getmoney-cd:${e.user_id}`, currentTime, {
+            EX: cdTime3
+        });
+        json[id].money += Math.round(Math.random() * 40 + 40)
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        e.reply(`恭喜你!现在你有${json[id].money}金币了!`)
+        return true;
     }
-    let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.user_id}`);
-    if (lastTime2) {
-        const seconds = moment(currentTime).diff(moment(lastTime2), 'seconds')
-        e.reply([
-            segment.at(e.user_id), "\n",
-            `等会儿哦！(*/ω＼*)`, "\n",
-            `冷却中：${cdTime3 - seconds}s`
-        ]);
-        return
+    async gift(e) {//花30-90买30-90好感度
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            return
+        }
+        if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
+            e.reply("醒醒,你还没有老婆!!")
+            return
+        }
+        let price = Math.round(Math.random() * 60 + 30)
+
+        if (json[id].money <= price) {
+            e.reply(`需要${price}金币,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
+            return
+        }
+        json[id].money -= price
+        json[id].love += Math.round(Math.random() * 60 + 30)
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
+        return true;
     }
-    await redis.set(`potato:wife-getmoney-cd:${e.user_id}`, currentTime, {
-        EX: cdTime3
-    });
-    json[id].money += Math.round(Math.random()*(80-40)+40)
-    fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-    e.reply(`恭喜你!现在你有${json[id].money}金币了!`)
-    return true;
-}
-async gift(e){
-    var id = e.user_id
-    var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-    if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-        e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
-        return
-    }
-    if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-        e.reply("醒醒,你还没有老婆!!")
-        return
-    }
-    if(json[id].money <= 30){
-        e.reply(`金币不足,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
-        return
-    }
-    json[id].money -= Math.round(Math.random()*(60-30)+30)
-    json[id].love += Math.round(Math.random()*(30-15)+30)
-    fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-    e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
-    return true;
-}
 }

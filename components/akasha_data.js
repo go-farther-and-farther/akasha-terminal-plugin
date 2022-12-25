@@ -1,6 +1,4 @@
-import plugin from '../../../lib/plugins/plugin.js'
 import fs from "fs";
-import { segment } from "oicq";
 const dirpath = "plugins/akasha-terminal-plugin/data";//文件夹路径
 //这两个函数都是用来读取和保存json数据的
 async function getUser(id, json, Template, filename, is_save) {
