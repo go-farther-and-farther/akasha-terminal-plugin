@@ -266,7 +266,7 @@ export class duel_exercise extends plugin {//修炼
             json[user_id] = Template
         }
 
-        await redis.set(`duel:break-cd:${e.user_id}`, currentTime, {
+        await redis.set(`duel:exercise-cd:${e.user_id}`, currentTime, {
             EX: cdtime_exercise
         });
         const date = new Date();
