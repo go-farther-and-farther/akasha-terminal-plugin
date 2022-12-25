@@ -329,7 +329,10 @@ export class qqy extends plugin {
             })
         }
         //写个过滤器删掉bot和发起人
-        femaleList = femaleList.filter(item => item != e.user_id && item != e.uin)
+
+        console.log(femaleList)
+
+        femaleList = femaleList.filter(item => item.uin != e.user_id && item.uin != e.uin)
         var gailv = Math.round(Math.random() * 9);
         let wife = {}
         console.log(wife);
@@ -536,7 +539,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!}`)
         return true;
     }
-    is_wife(id) {
+    async is_wife(id) {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         for (i of json) {
             if (i.s = id)
