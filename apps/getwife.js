@@ -5,7 +5,15 @@
 //1.2保存老婆,添加分手和查看老婆功能,仅对强娶与指定娶有效
 //1.2.1修复误触,所有娶群友方式都会记录保存,添加甩掉功能
 //1.2.2修复恶劣bug，增加存档创建指令，画饼金钱与好感
+//1.2.3修复以下问题
 /*
+会随机到自己
+甚至bot自己
+容易搞男同百合
+ 能娶同一个老婆
+刷新不及时
+金币为负数
+
 有事找大佬们,没事找我2113752439
 有什么新的建议可以提出来
 */
@@ -138,6 +146,14 @@ export class qqy extends plugin {
             e.reply("不可以这样！")
             return
         }
+        if (this.is_wife(e.at)) {
+            if (e.at.sex = 'female')
+                e.reply("她已经有自己的情人了！")
+            else
+                e.reply("他已经有自己的情人了！")
+            return
+        }
+        //-------------------------------------------------------------------
         let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.user_id}`);
         let masterList = cfg.masterQQ
         if (lastTime && !masterList.includes(e.user_id)) {
@@ -293,11 +309,17 @@ export class qqy extends plugin {
         if (await Bot.pickFriend(e.user_id).sex == 'female') {
             sex = 'male'
         }
+
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
+        //读取memberMap中的值，赋值给一个数组arrMember
+        //FILTER 函数基于布尔值 (True/False) 数组筛选数组
+
+        //只读取sex属性为sex的
         const femaleList = arrMember.filter(item => {
             return item.sex == sex
         })
+        //异性过少则读取无性别
         if (femaleList.length < 2) {
             const unknownList = arrMember.filter(item => {
                 return item.sex == 'unknown'
@@ -305,8 +327,9 @@ export class qqy extends plugin {
             unknownList.map(item => {
                 femaleList.push(item)
             })
-
         }
+        //写个过滤器删掉bot和发起人
+        femaleList = femaleList.filter(item => item != e.user_id && item != e.uin)
         var gailv = Math.round(Math.random() * 9);
         let wife = {}
         console.log(wife);
@@ -512,5 +535,13 @@ export class qqy extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!}`)
         return true;
+    }
+    is_wife(id) {
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        for (i of json) {
+            if (i.s = id)
+                return true
+        }
+        return false
     }
 }
