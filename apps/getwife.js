@@ -30,6 +30,7 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
 const cdTime = 10 * 60 //随机娶群友时间,默认为10分钟
 const cdTime2 = 10 * 30 //强娶冷却，默认5分钟
 const cdTime3 = 10 * 120 //获取金币冷却，默认20分钟
+const cdTime4 = 60 * 60 * 3 //获取金币冷却，默认180分钟
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
@@ -93,6 +94,12 @@ export class qqy extends plugin {
                 reg: '^#?逛超(商|市)$', //获取金币
                 /** 执行方法 */
                 fnc: 'gift'
+            },
+            {
+                /** 命令正则匹配 */
+                reg: '^#?(拥抱|抱抱)(.*)$', //抱抱
+                /** 执行方法 */
+                fnc: 'touch'
             }
             ]
         })
@@ -463,6 +470,47 @@ export class qqy extends plugin {
         json[id].love += Math.round(Math.random() * 60 + 30)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
+        return true;
+    }
+    async touch(e) {//直接获得45-75好感度
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            return
+        }
+        if (e.atme || e.atall) {
+            e.reply("不可以这样！")
+            return
+        }
+        if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
+            e.reply("醒醒,你还没有老婆!!")
+            return
+        }
+        if (!e.at && !e.atme) {
+            e.reply("请at你的情人哦")
+            return
+        }
+        if (e.at != json[id].s) {
+            e.reply("醒醒,这不是你老婆!!!")
+            return
+        }
+        let lastTime4 = await redis.get(`potato:wife-touch-cd:${e.user_id}`);
+        if (lastTime4) {
+            const seconds = moment(currentTime).diff(moment(lastTime4), 'seconds')
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `冷却中：${cdTime4 - seconds}s`
+            ]);
+            return
+        }
+        await redis.set(`potato:wife-touch-cd:${e.user_id}`, currentTime, {
+            EX: cdTime4
+        });
+        json[id].love += Math.round(Math.random() * 30 + 45)
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!}`)
         return true;
     }
 }
