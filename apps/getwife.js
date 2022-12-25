@@ -147,10 +147,7 @@ export class qqy extends plugin {
             return
         }
         if (this.is_wife(e.at)) {
-            if (e.at.sex = 'female')
-                e.reply("她已经有自己的情人了！")
-            else
-                e.reply("他已经有自己的情人了！")
+            e.reply("他/她已经有自己的情人了！")
             return
         }
         //-------------------------------------------------------------------
@@ -316,7 +313,7 @@ export class qqy extends plugin {
         //FILTER 函数基于布尔值 (True/False) 数组筛选数组
 
         //只读取sex属性为sex的
-        const femaleList = arrMember.filter(item => {
+        var femaleList = arrMember.filter(item => {
             return item.sex == sex
         })
         //异性过少则读取无性别
@@ -330,12 +327,10 @@ export class qqy extends plugin {
         }
         //写个过滤器删掉bot和发起人
 
-        console.log(femaleList)
-
-        femaleList = femaleList.filter(item => item.uin != e.user_id && item.uin != e.uin)
+        femaleList = femaleList.filter(item => { return item.user_id != e.user_id && item.user_id != e.at })
         var gailv = Math.round(Math.random() * 9);
         let wife = {}
-        console.log(wife);
+
         for (let i = 0; i < 2; i++) {
             const random = Math.round(Math.random() * (femaleList.length - 1))
             wife = femaleList[random];
@@ -541,8 +536,9 @@ export class qqy extends plugin {
     }
     async is_wife(id) {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        for (i of json) {
-            if (i.s = id)
+        console.log(json)
+        for (let i of Object.keys(json)) {
+            if (i == id)
                 return true
         }
         return false
