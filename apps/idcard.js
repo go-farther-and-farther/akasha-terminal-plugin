@@ -40,13 +40,15 @@ export class idcard extends plugin {
         }
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
-        let msg = []
+        let msg = `帮你查到了哦！(*/ω＼*)\n`
+        let msg_text = ''
+        for (i of Object.keys(arrMember[e.at])) {
+            msg_text += `${i}:${arrMember[e.at].i}`
+        }
         msg = [
             segment.at(e.user_id), "\n",
-            `帮你查到了${arrMember[e.at].nickname}哦！(*/ω＼*)`, "\n",
-            arrMember[e.at],
+            msg_text
         ]
-        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         await redis.set(`lql:idcard-cd:${e.user_id}`, currentTime, {
             EX: cdTime
         });
