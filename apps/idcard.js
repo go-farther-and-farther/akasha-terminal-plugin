@@ -35,6 +35,14 @@ export class idcard extends plugin {
     async idcard(e) {//随机娶
         let lastTime = await redis.get(`lql:idcard-cd:${e.user_id}`);
         let masterList = cfg.masterQQ
+        if (!e.at && !e.atme) {
+            e.reply(`请at你的情人哦`)
+            return
+        }
+        if (e.atme || e.atall) {
+            e.reply(`不可以这样！`)
+            return
+        }
         if (lastTime && !masterList.includes(e.user_id)) {
             const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
             let tips = [
