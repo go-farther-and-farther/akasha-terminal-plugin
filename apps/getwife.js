@@ -196,6 +196,7 @@ export class qqy extends plugin {
                         break;
                     }
                 }
+                user_id2_nickname = user_id2_nickname.replace('@', '')
                 json[id].money -= 50
                 json[id].love = Math.round(Math.random() * (40 - 10) + 10)
                 e.reply([
