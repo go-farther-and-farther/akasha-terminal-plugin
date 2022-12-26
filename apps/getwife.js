@@ -147,7 +147,9 @@ export class qqy extends plugin {
             e.reply(`不可以这样！`)
             return
         }
-        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
+        let she_he = '他'
+        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
+
 
         let iswife_list = this.is_wife(e.at)
         if (iswife_list.length > 0) {
@@ -400,7 +402,8 @@ export class qqy extends plugin {
     async fs(e) {//分手
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
+        let she_he = '他'
+        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
@@ -438,10 +441,11 @@ export class qqy extends plugin {
         return true;
     }
     async read(e) {//看自己的老婆
-        
+
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
+        let she_he = '他'
+        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
@@ -559,13 +563,21 @@ export class qqy extends plugin {
         }
         return wifelist
     }
-    async is_she(e) {
+    async is_she(e) {//这个函数用时较久，使用时一定用await 
+        let she_he = '他'
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
-        if (arrMember.hasOwnProperty(e.at)) {//读取为女
-            if (arrMember[e.at].sex == `female`) { return `她` }
-            else { return `他` }//读取为不是女
+        var femaleList = arrMember.filter(item => {
+            return item.sex == sex
+        })
+        if (femaleList.hasOwnProperty(e.at)) {//读取为女
+            //e.reply('识别为她')
+            she_he = '她'
+            return she_he
         }
-        else { return `他` }//读取失败
+        else {
+            //e.reply('识别为他')
+            return she_he
+        }//读取为不是女
     }
 }
