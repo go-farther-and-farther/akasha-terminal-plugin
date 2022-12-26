@@ -19,7 +19,7 @@ export class idcard extends plugin {
                 /** 命令正则匹配 */
                 reg: "^#?(查水表|查户口|查身份证)(.*)$",//随机娶一位群友
                 /** 执行方法 */
-                fnc: 'Wife'
+                fnc: 'idcard'
             }
             ]
         })
