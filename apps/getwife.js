@@ -212,7 +212,7 @@ export class qqy extends plugin {
                 var sbcf = Math.round(Math.random() * (20 - 10) + 10)
                 json[id].money -= sbcf
                 fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-                e.reply(`很遗憾,你没能成功将对方娶走,对方报警,你被罚款${sbcf}`)
+                e.reply(`很遗憾,你没能成功将${she_he}娶走,${she_he}报警,你被罚款${sbcf}`)
                 await redis.set(`potato:whois-my-wife2-cd:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
@@ -227,7 +227,7 @@ export class qqy extends plugin {
             `向你求婚：‘亲爱的${ex}您好！`, "\n",
             `在茫茫人海中，能够与${ex}相遇相知相恋，我深感幸福，守护你是我今生的选择，我想有个自己的家，一个有你的家,嫁给我好吗？’`, "\n",
             segment.at(e.at), "\n",
-            `那么这位${ex}，你愿意嫁给ta吗？at并发送【我愿意】或者【我拒绝】，回应对方哦！`,
+            `那么这位${ex}，你愿意嫁给ta吗？at并发送【我愿意】或者【我拒绝】，回应${she_he}哦！`,
         ])
         json[id].wait = e.at
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
@@ -400,6 +400,7 @@ export class qqy extends plugin {
     async fs(e) {//分手
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
@@ -412,7 +413,8 @@ export class qqy extends plugin {
             json[id].s = 0
             json[id].love = 0
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            e.reply(`成功分手!,对方对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)`)
+
+            e.reply(`成功分手!,${she_he}对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)`)
             return
         }
         if (!e.at) {
@@ -429,15 +431,17 @@ export class qqy extends plugin {
             json[id].s = 0
             json[id].love = 0
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            e.reply(`成功把对方甩掉!,并表示不要再来纠缠你了.对方差点哭死...,`)
+            e.reply(`成功把${she_he}甩掉!,并表示不要再来纠缠你了.${she_he}差点哭死...,`)
             return
         }
-        e.reply(`你不是对方老婆或对方根本没老婆`)
+        e.reply(`你不是${she_he}老婆或${she_he}根本没老婆`)
         return true;
     }
     async read(e) {//看自己的老婆
+        
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
@@ -451,7 +455,7 @@ export class qqy extends plugin {
             segment.at(e.user_id), "\n",
             `你的群友老婆是${lp}`, "\n",
             segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
-            `对方对你的好感度为${json[id].love}`,
+            `${she_he}对你的好感度为${json[id].love}`,
             `你现在还剩下${json[id].money}金币`,
         ])
         return true;
