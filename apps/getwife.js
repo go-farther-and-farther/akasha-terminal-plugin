@@ -150,8 +150,7 @@ export class qqy extends plugin {
         let she_he = '他'
         she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
 
-
-        let iswife_list = this.is_wife(e.at)
+        let iswife_list = await this.is_wife(e.at)
         if (iswife_list.length > 0) {
             e.reply(`已经人喜欢${she_he}了哦！让${she_he}先处理一下！`)
             return
@@ -456,12 +455,14 @@ export class qqy extends plugin {
             return
         }
         var lp = json[id].s
+        let iswife_list = await this.is_wife(e.at)
         e.reply([
             segment.at(e.user_id), "\n",
             `你的群友老婆是${lp}`, "\n",
             segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
             `${she_he}对你的好感度为${json[id].love}`,
             `你现在还剩下${json[id].money}金币`,
+            `喜欢你的人有：${iswife_list}`, "\n",
         ])
         return true;
     }
