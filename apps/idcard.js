@@ -43,7 +43,7 @@ export class idcard extends plugin {
         let msg = []
         msg = [
             segment.at(e.user_id), "\n",
-            `帮你查到了${wife.nickname}哦！(*/ω＼*)`, "\n",
+            `帮你查到了${arrMember[e.at].nickname}哦！(*/ω＼*)`, "\n",
             arrMember[e.at],
         ]
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
