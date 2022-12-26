@@ -450,20 +450,29 @@ export class qqy extends plugin {
             e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
-        if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
+        let iswife_list = await this.is_wife(e.at)
+        if (json[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
             e.reply(`醒醒,你还没有老婆!!`)
             return
         }
-        var lp = json[id].s
-        let iswife_list = await this.is_wife(e.at)
-        e.reply([
-            segment.at(e.user_id), "\n",
-            `你的群友老婆是${lp}`, "\n",
-            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
-            `${she_he}对你的好感度为${json[id].love}`,
-            `你现在还剩下${json[id].money}金币`,
-            `喜欢你的人有：${iswife_list}`, "\n",
-        ])
+        else if (json[id].s == 0) {
+            e.reply([
+                `醒醒,你还没有老婆!!`,
+                `你现在还剩下${json[id].money}金币`,
+                `\n喜欢你的人有：${iswife_list}`, "\n",
+            ])
+        }
+        else {
+            var lp = json[id].s
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `你的群友老婆是${lp}`, "\n",
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+                `${she_he}对你的好感度为${json[id].love}`,
+                `你现在还剩下${json[id].money}金币`,
+                `\n喜欢你的人有：${iswife_list}`, "\n",
+            ])
+        }
         return true;
     }
     async getmoney(e) {//打工冷却20分钟，赚到40-80块钱
