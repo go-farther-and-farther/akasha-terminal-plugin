@@ -81,7 +81,7 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
-                reg: '^#?(闹离婚|甩掉|分手)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从他的老婆里移除掉
+                reg: '^#?(闹离婚|甩掉|分手)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从ta的老婆里移除掉
                 /** 执行方法 */
                 fnc: 'fs'
             },
@@ -135,19 +135,24 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆|#找老婆 来加载吧")
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
+            this.creat(e)
             return
         }
         if (!e.at && !e.atme) {
-            e.reply("请at你的情人哦")
+            e.reply(`请at你的情人哦`)
             return
         }
         if (e.atme || e.atall) {
-            e.reply("不可以这样！")
+            e.reply(`不可以这样！`)
             return
         }
-        if (this.is_wife(e.at)) {
-            e.reply("已经人喜欢她了哦！不过没关系！")
+        let she_he = this.is_she(e)//用is_she函数判断下这个人是男是女
+
+        let iswife_list = this.is_wife(e.at)
+        if (iswife_list.length > 0) {
+            e.reply(`已经人喜欢${she_he}了哦！让${she_he}先处理一下！`)
+            return
         }
         //-------------------------------------------------------------------
         let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.user_id}`);
@@ -171,7 +176,7 @@ export class qqy extends plugin {
             ex = '先生'
         }
         if (!json[id].s == 0) {
-            e.reply("你似乎已经有老婆了,要不分手?")
+            e.reply(`你似乎已经有老婆了,要不分手?`)
             return
         }
         if (e.msg.includes("强娶")) {
@@ -182,13 +187,20 @@ export class qqy extends plugin {
             var gailv = Math.round(Math.random() * 9);
             if (gailv < qqwife) {
                 json[id].s = e.at
+                let user_id2_nickname = null
+                for (let msg of e.message) { //赋值给user_id2_nickname
+                    if (msg.type === 'at') {
+                        user_id2_nickname = msg.text//获取at的那个人的昵称
+                        break;
+                    }
+                }
                 json[id].money -= 50
                 json[id].love = Math.round(Math.random() * (40 - 10) + 10)
                 e.reply([
                     segment.at(id), "\n",
                     segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${id}`), "\n",
                     `恭喜你！`, "\n",
-                    `在茫茫人海中，你成功强娶到了${e.at}!`,
+                    `在茫茫人海中，你成功强娶到了${user_id2_nickname}!`,
                     "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`), "\n",
                 ])
                 fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
@@ -223,11 +235,11 @@ export class qqy extends plugin {
     }
     async yy(e) {//愿意
         if (e.atme || e.atall) {
-            e.reply("6🙂")
+            e.reply(`6🙂`)
             return
         }
         if (!e.at) {
-            e.reply("请at你愿意嫁给的人哦(˵¯͒〰¯͒˵)")
+            e.reply(`请at你愿意嫁给的人哦(˵¯͒〰¯͒˵)`)
             return
         }
         var id = e.at
@@ -252,11 +264,11 @@ export class qqy extends plugin {
     }
     async jj(e) {//拒绝
         if (e.atme || e.atall) {
-            e.reply("6🙂")
+            e.reply(`6🙂`)
             return
         }
         if (!e.at) {
-            e.reply("请at你想拒绝的人哦(˵¯͒〰¯͒˵)")
+            e.reply(`请at你想拒绝的人哦(˵¯͒〰¯͒˵)`)
             return
         }
         var id = e.at
@@ -278,11 +290,11 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
         if (!json[id].s == 0) {
-            e.reply("你似乎已经有爱人了,要不分手?")
+            e.reply(`你似乎已经有爱人了,要不分手?`)
             return
         }
         if (json[id].money <= 30) {
@@ -349,10 +361,10 @@ export class qqy extends plugin {
             let cp = sexStr
             let py = ''
             if (wife.sex == 'male') {
-                py = '他'
+                py = `他`
             }
             else if (wife.sex == 'female') {
-                py = '她'
+                py = `她`
             }
             msg = [
                 segment.at(e.user_id), "\n",
@@ -390,25 +402,25 @@ export class qqy extends plugin {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-                e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+                e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
                 return
             }
             if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-                e.reply("醒醒,你根本没有老婆!!")
+                e.reply(`醒醒,你根本没有老婆!!`)
                 return
             }
             json[id].s = 0
             json[id].love = 0
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            e.reply("成功分手!,对方对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)")
+            e.reply(`成功分手!,对方对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)`)
             return
         }
         if (!e.at) {
-            e.reply("请顺带at你想要甩掉的人(怎么会有强娶这种设定?(っ °Д °;)っ)")
+            e.reply(`请顺带at你想要甩掉的人(怎么会有强娶这种设定?(っ °Д °;)っ)`)
             return
         }
         if (e.atme || e.atall) {
-            e.reply("6🙂")
+            e.reply(`6🙂`)
             return
         }
         id = e.at
@@ -420,18 +432,18 @@ export class qqy extends plugin {
             e.reply(`成功把对方甩掉!,并表示不要再来纠缠你了.对方差点哭死...,`)
             return
         }
-        e.reply("你不是对方老婆或对方根本没老婆")
+        e.reply(`你不是对方老婆或对方根本没老婆`)
         return true;
     }
     async read(e) {//看自己的老婆
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply("醒醒,你还没有老婆!!")
+            e.reply(`醒醒,你还没有老婆!!`)
             return
         }
         var lp = json[id].s
@@ -448,7 +460,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.user_id}`);
@@ -473,11 +485,11 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply("醒醒,你还没有老婆!!")
+            e.reply(`醒醒,你还没有老婆!!`)
             return
         }
         let price = Math.round(Math.random() * 60 + 30)
@@ -496,23 +508,23 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply("你还没有老婆存档。使用 #创建老婆 来加载吧")
+            e.reply(`你还没有老婆存档。使用 #创建老婆 来加载吧`)
             return
         }
         if (e.atme || e.atall) {
-            e.reply("不可以这样！")
+            e.reply(`不可以这样！`)
             return
         }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply("醒醒,你还没有老婆!!")
+            e.reply(`醒醒,你还没有老婆!!`)
             return
         }
         if (!e.at && !e.atme) {
-            e.reply("请at你的情人哦")
+            e.reply(`请at你的情人哦`)
             return
         }
         if (e.at != json[id].s) {
-            e.reply("醒醒,这不是你老婆!!!")
+            e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
         let lastTime4 = await redis.get(`potato:wife-touch-cd:${e.user_id}`);
@@ -535,11 +547,21 @@ export class qqy extends plugin {
     }
     async is_wife(id) {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        console.log(json)
-        for (let i of Object.keys(json)) {
-            if (i == id)
-                return true
+        //console.log(json)
+        let wifelist = []//看看这个Id是哪些人的老婆
+        for (let i of Object.keys(json)) {//读取json里面的对象名
+            if (json[i].s == id)//如果有人的老婆是是这个id
+                wifelist.push(i)
         }
-        return false
+        return wifelist
+    }
+    async is_she(e) {
+        let memberMap = await e.group.getMemberMap();
+        let arrMember = Array.from(memberMap.values());
+        if (arrMember.hasOwnProperty(e.at)) {//读取为女
+            if (arrMember[e.at].sex == `female`) { return `她` }
+            else { return `他` }//读取为不是女
+        }
+        else { return `他` }//读取失败
     }
 }
