@@ -196,7 +196,7 @@ export class duel_exercise extends plugin {//修炼
         }
         if (json[user_id].level < 16) { var gailv = 100 - json[user_id].level * 3 }
         else { var gailv = 52 - json[user_id].level * 1 }
-        e.reply(`当前境界${json[user_id].levelname},突破成功概率${gailv},开始突破......`)
+        e.reply(`当前境界${json[user_id].levelname},需要时间${3 * (json[user_id].level + 1)}s,突破成功概率${gailv},开始突破......`)
         let i = Math.random() * 100
         if (i > gailv) {
             setTimeout(() => {//延迟5秒
