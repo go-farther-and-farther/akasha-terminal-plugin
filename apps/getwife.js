@@ -579,7 +579,7 @@ export class qqy extends plugin {
         return true;
     }
     async cp(e) {//查看所有cp
-        var id = e.user_id
+        e.reply('如果你看到这个，说明现在还在测试')
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let msg = `群全部cp:\n`
         let memberMap = await e.group.getMemberMap();
@@ -587,7 +587,7 @@ export class qqy extends plugin {
         var idlist = arrMember.filter(item => {
             return item.user_id
         })
-        for (i of Object.keys(json)) {
+        for (let i of Object.keys(json)) {
             if (idlist.includes(json[i].s))
                 msg = msg + `${json[i].s}和${i}`
         }
