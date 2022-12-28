@@ -148,7 +148,7 @@ export class qqy extends plugin {
             return
         }
         let she_he = '他'
-        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
+        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
 
         let iswife_list = await this.is_wife(e.at)
         if (iswife_list.length > 0) {
@@ -404,7 +404,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let she_he = '他'
-        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
+        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply(`你还没有老婆存档。我帮你创建吧`)
@@ -447,7 +447,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let she_he = '他'
-        she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
+        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
@@ -582,14 +582,17 @@ export class qqy extends plugin {
         }
         return wifelist
     }
-    async is_she(e) {//这个函数用时较久，使用时一定用await 
+    async is_she(e, is_at) {//这个函数用时较久，使用时一定用await 
         let she_he = '他'
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         var femaleList = arrMember.filter(item => {
             return item.sex == sex
         })
-        if (femaleList.hasOwnProperty(e.at)) {//读取为女
+        let id = e.user_id
+        if (is_at)
+            id = e.at
+        if (femaleList.hasOwnProperty(id)) {//读取为女
             //e.reply('识别为她')
             she_he = '她'
             return she_he
@@ -598,5 +601,20 @@ export class qqy extends plugin {
             //e.reply('识别为他')
             return she_he
         }//读取为不是女
+    }
+    async name(e, is_at) {//这个函数用时较久，使用时一定用await 
+        let she_he = '他'
+        let memberMap = await e.group.getMemberMap();
+        let arrMember = Array.from(memberMap.values());
+        let id = e.user_id
+        if (is_at)
+            id = e.at
+        var list = arrMember.filter(item => {
+            return item.user_id == id
+        })
+        let name = `不知道那个谁`
+        if (list.nickname)
+            name = list.nickname
+        return name
     }
 }
