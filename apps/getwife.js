@@ -544,15 +544,13 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还没有老婆!!`)
             return
         }
-
-
         if (!e.at && !e.atme) {
             e.reply([
                 segment.at(json[id].s), "\n",
                 `他摸了摸你`,
             ])
         }
-        if (e.at != json[id].s) {
+        if (e.at && e.at != json[id].s) {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
