@@ -292,7 +292,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-             e.reply(`你还没有老婆存档。我帮你创建吧`)
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
             return
         }
@@ -407,8 +407,8 @@ export class qqy extends plugin {
         she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-                 e.reply(`你还没有老婆存档。我帮你创建吧`)
-            this.creat(e)
+                e.reply(`你还没有老婆存档。我帮你创建吧`)
+                this.creat(e)
                 return
             }
             if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
@@ -449,7 +449,7 @@ export class qqy extends plugin {
         let she_he = '他'
         she_he = await this.is_she(e)//用is_she函数判断下这个人是男是女
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-             e.reply(`你还没有老婆存档。我帮你创建吧`)
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
             return
         }
@@ -482,7 +482,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-             e.reply(`你还没有老婆存档。我帮你创建吧`)
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
             return
         }
@@ -508,7 +508,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-             e.reply(`你还没有老婆存档。我帮你创建吧`)
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
             return
         }
@@ -532,7 +532,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-             e.reply(`你还没有老婆存档。我帮你创建吧`)
+            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
             return
         }
@@ -544,11 +544,12 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还没有老婆!!`)
             return
         }
-        let she_he = await this.is_she(id)
+
+
         if (!e.at && !e.atme) {
             e.reply([
-                segment.at(e.user_id), "\n",
-                `${she_he}摸了摸你`,
+                segment.at(json[id].s), "\n",
+                `他摸了摸你`,
             ])
         }
         if (e.at != json[id].s) {
