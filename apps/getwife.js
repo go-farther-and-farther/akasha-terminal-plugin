@@ -108,6 +108,12 @@ export class qqy extends plugin {
                 reg: '^#?(拥抱|抱抱)(.*)$', //抱抱
                 /** 执行方法 */
                 fnc: 'touch'
+            },
+            {
+                /** 命令正则匹配 */
+                reg: '^#?群cp$', //抱抱
+                /** 执行方法 */
+                fnc: 'cp'
             }
             ]
         })
@@ -569,7 +575,23 @@ export class qqy extends plugin {
         });
         json[id].love += Math.round(Math.random() * 30 + 45)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-        e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!}`)
+        e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!`)
+        return true;
+    }
+    async cp(e) {//查看所有cp
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        let msg = `群全部cp:\n`
+        let memberMap = await e.group.getMemberMap();
+        let arrMember = Array.from(memberMap.values());
+        var idlist = arrMember.filter(item => {
+            return item.user_id
+        })
+        for (i of Object.keys(json)) {
+            if (idlist.includes(json[i].s))
+                msg = msg + `${json[i].s}和${i}`
+        }
+        e.reply(msg)
         return true;
     }
     async is_wife(id) {
@@ -603,7 +625,6 @@ export class qqy extends plugin {
         }//读取为不是女
     }
     async name(e, is_at) {//这个函数用时较久，使用时一定用await 
-        let she_he = '他'
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         let id = e.user_id
