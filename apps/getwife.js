@@ -585,13 +585,15 @@ export class qqy extends plugin {
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         let idlist = []
+        let namelist = []
         for (let i = 0; i < arrMember.length; i++) {
             idlist[i] = arrMember[i].user_id
+            namelist[arrMember[i].user_id] = arrMember[i].nickname
         }
         e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
         for (let i of Object.keys(json)) {
             if (idlist.includes(json[i].s))
-                msg = msg + `${i}和他的老婆${json[i].s}\n`
+                msg = msg + `${namelist[i]}和他的老婆${namelist[json[i].s]}\n`
         }
         e.reply(msg)
         return true;
