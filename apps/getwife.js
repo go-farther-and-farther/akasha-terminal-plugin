@@ -459,23 +459,24 @@ export class qqy extends plugin {
             e.reply([`醒醒,你还没有老婆!!\n你现在还剩下${json[id].money}金币`])
             return
         }
-        else if (json[id].s == 0) {//自己没有老婆的，但是有人喜欢
+        let msg = '喜欢你的人有：\n'
+        for (i of iswife_list) {
+            let name = await this.people(e,)
+            msg = msg + `${i}\n`
+        }
+        if (json[id].s == 0 && !iswife_list.length == 0) {//自己没有老婆的，但是有人喜欢
             e.reply([
-                `醒醒,你还没有老婆!!`,
-                `你现在还剩下${json[id].money}金币`,
-                `\n喜欢你的人有：${iswife_list}`, "\n",
+                `醒醒,你还没有老婆!!\n`,
+                `你现在还剩下${json[id].money}金币\n${msg}`
             ])
         }
         else {
             var lp = json[id].s
-            let msg = [
-                `${she_he}对你的好感度为${json[id].love}\n`,
-                `你现在还剩下${json[id].money}金币\n`,
-            ]
-            if (!iswife_list.length == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}\n` }
             e.reply(segment.at(e.user_id), "\n",
                 `你的群友老婆是${lp}\n`,
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n", msg)
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+                `${she_he}对你的好感度为${json[id].love}\n`,
+                `你现在还剩下${json[id].money}金币\n${msg}`)
         }
         return true;
     }
