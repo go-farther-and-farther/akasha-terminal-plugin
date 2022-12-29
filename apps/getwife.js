@@ -121,7 +121,6 @@ export class qqy extends plugin {
     async creat(e) {//创建存档
         var id = e.user_id
         this.creat2(e, id)
-        return true;
     }
     async creat2(e, id) {//创建存档
         var id = e.user_id
@@ -140,7 +139,6 @@ export class qqy extends plugin {
             return
         }
         e.reply(`你已经有老婆存档了`)
-        return true;
     }
     async wife2(e) {//强行娶
         console.log(e)
@@ -246,11 +244,6 @@ export class qqy extends plugin {
         return true;
     }
     async yy(e) {//愿意
-        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            this.creat(e)
-            e.reply(`你还没有老婆存档，我帮你创建好了！`)
-            return
-        }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -260,6 +253,10 @@ export class qqy extends plugin {
             return
         }
         var id = e.at
+        var id2 = e.user_id
+        if (!json.hasOwnProperty(id2)) {//如果json中不存在该用户
+            this.creat(e)
+        }
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var fk = json[id].wait
         if (fk === e.user_id) {
@@ -271,22 +268,19 @@ export class qqy extends plugin {
             json[id].s = e.user_id
             json[id].wait = 0
             json[id].money += 20
-            josn[e.user_id].s = e.at
-            josn[e.user_id].money += 20
             json[id].love = Math.round(Math.random() * (100 - 60) + 60)
-            json[e.user_id].love = Math.round(Math.random() * (100 - 60) + 60)
+            josn[id2].s = e.at
+            json[id2].wait = 0
+            josn[id2].money += 20
+            json[id2].love = Math.round(Math.random() * (100 - 60) + 60)
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+            e.reply(`既然你们是两情相愿,你们现在的老婆就是彼此啦,给你们发了红包哦`)
             return
         }
         e.reply(`你不是${json[id].wait},就不要捣乱了`)
         return true;
     }
     async jj(e) {//拒绝
-        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            this.creat(e)
-            e.reply(`你还没有老婆存档，我帮你创建好了！`)
-            return
-        }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
