@@ -463,7 +463,7 @@ export class qqy extends plugin {
 
         let msg = '喜欢你的人有：'
         if (!iswife_list.length == 0) {
-            for (i of iswife_list) {
+            for (let i of iswife_list) {
                 msg = msg + `\n${i}`
             }
         }
