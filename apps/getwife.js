@@ -469,14 +469,13 @@ export class qqy extends plugin {
         else {
             var lp = json[id].s
             let msg = [
-                segment.at(e.user_id), "\n",
-                `你的群友老婆是${lp}`, "\n",
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
-                `${she_he}对你的好感度为${json[id].love}`,
-                `你现在还剩下${json[id].money}金币`,
+                `${she_he}对你的好感度为${json[id].love}\n`,
+                `你现在还剩下${json[id].money}金币\n`,
             ]
-            if (!json[id].s == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}\n`}
-            e.reply(msg)
+            if (!iswife_list.length == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}\n` }
+            e.reply(segment.at(e.user_id), "\n",
+                `你的群友老婆是${lp}\n`,
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n", msg)
         }
         return true;
     }
