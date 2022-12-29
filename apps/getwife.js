@@ -255,8 +255,14 @@ export class qqy extends plugin {
         var id = e.at
         var id2 = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var fk = json[id].wait
-        if (fk === e.user_id) {
+        if (json[id].wait == 0) {
+            e.reply(`对方还未向任何人求婚呢,就不要捣乱了`)
+            return
+        }
+        if (json[id].wait !== e.user_id) {
+            e.reply(`你不是${json[id].wait},就不要捣乱了`)
+            return
+        }
             e.reply([
                 segment.at(e.user_id), "\n",
                 segment.at(id), "\n",
@@ -266,16 +272,12 @@ export class qqy extends plugin {
             json[id].wait = 0
             json[id].money += 20
             json[id].love = Math.round(Math.random() * (100 - 60) + 60)
-            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             josn[id2].s = e.at
             json[id2].wait = 0
             josn[id2].money += 20
             json[id2].love = Math.round(Math.random() * (100 - 60) + 60)
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             e.reply(`既然你们是两情相愿,你们现在的老婆就是彼此啦,给你们发了红包哦`)
-            return
-        }
-        e.reply(`你不是${json[id].wait},就不要捣乱了`)
         return true;
     }
     async jj(e) {//拒绝
@@ -289,17 +291,20 @@ export class qqy extends plugin {
         }
         var id = e.at
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var fk = json[id].wait
-        if (fk === e.user_id) {
+        if (json[id].wait == 0) {
+            e.reply(`对方还未向任何人求婚呢,就不要捣乱了`)
+            return
+        }
+        if (json[id].wait !== e.user_id) {
+            e.reply(`你不是${json[id].wait},就不要捣乱了`)
+            return
+        }
             e.reply([
                 segment.at(id), "\n",
                 '天涯何处无芳草，何必单恋一枝花，下次再努力点吧！(˵¯͒〰¯͒˵)',
             ])
             json[id].wait = 0
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            return
-        }
-        e.reply(`你不是${json[id].wait},就不要捣乱了`)
         return true;
     }
     async Wife(e) {//随机娶
