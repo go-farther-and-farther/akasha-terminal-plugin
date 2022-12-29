@@ -650,9 +650,10 @@ export class qqy extends plugin {
         }
         if (keys == 'nickname') {
             let name = `不知道那个谁`
-            if (list.nickname)
+            if (this_one.nickname)
                 name = list.nickname
             return name
         }
+
     }
 }
