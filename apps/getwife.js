@@ -141,8 +141,8 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
             return
         }
         if (!e.at && !e.atme) {
@@ -153,9 +153,7 @@ export class qqy extends plugin {
             e.reply(`不可以这样！`)
             return
         }
-        let she_he = '他'
-        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
-
+        let she_he = await this.people(e, 'sex', true)//用is_she函数判断下这个人是男是女     
         let iswife_list = await this.is_wife(e.at)
         if (iswife_list.length > 0) {
             e.reply(`已经人喜欢${she_he}了哦！让${she_he}先处理一下！`)
@@ -298,8 +296,8 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
             return
         }
         if (!json[id].s == 0) {
@@ -409,8 +407,7 @@ export class qqy extends plugin {
     async fs(e) {//分手
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        let she_he = '他'
-        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
+        let she_he = await this.people(e, 'sex', true)//用is_she函数判断下这个人是男是女     
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
                 e.reply(`你还没有老婆存档。我帮你创建吧`)
@@ -449,22 +446,20 @@ export class qqy extends plugin {
         return true;
     }
     async read(e) {//看自己的老婆
-
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        let she_he = '他'
-        she_he = await this.is_she(e, true)//用is_she函数判断下这个人是男是女
+        let she_he = await this.people(e, 'sex', true)//用is_she函数判断下这个人是男是女     
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
             return
         }
         let iswife_list = await this.is_wife(e.at)
         if (json[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply(`醒醒,你还没有老婆!!`)
+            e.reply([`醒醒,你还没有老婆!!\n你现在还剩下${json[id].money}金币`])
             return
         }
-        else if (json[id].s == 0) {
+        else if (json[id].s == 0) {//自己没有老婆的，但是有人喜欢
             e.reply([
                 `醒醒,你还没有老婆!!`,
                 `你现在还剩下${json[id].money}金币`,
@@ -473,14 +468,15 @@ export class qqy extends plugin {
         }
         else {
             var lp = json[id].s
-            e.reply([
+            let msg = [
                 segment.at(e.user_id), "\n",
                 `你的群友老婆是${lp}`, "\n",
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
                 `${she_he}对你的好感度为${json[id].love}`,
                 `你现在还剩下${json[id].money}金币`,
-                `\n喜欢你的人有：${iswife_list}`, "\n",
-            ])
+            ]
+            if (!json[id].s == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}`, "\n",}
+            e.reply(msg)
         }
         return true;
     }
@@ -488,8 +484,9 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+
             return
         }
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.user_id}`);
@@ -514,8 +511,9 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+
             return
         }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
@@ -538,8 +536,9 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`你还没有老婆存档。我帮你创建吧`)
             this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+
             return
         }
         if (e.atme || e.atall) {
@@ -579,7 +578,6 @@ export class qqy extends plugin {
         return true;
     }
     async cp(e) {//查看所有cp
-
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let msg = `群全部cp:\n`
         let memberMap = await e.group.getMemberMap();
@@ -590,6 +588,7 @@ export class qqy extends plugin {
             idlist[i] = arrMember[i].user_id
             namelist[arrMember[i].user_id] = arrMember[i].nickname
         }
+        //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
         e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
         for (let i of Object.keys(json)) {
             if (idlist.includes(json[i].s))
@@ -608,38 +607,28 @@ export class qqy extends plugin {
         }
         return wifelist
     }
-    async is_she(e, is_at) {//这个函数用时较久，使用时一定用await 
-        let she_he = '他'
+    async people(e, keys, is_at) {//这个函数用时较久，使用时一定用await 
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
-        var femaleList = arrMember.filter(item => {
-            return item.sex == sex
-        })
         let id = e.user_id
         if (is_at)
             id = e.at
-        if (femaleList.hasOwnProperty(id)) {//读取为女
-            //e.reply('识别为她')
-            she_he = '她'
+        var this_one = arrMember.filter(item => {
+            return item.user_id == id
+            //用过滤器返回了user_id==id的人
+        })
+        if (keys == 'sex') {
+            let she_he = '他'
+            if (this_one)
+                if (this_one.sex == 'female')
+                    return '她'
             return she_he
         }
-        else {
-            //e.reply('识别为他')
-            return she_he
-        }//读取为不是女
-    }
-    async name(e, is_at) {//这个函数用时较久，使用时一定用await 
-        let memberMap = await e.group.getMemberMap();
-        let arrMember = Array.from(memberMap.values());
-        let id = e.user_id
-        if (is_at)
-            id = e.at
-        var list = arrMember.filter(item => {
-            return item.user_id == id
-        })
-        let name = `不知道那个谁`
-        if (list.nickname)
-            name = list.nickname
-        return name
+        if (keys == 'nickname') {
+            let name = `不知道那个谁`
+            if (list.nickname)
+                name = list.nickname
+            return name
+        }
     }
 }
