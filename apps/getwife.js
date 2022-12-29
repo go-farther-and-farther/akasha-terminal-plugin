@@ -253,6 +253,7 @@ export class qqy extends plugin {
             return
         }
         var id = e.at
+        var id2 = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var fk = json[id].wait
         if (fk === e.user_id) {
@@ -265,6 +266,7 @@ export class qqy extends plugin {
             json[id].wait = 0
             json[id].money += 20
             json[id].love = Math.round(Math.random() * (100 - 60) + 60)
+            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             josn[id2].s = e.at
             json[id2].wait = 0
             josn[id2].money += 20
