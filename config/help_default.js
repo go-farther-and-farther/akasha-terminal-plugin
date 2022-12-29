@@ -120,6 +120,14 @@ export const helpList = [{
     desc: '增加你老婆对你的好感度吧'
   }, {
     icon: 20,
+    title: '抱抱@老婆',
+    desc: '抱抱增加好感度'
+  }, {
+    icon: 20,
+    title: '群cp',
+    desc: '看看本群的cp们'
+  }, {
+    icon: 20,
     title: '家庭信息',
     desc: '看看老婆,看看家'
   }]
