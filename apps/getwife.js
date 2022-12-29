@@ -119,13 +119,19 @@ export class qqy extends plugin {
         })
     }
     async creat(e) {//创建存档
+        var id = e.user_id
+        this.creat2(e, id)
+        return true;
+    }
+    async creat2(e, id) {//创建存档
+        var id = e.user_id
         var data = {
             "s": 0,
             "wait": 0,
             "money": 100,
             "love": 0
         }
-        var id = e.user_id
+
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             json[id] = data
@@ -240,6 +246,11 @@ export class qqy extends plugin {
         return true;
     }
     async yy(e) {//愿意
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            return
+        }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -260,8 +271,10 @@ export class qqy extends plugin {
             json[id].s = e.user_id
             json[id].wait = 0
             json[id].money += 20
+            josn[e.user_id].s = e.at
             josn[e.user_id].money += 20
             json[id].love = Math.round(Math.random() * (100 - 60) + 60)
+            json[e.user_id].love = Math.round(Math.random() * (100 - 60) + 60)
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return
         }
@@ -269,6 +282,11 @@ export class qqy extends plugin {
         return true;
     }
     async jj(e) {//拒绝
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            return
+        }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -453,14 +471,11 @@ export class qqy extends plugin {
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
             return
         }
-
-        let iswife_list = await this.is_wife(id)//获取喜欢你的人的列表
-
-        if (json[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply([`醒醒,你还没有老婆,也没有人喜欢你!!\n你现在还剩下${json[id].money}金币`])
-            return
+        let iswife_list = []
+        for (j of Object.keys(json)) {
+            if (json[j].s == id)
+                iswife_list.push(j)
         }
-
         let msg = '喜欢你的人有：'
         if (!iswife_list.length == 0) {
             for (let i of iswife_list) {
@@ -471,6 +486,10 @@ export class qqy extends plugin {
             msg = '喜欢你的人一个也没有'
         }
 
+        if (json[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
+            e.reply([`醒醒,你还没有老婆,也没有人喜欢你!!\n你现在还剩下${json[id].money}金币`])
+            return
+        }
         if (json[id].s == 0 && !iswife_list.length == 0) {//自己没有老婆的，但是有人喜欢
             e.reply([
                 `醒醒,你还没有老婆!!\n`,
@@ -478,19 +497,18 @@ export class qqy extends plugin {
             ])
             return
         }
-
-        if (!json[id].s == 0) {
-            let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
-            if (iswife_list)
-                if (iswife_list.includes(json[id].s)) {
-                    e.reply([segment.at(e.user_id), segment.at(json[id].s), "\n",
-                    `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`
-                        `你的群友老婆是${lp},${she_he}也喜欢你\n`,
-                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
-                    `${she_he}对你的好感度为${json[id].love}\n`,
-                    `你对${she_he}的好感度为${json[json[id].s].love}\n`,
-                    `你现在还剩下${json[id].money}金币`])
-                }
+        let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
+        if (iswife_list.includes(json[id].s)) {//两情相悦的
+            var lp = json[id].s
+            e.reply([segment.at(e.user_id), segment.at(json[id].s), "\n",
+            `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`
+                `你的群友老婆是${lp},${she_he}也喜欢你\n`,
+            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+            `${she_he}对你的好感度为${json[id].love}\n`,
+            `你对${she_he}的好感度为${json[json[id].s].love}\n`,
+            `你现在还剩下${json[id].money}金币`])
+        }
+        else if (!json[id].s == 0) {//只有喜欢的人的
             var lp = json[id].s
             e.reply([segment.at(e.user_id), "\n",
             `你的群友老婆是${lp}\n`,
@@ -617,7 +635,7 @@ export class qqy extends plugin {
         e.reply(msg)
         return true;
     }
-    async is_wife(id) {
+    async is_wife(id) {//看看你是哪些人的老婆
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         //console.log(json)
         let wifelist = []//看看这个Id是哪些人的老婆
