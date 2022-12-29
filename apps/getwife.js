@@ -472,11 +472,11 @@ export class qqy extends plugin {
         }
         else {
             var lp = json[id].s
-            e.reply(segment.at(e.user_id), "\n",
-                `你的群友老婆是${lp}\n`,
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
-                `${she_he}对你的好感度为${json[id].love}\n`,
-                `你现在还剩下${json[id].money}金币\n${msg}`)
+            e.reply([segment.at(e.user_id), "\n",
+            `你的群友老婆是${lp}\n`,
+            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+            `${she_he}对你的好感度为${json[id].love}\n`,
+            `你现在还剩下${json[id].money}金币\n${msg}`])
         }
         return true;
     }
