@@ -272,9 +272,9 @@ export class qqy extends plugin {
         json[id].money += 20
         json[id].love = Math.round(Math.random() * (100 - 60) + 60)
         id = e.user_id
-        josn[id].s = e.at
+        json[id].s = e.at
         json[id].wait = 0
-        josn[id].money += 20
+        json[id].money += 20
         json[id].love = Math.round(Math.random() * (100 - 60) + 60)
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         e.reply(`既然你们是两情相愿,你们现在的老婆就是彼此啦,给你们发了红包哦`)
