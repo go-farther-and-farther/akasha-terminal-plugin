@@ -472,7 +472,7 @@ export class qqy extends plugin {
             return
         }
         let iswife_list = []
-        for (j of Object.keys(json)) {
+        for (let j of Object.keys(json)) {
             if (json[j].s == id)
                 iswife_list.push(j)
         }
