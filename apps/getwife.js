@@ -475,7 +475,7 @@ export class qqy extends plugin {
                 `${she_he}对你的好感度为${json[id].love}`,
                 `你现在还剩下${json[id].money}金币`,
             ]
-            if (!json[id].s == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}`, "\n",}
+            if (!json[id].s == 0) { msg = msg + `\n喜欢你的人有：${iswife_list}\n`}
             e.reply(msg)
         }
         return true;
