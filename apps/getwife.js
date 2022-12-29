@@ -592,7 +592,7 @@ export class qqy extends plugin {
         e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
         for (let i of Object.keys(json)) {
             if (idlist.includes(json[i].s))
-                msg = msg + `${namelist[i]}和他的老婆${namelist[json[i].s]}\n`
+                msg = msg + `${namelist[i]}   和他的老婆${namelist[json[i].s]}   \n`
         }
         e.reply(msg)
         return true;
