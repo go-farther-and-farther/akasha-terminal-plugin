@@ -480,7 +480,17 @@ export class qqy extends plugin {
         }
 
         if (!json[id].s == 0) {
-            let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女    
+            let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
+            if (iswife_list)
+                if (iswife_list.includes(json[id].s)) {
+                    e.reply([segment.at(e.user_id), segment.at(json[id].s), "\n",
+                    `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`
+                        `你的群友老婆是${lp},${she_he}也喜欢你\n`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+                    `${she_he}对你的好感度为${json[id].love}\n`,
+                    `你对${she_he}的好感度为${json[json[id].s].love}\n`,
+                    `你现在还剩下${json[id].money}金币`])
+                }
             var lp = json[id].s
             e.reply([segment.at(e.user_id), "\n",
             `你的群友老婆是${lp}\n`,
