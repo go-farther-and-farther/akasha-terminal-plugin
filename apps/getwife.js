@@ -271,9 +271,7 @@ export class qqy extends plugin {
         json[id].wait = 0
         json[id].money += 20
         json[id].love = Math.round(Math.random() * (100 - 60) + 60)
-        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         id = e.user_id
-        json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件            
         josn[id].s = e.at
         json[id].wait = 0
         josn[id].money += 20
