@@ -589,7 +589,7 @@ export class qqy extends plugin {
                 e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
                 return
             }
-            let lwsjs = Math.round(Math.random() * 5) + 16
+            let lwsjs = Math.round(Math.random() * 5) + 11
             json[id].money -= Math.round(Math.random() * 40 + 80)
             json[id].love += Math.round(Math.random() * 20 + 70)
             e.reply(`${giftthing[lwsjs]}`)
@@ -599,7 +599,7 @@ export class qqy extends plugin {
                 e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
                 return
             }
-            let lwsjs = Math.round(Math.random() * 5) + 16
+            let lwsjs = Math.round(Math.random() * 5) + 6
             json[id].money -= Math.round(Math.random() * 60 + 70)
             json[id].love += Math.round(Math.random() * 20 + 50)
             e.reply(`${giftthing[lwsjs]}`)
@@ -609,7 +609,7 @@ export class qqy extends plugin {
                 e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
                 return
             }
-            let lwsjs = Math.round(Math.random() * 5) + 16
+            let lwsjs = Math.round(Math.random() * 5) + 1
             json[id].money -= Math.round(Math.random() * 50 + 50)
             json[id].love += Math.round(Math.random() * 30 + 20)
             e.reply(`${giftthing[lwsjs]}`)
