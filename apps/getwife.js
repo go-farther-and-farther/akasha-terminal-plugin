@@ -495,12 +495,12 @@ export class qqy extends plugin {
             return
         }
         let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
-        let name = await this.people(e, 'nickname', json[id].s)//用is_she函数判断下这个人是男是女
+        let name = await this.people(e, 'nickname', json[id].s)//用is_she函数获取昵称
         if (iswife_list.includes(json[id].s)) {//两情相悦的
             e.reply([segment.at(e.user_id), segment.at(json[id].s), "\n",
                 `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
             `你的群友老婆是${name},${she_he}也喜欢你\n`,
-            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${json[id].s}`), "\n",
             `${she_he}对你的好感度为${json[id].love}\n`,
             `你对${she_he}的好感度为${json[json[id].s].love}\n`,
             `你现在还剩下${json[id].money}金币`])
@@ -508,7 +508,7 @@ export class qqy extends plugin {
         else if (!json[id].s == 0) {//只有喜欢的人的
             e.reply([segment.at(e.user_id), "\n",
             `你的群友老婆是${name}\n`,
-            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${lp}`), "\n",
+            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${json[id].s}`), "\n",
             `${she_he}对你的好感度为${json[id].love}\n`,
             `你现在还剩下${json[id].money}金币\n${msg}`])
         }
@@ -652,13 +652,13 @@ export class qqy extends plugin {
             let she_he = '他'
             if (this_one)
                 if (this_one.sex == 'female')
-                    return '她'
+                    she_he = '她'
             return she_he
         }
         if (keys == 'nickname') {
             let name = `不知道那个谁`
             if (this_one.nickname)
-                name = list.nickname
+                name = this_one.nickname
             return name
         }
 
