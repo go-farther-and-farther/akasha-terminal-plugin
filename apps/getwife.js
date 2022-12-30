@@ -568,10 +568,24 @@ export class qqy extends plugin {
             ]);
             return
         }
+        var kill = Math.round(Math.random() * 999)
+        if(kill = 6){
+            e.reply([`触发千分之一的概率事件!!!,`, "\n",
+            `很遗憾的告诉你,发生了意外,你失去了你所有的金币...你,失去了你的老婆...真是离谱(划掉)遗憾啊`, "\n",
+            `你,是否愿意重来呢?`, "\n",
+            `即使,金钱,好感...一切都要重新开始吗?`, "\n",
+            `做出你的选择吧!`
+            ])
+            json[id].money = 0
+            json[id].love = 0
+            json[id].s = 0
+            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+            return
+        }
         if(json[id].love>=5000){
             let lwsjs = Math.round(Math.random() * 5) + 21
             json[id].money += Math.round(Math.random() * 50 + 100)
-            json[id].love += Math.round(Math.random() * 50 + 100        )
+            json[id].love += Math.round(Math.random() * 50 + 100)
             e.reply(`${giftthing[lwsjs]}`)
         }
         else if(json[id].love<5000 && json[id].love>=2500){
