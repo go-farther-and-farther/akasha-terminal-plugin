@@ -116,7 +116,7 @@ export const helpList = [{
     desc: '有些事,是需要代价的'
   }, {
     icon: 20,
-    title: '逛超市',
+    title: '逛街',
     desc: '增加你老婆对你的好感度吧'
   }, {
     icon: 20,

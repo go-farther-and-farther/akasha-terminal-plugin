@@ -25,6 +25,7 @@ import sex from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
 const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
+const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
 if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -38,7 +39,8 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
 const cdTime = 10 * 60 //随机娶群友时间,默认为10分钟
 const cdTime2 = 10 * 30 //强娶冷却，默认5分钟
 const cdTime3 = 10 * 120 //获取金币冷却，默认20分钟
-const cdTime4 = 60 * 60 * 3 //获取金币冷却，默认180分钟
+const cdTime4 = 60 * 60 * 3 //抱抱冷却，默认180分钟
+const cdTime5 = 60 * 60 * 3 //逛街冷却，默认180分钟
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
@@ -99,7 +101,7 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
-                reg: '^#?逛超(商|市)$', //获取金币
+                reg: '^#?逛街$', //获取金币
                 /** 执行方法 */
                 fnc: 'gift'
             },
@@ -544,6 +546,7 @@ export class qqy extends plugin {
     async gift(e) {//花30-90买30-90好感度
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
@@ -554,14 +557,66 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还没有老婆!!`)
             return
         }
-        let price = Math.round(Math.random() * 60 + 30)
-
-        if (json[id].money <= price) {
-            e.reply(`需要${price}金币,你只剩下${json[id].money}金币了...还是去打工赚钱吧!`)
+        let lastTime5 = await redis.get(`potato:wife-gift-cd:${e.user_id}`);
+        let masterList = cfg.masterQQ
+        if (lastTime5 && !masterList.includes(e.user_id)) {
+            const seconds = moment(currentTime).diff(moment(lastTime4), 'seconds')
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `冷却中：${cdTime5 - seconds}s`
+            ]);
             return
         }
-        json[id].money -= price
-        json[id].love += Math.round(Math.random() * 60 + 30)
+        if(json[id].love>=5000){
+            let lwsjs = Math.round(Math.random() * 5) + 21
+            json[id].money += Math.round(Math.random() * 50 + 100)
+            json[id].love += Math.round(Math.random() * 50 + 100        )
+            e.reply(`${giftthing[lwsjs]}`)
+        }
+        else if(json[id].love<5000 && json[id].love>=2500){
+            if(json[id].money<150){
+                e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
+                return
+            }
+            let lwsjs = Math.round(Math.random() * 5) + 16
+            json[id].money -= Math.round(Math.random() * 50 + 100)
+            json[id].love += Math.round(Math.random() * 30 + 90)
+            e.reply(`${giftthing[lwsjs]}`)
+        }
+        else if(json[id].love<2500 && json[id].love>=1000){
+            if(json[id].money<120){
+                e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
+                return
+            }
+            let lwsjs = Math.round(Math.random() * 5) + 16
+            json[id].money -= Math.round(Math.random() * 40 + 80)
+            json[id].love += Math.round(Math.random() * 20 + 70)
+            e.reply(`${giftthing[lwsjs]}`)
+        }
+        else if(json[id].love<1000 && json[id].love>=500){
+            if(json[id].money<130){
+                e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
+                return
+            }
+            let lwsjs = Math.round(Math.random() * 5) + 16
+            json[id].money -= Math.round(Math.random() * 60 + 70)
+            json[id].love += Math.round(Math.random() * 20 + 50)
+            e.reply(`${giftthing[lwsjs]}`)
+        }
+        else if(json[id].love<500){
+            if(json[id].money<100){
+                e.reply(`你太穷了!你这${json[id].money}金币根本支持不了你们这次的行动`)
+                return
+            }
+            let lwsjs = Math.round(Math.random() * 5) + 16
+            json[id].money -= Math.round(Math.random() * 50 + 50)
+            json[id].love += Math.round(Math.random() * 30 + 20)
+            e.reply(`${giftthing[lwsjs]}`)
+        }
+        await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
+            EX: cdTime5
+        });
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
         return true;
