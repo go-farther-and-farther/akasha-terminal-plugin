@@ -569,7 +569,7 @@ export class qqy extends plugin {
             return
         }
         var kill = Math.round(Math.random() * 999)
-        if(kill = 6){
+        if(kill == 6){
             e.reply([`触发千分之一的概率事件!!!,`, "\n",
             `很遗憾的告诉你,发生了意外,你失去了你所有的金币...你,失去了你的老婆...真是离谱(划掉)遗憾啊`, "\n",
             `你,是否愿意重来呢?`, "\n",
