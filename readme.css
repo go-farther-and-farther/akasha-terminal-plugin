@@ -1,0 +1,50 @@
+  .logo{
+    animation: move 2s linear infinite;
+  }
+  @keyframes move{
+    0%{
+      transform: rotate(0deg);
+    }
+    100%{
+      transform: rotate(360deg);
+    }
+  }
+  .标题{
+    color: green;
+  }
+  .决斗{
+    color: blue;
+  }
+  .群友老婆{
+    color: pink;
+  }
+  .标题:hover{
+    border-style: outset;
+    border-width: 2px;
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+  .决斗:hover{
+    border-style: outset;
+    border-width: 2px;
+    margin-left: 400px;
+    margin-right: 400px;
+  }
+  .群友老婆:hover{
+    border-style: outset;
+    border-width: 2px;
+    margin-left: 400px;
+    margin-right: 400px;
+  }
+  .a{
+    display: none;
+  }
+  .b{
+    display: none;
+  }
+  .决斗:hover+ .a{
+    display: block;
+  }
+  .群友老婆:hover+ .b{
+    display: block;
+  }

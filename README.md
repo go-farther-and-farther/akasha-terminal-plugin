@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="readme.css">
+
 <div align="center">
 
 <img width="200" class="logo" src="resources/虚空终端.png">
@@ -27,9 +29,7 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 
 ### 游戏说明🌈
 使用#虚空帮助 查看具体说明
-
-<details><summary>展开</summary>
-
+戳戳这些功能标题?
 <h1 align="center" class="决斗"><i>御前决斗!</i></h1>
 <div align="center" class="a">
 
@@ -59,7 +59,6 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |更多功能   |敬请期待。或提交Issues   |
 
 </div>
-</details>
 
 #### 常见问题
 
