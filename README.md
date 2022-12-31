@@ -7,58 +7,6 @@
 [![访问量](https://profile-counter.glitch.me/akasha-terminal-plugin/count.svg)](https://gitee.com/go-farther-and-farther/akasha-terminal-plugin)
 </div>
 
-<style>
-  .logo{
-    animation: move 2s linear infinite;
-  }
-  @keyframes move{
-    0%{
-      transform: rotate(0deg);
-    }
-    100%{
-      transform: rotate(360deg);
-    }
-  }
-  .标题{
-    color: green;
-  }
-  .决斗{
-    color: blue;
-  }
-  .群友老婆{
-    color: pink;
-  }
-  .标题:hover{
-    border-style: outset;
-    border-width: 2px;
-    margin-left: 300px;
-    margin-right: 300px;
-  }
-  .决斗:hover{
-    border-style: outset;
-    border-width: 2px;
-    margin-left: 400px;
-    margin-right: 400px;
-  }
-  .群友老婆:hover{
-    border-style: outset;
-    border-width: 2px;
-    margin-left: 400px;
-    margin-right: 400px;
-  }
-  .a{
-    display: none;
-  }
-  .b{
-    display: none;
-  }
-  .决斗:hover+ .a{
-    display: block;
-  }
-  .群友老婆:hover+ .b{
-    display: block;
-  }
-</style>
 
 #### 声明📣
 本人水平有限，有bug请重新拉取更新版本，重新拉取不能解决可以反馈到Issues，谢谢！
@@ -79,8 +27,10 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 
 ### 游戏说明🌈
 使用#虚空帮助 查看具体说明
-戳一戳下面的手指试试?
-<h1 align="center" class="决斗"><i>👉御前决斗!</i></h1>
+
+<details><summary>展开</summary>
+
+<h1 align="center" class="决斗"><i>御前决斗!</i></h1>
 <div align="center" class="a">
 
 |功能   |描述   |
@@ -93,7 +43,7 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |更多功能   |敬请期待。或提交Issues   |
 
 </div>
-<h1 align="center" class="群友老婆"><i>👉娶群友?!</i></h1>
+<h1 align="center" class="群友老婆"><i>娶群友?!</i></h1>
 <div align="center" class="b">
 
 |功能   |描述   |
@@ -109,8 +59,10 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |更多功能   |敬请期待。或提交Issues   |
 
 </div>
+</details>
 
 #### 常见问题
+
   - 我有其他问题!
   - 联系我们 Q群 906539561
 #### 参与贡献❤️
