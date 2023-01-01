@@ -13,9 +13,6 @@
  能娶同一个老婆
 刷新不及时
 金币为负数
-
-有事找大佬们,没事找我2113752439
-有什么新的建议可以提出来
 */
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
@@ -36,11 +33,11 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
     }))
 }
-const cdTime = await command.getConfig("wife_cfg", "sjcd") * 60;//随机娶群友冷却
-const cdTime2 =  await command.getConfig("wife_cfg", "qqcd") * 60;//强娶冷却
-const cdTime3 =  await command.getConfig("wife_cfg", "dgcd") * 60;//打工冷却
-const cdTime4 =  await command.getConfig("wife_cfg", "bbcd") * 60;//抱抱冷却
-const cdTime5 =  await command.getConfig("wife_cfg", "ggcd") * 60;//逛街冷却
+let cdTime = Number(await command.getConfig("wife_cfg", "sjcd")) * 60;//随机娶群友冷却
+let cdTime2 = Number(await command.getConfig("wife_cfg", "qqcd")) * 60;//强娶冷却
+let cdTime3 = Number(await command.getConfig("wife_cfg", "dgcd")) * 60;//打工冷却
+let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱冷却
+let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
