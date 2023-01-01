@@ -173,7 +173,7 @@ export class qqy extends plugin {
             let tips = [
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime2 - seconds}s`
+                `该命令有${cdTime2}秒cd`
             ]
             e.reply(tips);
             return
@@ -332,7 +332,7 @@ export class qqy extends plugin {
             let tips = [
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime - seconds}s`
+                `该命令有${cdTime}秒cd`
             ]
             e.reply(tips);
             return
@@ -534,7 +534,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime3 - seconds}s`
+                `该命令有${cdTime3}秒cd`
             ]);
             return
         }
@@ -567,7 +567,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime5 - seconds}s`
+                `该命令有${cdTime5}秒cd`
             ]);
             return
         }
@@ -685,7 +685,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime4 - seconds}s`
+                `该命令有${cdTime4}秒cd`
             ]);
             return
         }
