@@ -478,7 +478,11 @@ export class qqy extends plugin {
         let msg = '喜欢你的人有：'
         if (!iswife_list.length == 0) {
             for (let i of iswife_list) {
-                msg = msg + `\n${i}`
+                msg = msg + [
+                `\n${i}`,`\n`,
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${i}`), "\n",
+                `好感度为${json[i].love}`
+            ]
             }
         }
         else {
