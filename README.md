@@ -61,8 +61,10 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 </div>
 
 #### 常见问题
+  - xxx is not defined
+  - #重置虚空配置后重启
 
-  - 我有其他问题!
+  - 上述方法未能解决或我有其他问题!
   - 联系我们 Q群 906539561
 #### 参与贡献❤️
 

@@ -36,11 +36,11 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
     }))
 }
-const cdTime = 10 * 60 //随机娶群友时间,默认为10分钟
-const cdTime2 = 10 * 30 //强娶冷却，默认5分钟
-const cdTime3 = 10 * 120 //打工冷却，默认20分钟
-const cdTime4 = 60 * 60 * 3 //抱抱冷却，默认180分钟
-const cdTime5 = 10 * 90 //逛街冷却，默认180分钟
+const cdTime = await command.getConfig("wife_cfg", "sjcd") * 60;//随机娶群友冷却
+const cdTime2 =  await command.getConfig("wife_cfg", "qqcd") * 60;//强娶冷却
+const cdTime3 =  await command.getConfig("wife_cfg", "dgcd") * 60;//打工冷却
+const cdTime4 =  await command.getConfig("wife_cfg", "bbcd") * 60;//抱抱冷却
+const cdTime5 =  await command.getConfig("wife_cfg", "ggcd") * 60;//逛街冷却
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
@@ -142,7 +142,7 @@ export class qqy extends plugin {
         }
         e.reply(`你已经有老婆存档了`)
     }
-    async wife2(e) {//强行娶
+    async wife2(e) {//指定强娶/娶
         console.log(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -421,7 +421,7 @@ export class qqy extends plugin {
         e.reply(msg);
         return true;
     }
-    async fs(e) {//分手
+    async fs(e) {//主动分手/甩掉对方
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (e.msg == "分手" || e.msg == "闹离婚") {
@@ -462,7 +462,7 @@ export class qqy extends plugin {
         e.reply(`你不是${she_he}老婆或${she_he}根本没老婆`)
         return true;
     }
-    async read(e) {//看自己的老婆
+    async read(e) {//家庭信息
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -519,7 +519,7 @@ export class qqy extends plugin {
         }
         return true;
     }
-    async getmoney(e) {//打工冷却20分钟，赚到50-100块钱
+    async getmoney(e) {//打工
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -638,7 +638,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}`)
         return true;
     }
-    async touch(e) {//直接获得45-75好感度
+    async touch(e) {//抱抱
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -697,7 +697,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!`)
         return true;
     }
-    async cp(e) {//查看所有cp
+    async cp(e) {//查看本群所有cp
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let msg = `群全部cp:\n`
         let memberMap = await e.group.getMemberMap();
@@ -717,7 +717,7 @@ export class qqy extends plugin {
         e.reply(msg)
         return true;
     }
-    async is_wife(id) {//看看你是哪些人的老婆
+    async is_wife(id) {//看看你是哪些人的老婆函数
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         //console.log(json)
         let wifelist = []//看看这个Id是哪些人的老婆
@@ -727,7 +727,7 @@ export class qqy extends plugin {
         }
         return wifelist
     }
-    async people(e, keys, id) {//这个函数用时较久，使用时一定用await 
+    async people(e, keys, id) {//群成员资料函数,用时较久，使用时一定用await
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         var this_one = arrMember.filter(item => {
