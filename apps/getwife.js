@@ -269,7 +269,7 @@ export class qqy extends plugin {
         var jia = e.user_id
         var yi = e.at
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var pcj = json[yi].love/10//赔偿金
+        var pcj = Math.round(json[yi].love/10)//赔偿金
         var jbtime = (pcj - json[jia].money) * 10//禁闭时间
         if (json[yi].s == 0) {
             e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
@@ -289,7 +289,6 @@ export class qqy extends plugin {
             if(json[jia].money >= pcj){
                 josn[jia].money -= pcj
             }
-            return
         }
         if(json[yi].love<5000&&json[yi]>=2500){
         }
@@ -299,6 +298,7 @@ export class qqy extends plugin {
         }
         if(json[yi].love<500){
         }
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
     async yy(e) {//愿意
