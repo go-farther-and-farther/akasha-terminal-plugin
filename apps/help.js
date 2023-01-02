@@ -30,18 +30,26 @@ export class akasha_help extends plugin {
           reg: '#(游戏)(规则|帮助|版本)',
           /** 执行方法 */
           fnc: 'message2'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '#(赞助|发电)',
+          /** 执行方法 */
+          fnc: 'sponsor'
         }
       ]
     });
   }
+  async sponsor(e) {
+    e.reply('虚空插件赞助链接：https://afdian.net/a/akasha667')
+  }
 
-  async message() {
+  async message(e) {
     return await help(this.e, 'help');
   }
-  async message2() {
+  async message2(e) {
     return await help(this.e, 'help2');
   }
-
 }
 
 async function help(e, key) {
