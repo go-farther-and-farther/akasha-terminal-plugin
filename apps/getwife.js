@@ -270,7 +270,7 @@ export class qqy extends plugin {
         var yi = e.at
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var pcj = json[yi].love/10//赔偿金
-        var jbtime = (pcl - json[jia].money) * 10//禁闭时间
+        var jbtime = (pcj - json[jia].money) * 10//禁闭时间
         if (json[yi].s == 0) {
             e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return
