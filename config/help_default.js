@@ -138,5 +138,9 @@ export const helpList = [{
     icon: 40,
     title: '#设置/移除开挂@群员',
     desc: '赋予/撤销一名群员特殊权能'
+  }, {
+    icon: 40,
+    title: '#清除老婆冷却',
+    desc: '清楚娶群友游戏的所有冷却状态'
   }]
 }]

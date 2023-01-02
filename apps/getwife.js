@@ -13,6 +13,9 @@
  能娶同一个老婆
 刷新不及时
 金币为负数
+
+有事找大佬们,没事找我2113752439
+有什么新的建议可以提出来
 */
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
@@ -113,6 +116,12 @@ export class qqy extends plugin {
                 reg: '^#?(群cp|cp列表)$', //抱抱
                 /** 执行方法 */
                 fnc: 'cp'
+            },
+            {
+                /** 命令正则匹配 */
+                reg: '^#?清除老婆冷却$', //抱抱
+                /** 执行方法 */
+                fnc: 'delcd'
             }
             ]
         })
@@ -743,5 +752,13 @@ export class qqy extends plugin {
             return name
         }
 
+    }
+    async delcd(e){
+        if(e.isMaster){
+        let cddata = await redis.keys('potato:*', (err, data) => {});
+        await redis.del(cddata);
+        e.reply("清除成功")
+        return true;
+        }
     }
 }
