@@ -71,6 +71,12 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
+                reg: '^#抢老婆(.*)$', //抢老婆!
+                /** 执行方法 */
+                fnc: 'ntr'
+            },
+            {
+                /** 命令正则匹配 */
                 reg: '^#?我愿意', //配合求婚需要at向你求婚的人
                 /** 执行方法 */
                 fnc: 'yy'
@@ -249,6 +255,50 @@ export class qqy extends plugin {
         ])
         json[id].wait = e.at
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return true;
+    }
+    async ntr(e){
+        if (e.atme || e.atall) {
+            e.reply(`6🙂`)
+            return
+        }
+        if (!e.at) {
+            e.reply(`你想抢谁的老婆呢?at出来!`)
+            return
+        }
+        var jia = e.user_id
+        var yi = e.at
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        var pcj = json[yi].love/10//赔偿金
+        var jbtime = (pcl - json[jia].money) * 10//禁闭时间
+        if (json[yi].s == 0) {
+            e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
+            return
+        }
+        if(json[yi].love>=5000){
+            e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`, "\n"
+                `对方报警,你需要赔偿${pcj}金币`
+            )
+            if(json[jia].money < pcj){
+                json[jia].money=0
+                await redis.set(`potato:wife-jinbi-cd:${e.user_id}`, currentTime, {
+                    EX: jbtime
+                });
+                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
+            }
+            if(json[jia].money >= pcj){
+                josn[jia].money -= pcj
+            }
+            return
+        }
+        if(json[yi].love<5000&&json[yi]>=2500){
+        }
+        if(json[yi].love<2500&&json[yi]>=1000){
+        }
+        if(json[yi].love<1000&&json[yi]>=500){
+        }
+        if(json[yi].love<500){
+        }
         return true;
     }
     async yy(e) {//愿意
@@ -753,7 +803,7 @@ export class qqy extends plugin {
         }
 
     }
-    async delcd(e){
+    async delcd(e){//清除所有人的冷却
         if(e.isMaster){
         let cddata = await redis.keys('potato:*', (err, data) => {});
         await redis.del(cddata);
