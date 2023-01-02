@@ -276,9 +276,9 @@ export class qqy extends plugin {
             return
         }
         if(json[yi].love>=5000){
-            e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`, "\n"
+            e.reply([`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`, "\n",
                 `对方报警,你需要赔偿${pcj}金币`
-            )
+            ])
             if(json[jia].money < pcj){
                 json[jia].money=0
                 await redis.set(`potato:wife-jinbi-cd:${e.user_id}`, currentTime, {
