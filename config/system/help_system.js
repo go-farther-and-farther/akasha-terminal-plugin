@@ -102,6 +102,10 @@ export const helpList = [{
     desc: '强行娶走一位群友'
   }, {
     icon: 20,
+    title: '抢老婆@群友',
+    desc: '抢走对方的老婆!'
+  }, {
+    icon: 20,
     title: '闹离婚',
     desc: '将对方从你的老婆里删掉'
   }, {

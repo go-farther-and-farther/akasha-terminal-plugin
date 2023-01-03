@@ -70,7 +70,7 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
-                reg: '^#抢老婆(.*)$', //抢老婆!
+                reg: '^#?抢老婆(.*)$', //抢老婆!
                 /** 执行方法 */
                 fnc: 'ntr'
             },
@@ -155,6 +155,7 @@ export class qqy extends plugin {
     }
 
     async wife2(e) {//指定强娶/娶
+        await this.jinbi(e)
         console.log(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -259,6 +260,7 @@ export class qqy extends plugin {
     }
 
     async ntr(e){//抢老婆
+        await this.jinbi(e)
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
@@ -418,6 +420,7 @@ export class qqy extends plugin {
     }
 
     async Wife(e) {//随机娶
+        await this.jinbi(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -631,6 +634,7 @@ export class qqy extends plugin {
     }
 
     async getmoney(e) {//打工
+        await this.jinbi(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -659,6 +663,7 @@ export class qqy extends plugin {
     }
 
     async gift(e) {//逛街
+        await this.jinbi(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
@@ -751,6 +756,7 @@ export class qqy extends plugin {
         return true;
     }
     async touch(e) {//抱抱
+        await this.jinbi(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -869,5 +875,16 @@ export class qqy extends plugin {
             return name
         }
 
+    }
+    async jinbi(e){//判断是否被关禁闭
+        var jinbi = await redis.get(`potato:wife-jinbi-cd:${e.user_id}`);
+        if (jinbi) {
+            const seconds = moment(currentTime).diff(moment(jinbi), 'seconds')
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `你已经被关进禁闭室了!!!时间到了自然放你出来`
+            ])
+            return
+        }
     }
 }

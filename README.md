@@ -52,6 +52,7 @@ git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git .
 |指定求婚   |娶指定的群友   |
 |配合求婚   |愿意还是拒绝?   |
 |强娶指定群友   |强行掳走群友   |
+|抢老婆   |抢走群友的老婆!   |
 |主动分手,被动甩掉   |不要老婆或被老婆甩掉   |
 |获取金币   |凡是都是需要付出的   |
 |花金币   |钱不能白赚   |
