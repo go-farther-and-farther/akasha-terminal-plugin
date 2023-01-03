@@ -348,7 +348,7 @@ export class qqy extends plugin {
         json[jia].s = json[yi].s
         json[jia].love = 6
         json[yi].s = 0
-        json[love] = 0
+        json[yi].love = 0
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
     }
 
