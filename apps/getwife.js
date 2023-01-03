@@ -892,6 +892,7 @@ export class qqy extends plugin {
     }
     //看看你会不会被干掉
     async is_killed(e, json, category) {
+        let id = e.user_id
         let kill = Math.round(Math.random() * 999)
         if (kill == 6) {
             e.reply([`触发千分之一的概率事件!!!,\n`,
