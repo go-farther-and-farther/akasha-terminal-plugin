@@ -277,7 +277,7 @@ export class qqy extends plugin {
             e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return                                                                             
         }
-        if(json[id].s != 0){
+        if(json[e.user_id].s != 0){
             e.reply(`你已经有老婆了还抢别人的???`)
         }        
         var good = josn[e.user_id].money/(1.5*josn[e.at].love+json[e.at].money)
