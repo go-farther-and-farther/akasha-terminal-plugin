@@ -94,7 +94,7 @@ export class qqy extends plugin {
             },
             {
                 /** 命令正则匹配 */
-                reg: '^#?(家庭信息|我的(老婆|老公|对象))$', //看看自己老婆是谁
+                reg: '^#?(家庭信息|我的(老婆|老公|对象))(.*)$', //看看自己老婆是谁
                 /** 执行方法 */
                 fnc: 'read'
             },
@@ -555,7 +555,12 @@ export class qqy extends plugin {
         return true;
     }
     async read(e) {//家庭信息
+        if (e.atme || e.atall) {
+            e.reply(`不可以这样！`)
+            return
+        }
         var id = e.user_id
+        if(e.at) id = e.at
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
@@ -593,7 +598,7 @@ export class qqy extends plugin {
         let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
         let name = await this.people(e, 'nickname', json[id].s)//用is_she函数获取昵称
         if (iswife_list.includes(json[id].s)) {//两情相悦的
-            e.reply([segment.at(e.user_id), segment.at(json[id].s), "\n",
+            e.reply([segment.at(id), segment.at(json[id].s), "\n",
                 `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
             `你的群友老婆是${name},${she_he}也喜欢你\n`,
             segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${json[id].s}`), "\n",
@@ -602,7 +607,7 @@ export class qqy extends plugin {
             `你现在还剩下${json[id].money}金币`])
         }
         else if (!json[id].s == 0) {//只有喜欢的人的
-            e.reply([segment.at(e.user_id), "\n",
+            e.reply([segment.at(id), "\n",
             `你的群友老婆是${name}\n`,
             segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${json[id].s}`), "\n",
             `${she_he}对你的好感度为${json[id].love}\n`,
