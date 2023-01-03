@@ -280,7 +280,7 @@ export class qqy extends plugin {
         if(json[e.user_id].s != 0){
             e.reply(`你已经有老婆了还抢别人的???`)
         }        
-        var good = josn[e.user_id].money/(1.5*josn[e.at].love+json[e.at].money)
+        var good = json[e.user_id].money/(1.5*json[e.at].love+json[e.at].money)
         var gailv = Math.random()*99
         if(json[e.at].love>=5000){
             e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
@@ -328,19 +328,19 @@ export class qqy extends plugin {
             e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
         }
         if(json[jia].money >= pcj){
-            josn[jia].money -= pcj
+            json[jia].money -= pcj
             e.reply(`你成功清赔款${pcj}金币!`)
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
     }
     async ntrT(e, jia, yi){//抢老婆成功时调用
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        if((josn[jia].money>(json[yi].love*1.5))&&(json[jia].money>json[yi].money))
+        if((json[jia].money>(json[yi].love*1.5))&&(json[jia].money>json[yi].money))
             e.reply([
                 segment.at(yi), "\n",
                 `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
             ])
-        if(josn[jia].money<=(json[yi].love *1.5))
+        if(json[jia].money<=(json[yi].love *1.5))
             e.reply([
                 segment.at(yi), "\n",
                 `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
@@ -348,7 +348,7 @@ export class qqy extends plugin {
         json[jia].s = json[yi].s
         json[jia].love = 6
         json[yi].s = 0
-        josn[love] = 0
+        json[love] = 0
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
     }
 
