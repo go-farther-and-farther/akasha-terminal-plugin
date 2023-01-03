@@ -259,6 +259,7 @@ export class qqy extends plugin {
     }
 
     async ntr(e){//抢老婆
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
