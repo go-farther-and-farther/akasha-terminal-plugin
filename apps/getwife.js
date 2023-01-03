@@ -154,7 +154,7 @@ export class qqy extends plugin {
         e.reply(`你已经有老婆存档了`)
     }
     async wife2(e) {//指定强娶/娶
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         console.log(e)
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -259,7 +259,7 @@ export class qqy extends plugin {
     }
 
     async ntr(e) {//抢老婆
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
@@ -419,7 +419,7 @@ export class qqy extends plugin {
     }
 
     async Wife(e) {//随机娶
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -633,7 +633,7 @@ export class qqy extends plugin {
     }
 
     async getmoney(e) {//打工
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
@@ -662,7 +662,7 @@ export class qqy extends plugin {
     }
 
     async gift(e) {//逛街
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
@@ -755,7 +755,7 @@ export class qqy extends plugin {
         return true;
     }
     async touch(e) {//抱抱
-        if (this.is_jinbi(e)) return
+        if (this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
