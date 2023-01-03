@@ -21,7 +21,6 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
 import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
-import sex from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
 const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
@@ -154,6 +153,7 @@ export class qqy extends plugin {
         }
         e.reply(`你已经有老婆存档了`)
     }
+
     async wife2(e) {//指定强娶/娶
         console.log(e)
         var id = e.user_id
@@ -257,7 +257,13 @@ export class qqy extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
-    async ntr(e){
+
+    async ntr(e){//抢老婆
+        if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
+            this.creat(e)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            return
+        }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -266,41 +272,85 @@ export class qqy extends plugin {
             e.reply(`你想抢谁的老婆呢?at出来!`)
             return
         }
-        var jia = e.user_id
-        var yi = e.at
+        if (json[e.at].s == 0) {
+            e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
+            return                                                                             
+        }
+        if(json[id].s != 0){
+            e.reply(`你已经有老婆了还抢别人的???`)
+        }        
+        var good = josn[e.user_id].money/(1.5*josn[e.at].love+json[e.at].money)
+        var gailv = Math.random()*99
+        if(json[e.at].love>=5000){
+            e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
+                await this.ntrF(e, e.user_id, e.at)
+        }
+        if(json[e.at].love<5000&&json[e.at]>=2500){
+            if(good>1.6 || gailv>=90)
+                await this.ntrT(e, e.user_id, e.at)
+            else
+                await this.ntrF(e, e.user_id, e.at)
+        }
+        if(json[e.at].love<2500&&json[e.at]>=1000){
+            if(good>1.3 || gailv>=80)
+                await this.ntrT(e, e.user_id, e.at)
+            else
+                await this.ntrF(e, e.user_id, e.at)
+        }
+        if(json[e.at].love<1000&&json[e.at]>=500){
+            if(good>1 || gailv>=70)
+                await this.ntrT(e, e.user_id, e.at)
+            else
+                await this.ntrF(e, e.user_id, e.at)
+        }
+        if(json[e.at].love<500){
+            if(gailv>=50)
+                await this.ntrT(e, e.user_id, e.at)
+            else
+                await this.ntrF(e, e.user_id, e.at)
+        }
+        return true;
+    }
+    async ntrF(e, jia, yi){//抢老婆失败时调用
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var pcj = Math.round(json[yi].love/10)//赔偿金
         var jbtime = (pcj - json[jia].money) * 10//禁闭时间
-        if (json[yi].s == 0) {
-            e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
-            return
+        e.reply([
+            segment.at(jia), "\n",
+            `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
+        ])
+        if(json[jia].money < pcj){
+            json[jia].money=0
+            await redis.set(`potato:wife-jinbi-cd:${jia}`, currentTime, {
+                EX: jbtime
+            });
+            e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
         }
-        if(json[yi].love>=5000){
-            e.reply([`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`, "\n",
-                `对方报警,你需要赔偿${pcj}金币`
-            ])
-            if(json[jia].money < pcj){
-                json[jia].money=0
-                await redis.set(`potato:wife-jinbi-cd:${e.user_id}`, currentTime, {
-                    EX: jbtime
-                });
-                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
-            }
-            if(json[jia].money >= pcj){
-                josn[jia].money -= pcj
-            }
-        }
-        if(json[yi].love<5000&&json[yi]>=2500){
-        }
-        if(json[yi].love<2500&&json[yi]>=1000){
-        }
-        if(json[yi].love<1000&&json[yi]>=500){
-        }
-        if(json[yi].love<500){
+        if(json[jia].money >= pcj){
+            josn[jia].money -= pcj
+            e.reply(`你成功清赔款${pcj}金币!`)
         }
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-        return true;
     }
+    async ntrT(e, jia, yi){//抢老婆成功时调用
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if((josn[jia].money>(json[yi].love*1.5))&&(json[jia].money>json[yi].money))
+            e.reply([
+                segment.at(yi), "\n",
+                `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
+            ])
+        if(josn[jia].money<=(json[yi].love *1.5))
+            e.reply([
+                segment.at(yi), "\n",
+                `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
+            ])
+        json[jia].s = json[yi].s
+        json[jia].love = 6
+        json[yi].s = 0
+        josn[love] = 0
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+    }
+
     async yy(e) {//愿意
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
@@ -365,6 +415,7 @@ export class qqy extends plugin {
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
+
     async Wife(e) {//随机娶
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -477,6 +528,7 @@ export class qqy extends plugin {
         e.reply(msg);
         return true;
     }
+
     async fs(e) {//主动分手/甩掉对方
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -518,6 +570,7 @@ export class qqy extends plugin {
         e.reply(`你不是${she_he}老婆或${she_he}根本没老婆`)
         return true;
     }
+
     async read(e) {//家庭信息
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -575,6 +628,7 @@ export class qqy extends plugin {
         }
         return true;
     }
+
     async getmoney(e) {//打工
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -602,6 +656,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你!现在你有${json[id].money}金币了!`)
         return true;
     }
+
     async gift(e) {//逛街
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
@@ -753,6 +808,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你,你老婆对你的好感上升到了${json[id].love}!`)
         return true;
     }
+
     async cp(e) {//查看本群所有cp
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         let msg = `群全部cp:\n`
@@ -773,6 +829,16 @@ export class qqy extends plugin {
         e.reply(msg)
         return true;
     }
+
+    async delcd(e){//清除所有人的冷却
+        if(e.isMaster){
+        let cddata = await redis.keys('potato:*', (err, data) => {});
+        await redis.del(cddata);
+        e.reply("清除成功")
+        return true;
+        }
+    }
+
     async is_wife(id) {//看看你是哪些人的老婆函数
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         //console.log(json)
@@ -802,13 +868,5 @@ export class qqy extends plugin {
             return name
         }
 
-    }
-    async delcd(e){//清除所有人的冷却
-        if(e.isMaster){
-        let cddata = await redis.keys('potato:*', (err, data) => {});
-        await redis.del(cddata);
-        e.reply("清除成功")
-        return true;
-        }
     }
 }
