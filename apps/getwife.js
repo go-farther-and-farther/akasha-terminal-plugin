@@ -856,7 +856,7 @@ export class qqy extends plugin {
         return false
     }
     async is_killed(e, json) {//看看你会不会被干掉
-        let kill = Math.round(Math.random() * 199)
+        let kill = Math.round(Math.random() * 30)
         if (kill == 6) {
             e.reply([`触发千分之一的概率事件!!!,`, "\n",
                 `很遗憾的告诉你,发生了意外,你失去了你所有的金币...你,失去了你的老婆...真是离谱(划掉)遗憾啊`, "\n",
@@ -864,10 +864,11 @@ export class qqy extends plugin {
                 `即使,金钱,好感...一切都要重新开始吗?`, "\n",
                 `做出你的选择吧!`
             ])
-            json[id].money = json[id].money/2
-            json[id].love = json[id].love/2
-            //json[id].s = 0
-            
+            json[id].money = json[id].money - 100
+            // json[id].love = 0
+            // json[id].s = 0
+            setTimeout(() => {
+                e.reply('但是现在是公测阶段，惩罚变成了损失金币100')}, 3000);//设置延迟
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return true
         }
