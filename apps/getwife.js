@@ -156,7 +156,13 @@ export class qqy extends plugin {
         let she_he = await this.people(e, 'sex', e.at)//用is_she函数判断下这个人是男是女     
         let iswife_list = await this.is_wife(e.at)
         if (iswife_list.length > 0) {
-            e.reply(`已经人喜欢${she_he}了哦！让${she_he}先处理一下！`)
+            let msg = `已经人喜欢${she_he}了哦！让${she_he}先处理一下！\n喜欢${she_he}的人有：`
+            for(let i of iswife_list)
+            {
+                msg = msg + `\n${i}`
+            }
+            msg = msg + `\n你可以使用'#抢老婆@...'哦！`
+            e.reply(msg)
             return
         }
         //-------------------------------------------------------------------
@@ -554,7 +560,7 @@ export class qqy extends plugin {
         e.reply(`你不是${she_he}老婆或${she_he}根本没老婆`)
         return true;
     }
-    async read(e) {//家庭信息
+    async read(e) {//家庭信息，可以@别人
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
             return
@@ -731,7 +737,6 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
-
             return
         }
         if (e.atme || e.atall) {
