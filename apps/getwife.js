@@ -891,7 +891,7 @@ export class qqy extends plugin {
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return true
         }
-        if (kill < 300) {
+        if (kill < 100) {
             json[id].money -= 100
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             e.reply(`触发十分之一的概率事件!!!`)
