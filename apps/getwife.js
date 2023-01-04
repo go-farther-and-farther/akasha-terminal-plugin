@@ -539,6 +539,7 @@ export class qqy extends plugin {
             let she_he = await this.people(e, 'sex', json[id].s)//用is_she函数判断下这个人是男是女
             json[id].s = 0
             json[id].love = 0
+            json[id].money - json[id].money/5
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             e.reply(`成功分手!,${she_he}对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)`)
             return
