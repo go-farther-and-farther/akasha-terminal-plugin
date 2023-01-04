@@ -305,13 +305,14 @@ export class qqy extends plugin {
     //抢老婆失败时调用
     async ntrF(e, jia, yi) {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var pcj = Math.round(json[yi].love / 10)//赔偿金
+        var pcj = Math.round(json[yi].love / 10)+300//赔偿金
         var jbtime = (pcj - json[jia].money) * 10//禁闭时间
         e.reply([
             segment.at(jia), "\n",
             `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
         ])
         if (json[jia].money < pcj) {
+            json[yi].money = json[jia].money
             json[jia].money = 0
             await redis.set(`potato:wife-jinbi-cd:${jia}`, currentTime, {
                 EX: jbtime
@@ -319,6 +320,7 @@ export class qqy extends plugin {
             e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
         }
         if (json[jia].money >= pcj) {
+            json[yi].money = json[jia].money
             json[jia].money -= pcj
             e.reply(`你成功清赔款${pcj}金币!`)
         }
