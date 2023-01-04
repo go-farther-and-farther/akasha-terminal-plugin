@@ -305,7 +305,7 @@ export class qqy extends plugin {
     //抢老婆失败时调用
     async ntrF(e, jia, yi) {
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var pcj = Math.round(json[yi].love / 10)+300//赔偿金
+        var pcj = Math.round((json[yi].love / 10)+(json[jia].money / 3)+100)//赔偿金
         var jbtime = (pcj - json[jia].money) * 10//禁闭时间
         e.reply([
             segment.at(jia), "\n",
@@ -903,25 +903,19 @@ export class qqy extends plugin {
                 `即使,金钱,好感...一切都要重新开始吗?`, "\n",
                 `做出你的选择吧!`
             ])
-            json[id].money = json[id].money - 100
+            json[id].money = 0
             json[id].love = 0
             json[id].s = 0
-            setTimeout(() => {
-                e.reply('但是现在是公测阶段，惩罚变成了损失金币100')
-            }, 3000);//设置延迟
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return true
         }
         if (kill < 300) {
-            json[id].love = json[id].love
+            json[id].love -= 100
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            e.reply(`触发十分之一的概率事件!!!，现在还在测试`)
-            return true
-        }
-        if (kill > 900 && category == 'gift') {
-            json[id].love = json[id].love
-            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-            e.reply(`触发十分之一的概率事件!!!，现在还在测试`)
+            e.reply(`触发十分之一的概率事件!!!`)
+            setTimeout(() => {
+                e.reply('但是现在是公测阶段，惩罚变成了损失金币100')
+            }, 3000);//设置延迟
             return true
         }
         return false
