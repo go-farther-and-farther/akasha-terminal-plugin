@@ -302,7 +302,7 @@ export class qqy extends plugin {
             e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
         }
         if (json[jia].money >= pcj) {
-            json[yi].money = json[jia].money
+            json[yi].money += pcj
             json[jia].money -= pcj
             e.reply(`你成功清赔款${pcj}金币!`)
         }
