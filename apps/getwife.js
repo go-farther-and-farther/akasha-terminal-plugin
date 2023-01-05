@@ -866,7 +866,7 @@ export class qqy extends plugin {
     //判断好感度是否双方都小于等于0,是则拆散,单向老婆则只失去老婆
     async is_fw(e, json){
         let id = e.user_id
-        let id2 = json[id].s
+        /*let id2 = json[id].s
         if(json[id2].s == id && (json[id2].love <= 0||json[id].love <= 0)){
             e.reply(`很遗憾,由于你们有一方对对方的好感太低,你们的感情走到了尽头`)
             json[id].love = 0
@@ -876,7 +876,8 @@ export class qqy extends plugin {
             fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return true;
         }
-        if(json[id2].s !== id && json[id].love <= 0){
+        */
+        if(json[id].love <= 0){
             e.reply(`很遗憾,由于你老婆对你的好感太低,你老婆甩了你`)
             json[id].love = 0
             json[id].s = 0
