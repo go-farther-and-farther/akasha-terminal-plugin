@@ -24,7 +24,7 @@ async function getUser(id, json, Template, filename, is_save) {
         return json;
     }
 }
-async function getplace(id, json, qqy_place_data, filename, is_save) {
+async function getplace(id, json, filename, is_save) {
     var qqy_place_data = {
         "place": "home",//当前位置
         "placetime": 0 //更换位置的次数
