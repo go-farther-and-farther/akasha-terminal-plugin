@@ -5,12 +5,15 @@ import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
+import akasha_date from '../components/akasha_data.js'
 const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
-if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-    fs.mkdirSync(dirpath);//创建文件夹
+var placefilename = `place.json`
+//如果文件夹不存在,创建文件夹
+if (!fs.existsSync(dirpath)) {
+    fs.mkdirSync(dirpath);
 }
 //如果文件不存在，创建文件
 if (!fs.existsSync(dirpath + "/" + filename)) {
@@ -39,75 +42,59 @@ export class qqy extends plugin {
                 fnc: 'wife'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?(创建老婆|我也要娶群友|你们都是我老婆|加入群老婆|找老婆)$', //加载老婆存档
-                /** 执行方法 */
                 fnc: 'creat'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?(强娶|娶)(.*)$', //指定求婚或者强娶一位群友
-                /** 执行方法 */
                 fnc: 'wife2'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?抢老婆(.*)$', //抢老婆!
-                /** 执行方法 */
                 fnc: 'ntr'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?我愿意', //配合求婚需要at向你求婚的人
-                /** 执行方法 */
                 fnc: 'yy'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?我拒绝', //配合求婚需要at向你求婚的人
-                /** 执行方法 */
                 fnc: 'jj'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?(闹离婚|甩掉|分手)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从ta的老婆里移除掉
-                /** 执行方法 */
                 fnc: 'breakup'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?(家庭信息|我的(老婆|老公|对象))(.*)$', //看看自己老婆是谁
-                /** 执行方法 */
                 fnc: 'read'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?打工赚钱$', //获取金币
-                /** 执行方法 */
                 fnc: 'getmoney'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?逛街$', //获取金币
-                /** 执行方法 */
                 fnc: 'gift'
             },
             {
-                /** 命令正则匹配 */
+                reg: '^#?进去看看$', //获取金币
+                fnc: 'gift_continue'
+            },
+            {
+                reg: '^#?去下一个地方$', //获取金币
+                fnc: 'gift_over'
+            },
+            {
                 reg: '^#?(拥抱|抱抱)(.*)$', //抱抱
-                /** 执行方法 */
                 fnc: 'touch'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?(群cp|cp列表)$', //抱抱
-                /** 执行方法 */
                 fnc: 'cp'
             },
             {
-                /** 命令正则匹配 */
                 reg: '^#?清除老婆冷却$', //抱抱
-                /** 执行方法 */
                 fnc: 'delcd'
             }
             ]
@@ -660,6 +647,8 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取文件
+        await akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)//创建玩家初始数据
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
@@ -684,16 +673,58 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
-        var placeid = Math.round(Math.random()*6 + 1)
-        var place = giftthing.start[placeid]
+        var placeid = Math.round(Math.random()*4 + 1)//随机获取一个位置id
+        var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
-            `${place}\n`,
+            `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
         ])
+        placejson[id].place = giftthing.placename[placeid]
+        await akasha_date.getUser(id, placejson, qqy_place_data, placefilename, true)//保存位置
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-        if (await this.is_fw(e, json) == true) return
-        e.reply(`你和你老婆本次行动结果为:\n你老婆对你的好感上升到了${json[id].love}!,你的金币还剩下${json[id].money}(还在测试,暂不可用)`)
         return true;
+    }
+    //逛街事件继续
+    async gift_continue(e){
+        e.reply("功能测试中")
+        if (await this.is_jinbi(e) == true) return
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取玩家位置文件
+        akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)
+        if(placejson[id].place == "home") return//在家直接终止
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        if (await this.is_killed(e, json, 'gift') == true) { return }
+        var placename = placejson[id].place//获取玩家位置名A
+        var placemodle = giftthing[placename]//获取位置资源中的位置A的数据B
+        var placemsgid = Math.round(Math.random()*(placemodle.length-1) + 1)//随机从B中选择一个位置id
+        var placemsg = giftthing[placename[placemsgid]]//获取消息
+        e.reply(`${placemsg}`)
+        placejson[id].place = "home"
+        await akasha_date.getUser(id, placejson, qqy_place_data, placefilename, true)//保存位置
+        if (await this.is_fw(e, json) == true) return
+    }
+    //逛街事件停止
+    async gift_over(e){
+        e.reply("功能测试中")
+        if (await this.is_jinbi(e) == true) return
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取玩家位置文件
+        akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)
+        if(placejson[id].place == "home") return//在家直接终止
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        if (await this.is_killed(e, json, 'gift') == true) { return }
+        var placeid = Math.round(Math.random()*4 + 1)//随机获取一个位置id
+        var placemsg = giftthing.start[placeid]//获取消息
+        e.reply([
+            `${placemsg}\n`,
+            `你选择[进去看看]还是[去下一个地方]?`
+        ])
+        placejson[id].place = giftthing.placename[placeid]
+        placejson[id].placetime ++
+        await akasha_date.getUser(id, placejson, qqy_place_data, placefilename, true)//保存位置
+        if (await this.is_fw(e, json) == true) return
     }
     //抱抱,有千分之一的概率被干掉
     async touch(e) {

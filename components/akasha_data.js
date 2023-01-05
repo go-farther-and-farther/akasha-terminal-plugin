@@ -24,6 +24,27 @@ async function getUser(id, json, Template, filename, is_save) {
         return json;
     }
 }
+async function getplace(id, json, qqy_place_data, filename, is_save) {
+    var qqy_place_data = {
+        "place": "home",//当前位置
+        "placetime": 0 //更换位置的次数
+    }
+    if (!is_save) {
+                if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+            fs.mkdirSync(dirpath);//创建文件夹
+        }
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            json[id] = qqy_place_data
+        }
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return json;
+    }
+    else {
+        fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return json;
+    }
+}
 async function getUser2(user_id, json, dirname, is_save) {
     if (is_save) {
         let filename = `${user_id}.json`;
@@ -44,4 +65,4 @@ async function getUser2(user_id, json, dirname, is_save) {
         return json
     }
 }
-export default { getUser, getUser2 }
+export default { getUser, getplace,getUser2 }
