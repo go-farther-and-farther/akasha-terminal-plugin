@@ -44,4 +44,4 @@ async function getUser2(user_id, json, dirname, is_save) {
         return json
     }
 }
-export default { getUser, getplace,getUser2 }
+export default { getUser, getUser2 }
