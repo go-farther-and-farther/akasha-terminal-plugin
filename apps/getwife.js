@@ -647,8 +647,8 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取文件
         await akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)//创建玩家初始数据
+        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取文件
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
@@ -691,7 +691,6 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取玩家位置文件
-        akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)
         if(placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
@@ -711,7 +710,6 @@ export class qqy extends plugin {
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取玩家位置文件
-        akasha_date.getUser(id, placejson, qqy_place_data, placefilename, false)
         if(placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
