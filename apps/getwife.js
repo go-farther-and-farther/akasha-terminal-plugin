@@ -655,8 +655,7 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var placejson = JSON.parse(fs.readFileSync(dirpath + "/" + placefilename, "utf8"));//读取文件
-        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//创建玩家初始数据
+        var placejson = await akasha_date.getUser(id, placejson, place_data, placefilename, true)//创建玩家初始数据
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
