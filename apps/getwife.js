@@ -20,6 +20,10 @@ if (!fs.existsSync(dirpath + "/" + filename)) {
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
     }))
 }
+if (!fs.existsSync(dirpath + "/" + placefilename)) {
+    fs.writeFileSync(dirpath + "/" + placefilename, JSON.stringify({
+    }))
+}
 let cdTime = Number(await command.getConfig("wife_cfg", "sjcd")) * 60;//随机娶群友冷却
 let cdTime2 = Number(await command.getConfig("wife_cfg", "qqcd")) * 60;//强娶冷却
 let cdTime3 = Number(await command.getConfig("wife_cfg", "dgcd")) * 60;//打工冷却
