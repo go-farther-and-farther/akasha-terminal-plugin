@@ -30,8 +30,12 @@ async function getplace(id, json, filename, is_save) {
         "placetime": 0 //更换位置的次数
     }
     if (!is_save) {
-                if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
             fs.mkdirSync(dirpath);//创建文件夹
+        }
+        if (!fs.existsSync(dirpath + "/" + filename)) {
+            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
+            }))
         }
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
