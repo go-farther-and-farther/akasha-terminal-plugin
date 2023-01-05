@@ -251,6 +251,7 @@ export class qqy extends plugin {
         }
         if (json[e.user_id].s != 0) {
             e.reply(`你已经有老婆了还抢别人的???`)
+            return
         }
         var good = json[e.user_id].money / (1.5 * json[e.at].love + json[e.at].money)
         var gailv = Math.random() * 99
