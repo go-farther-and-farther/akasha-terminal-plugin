@@ -655,7 +655,7 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var placejson = await akasha_date.getUser(id, placejson, place_data, placefilename, true)//创建玩家初始数据
+        var placejson = await akasha_date.getUser(id, placejson, place_data, placefilename, false)//创建玩家初始数据
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
@@ -687,7 +687,7 @@ export class qqy extends plugin {
             `你选择[进去看看]还是[去下一个地方]?`
         ])
         placejson[id].place = giftthing.placename[placeid]
-        await akasha_date.getUser(id, placejson, place_data, placefilename, false)//保存位置
+        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
@@ -707,7 +707,7 @@ export class qqy extends plugin {
         var placemsg = giftthing[placename[placemsgid]]//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
-        await akasha_date.getUser(id, placejson, place_data, placefilename, false)//保存位置
+        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
     //逛街事件停止
@@ -728,7 +728,7 @@ export class qqy extends plugin {
         ])
         placejson[id].place = giftthing.placename[placeid]
         placejson[id].placetime ++
-        await akasha_date.getUser(id, placejson, place_data, placefilename, false)//保存位置
+        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
     //抱抱,有千分之一的概率被干掉
