@@ -5,13 +5,13 @@ import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
-import akasha_date from '../components/akasha_data.js'
+import akasha_data from '../components/akasha_data.js'
 const dirpath = "plugins/akasha-terminal-plugin/data/qylp"
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
 var placefilename = `place.json`
-var place_data = {
+var place_template = {
     "place": "home",
     "placetime": 0
 }
@@ -22,10 +22,6 @@ if (!fs.existsSync(dirpath)) {
 //如果文件不存在，创建文件
 if (!fs.existsSync(dirpath + "/" + filename)) {
     fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
-    }))
-}
-if (!fs.existsSync(dirpath + "/" + placefilename)) {
-    fs.writeFileSync(dirpath + "/" + placefilename, JSON.stringify({
     }))
 }
 let cdTime = Number(await command.getConfig("wife_cfg", "sjcd")) * 60;//随机娶群友冷却
@@ -655,11 +651,11 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        var placejson = await akasha_date.getUser(id, placejson, place_data, placefilename, false)//创建玩家初始数据
+        var placejson = await akasha_data.getUser(id, placejson, dirpath, place_template, placefilename, false)//创建玩家初始数据
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
-            e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            e.reply(`你还没有老婆存档，我帮你创建好了！`)       
         }
         if (await this.is_killed(e, json, 'gift') == true) { return }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
@@ -687,7 +683,7 @@ export class qqy extends plugin {
             `你选择[进去看看]还是[去下一个地方]?`
         ])
         placejson[id].place = giftthing.placename[placeid]
-        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
+        await akasha_data.getUser(id, placejson, dirpath, place_template, placefilename, true)//保存位置
         fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
@@ -707,7 +703,7 @@ export class qqy extends plugin {
         var placemsg = giftthing[placename[placemsgid]]//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
-        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
+        await akasha_data.getUser(id, placejson, dirpath, place_template, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
     //逛街事件停止
@@ -728,7 +724,7 @@ export class qqy extends plugin {
         ])
         placejson[id].place = giftthing.placename[placeid]
         placejson[id].placetime ++
-        await akasha_date.getUser(id, placejson, place_data, placefilename, true)//保存位置
+        await akasha_data.getUser(id, placejson, dirpath, place_template, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
     //抱抱,有千分之一的概率被干掉
