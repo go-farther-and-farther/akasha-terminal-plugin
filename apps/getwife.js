@@ -944,7 +944,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[e.user_id].placetime >= 5) {
-            e.reply * (`单次逛街行动上限,你们回了家`)
+            e.reply(`单次逛街行动上限,你们啥也没干回了家`)
             placejson[id].place = "home"
             placejson[id].placetime = 0
             await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存
