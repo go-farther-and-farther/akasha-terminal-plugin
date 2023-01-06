@@ -646,7 +646,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你!现在你有${json[id].money}金币了!`)
         return true;
     }
-    //逛街
+    //逛街(大概没bug了)
     async gift(e) {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
@@ -676,7 +676,7 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
-        var placeid = Math.round(Math.random()*4 + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random()*(Object.keys(giftthing.placename).length-1) + 1)//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
@@ -687,36 +687,36 @@ export class qqy extends plugin {
         fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
-    //逛街事件继续
+    //逛街事件继续(全是bug)
     async gift_continue(e){
         e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
-        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
-        var placejson = JSON.parse(fs.readFileSync(Userpath + "/" + placefilename, "utf8"));//读取玩家位置文件
+        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if(placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
-        var placename = placejson[id].place//获取玩家位置名A
-        var placemodle = giftthing[placename]//获取位置资源中的位置A的数据B
-        var placemsgid = Math.round(Math.random()*(placemodle.length-1) + 1)//随机从B中选择一个位置id
-        var placemsg = giftthing[placename[placemsgid]]//获取消息
+        var userplacename = placejson[id].place//获取玩家位置名A
+        var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
+        var placemsgid = Math.round(Math.random()*(Object.keys(placemodle)-1) + 1)//随机从B中选择一个位置id
+        var placemsg = giftthing[userplacename[placemsgid]].msg//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
+        placejson[id].placetime = 0
         await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
-    //逛街事件停止
+    //逛街事件停止(大概没bug)
     async gift_over(e){
         e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
+        if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
-        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
-        var placejson = JSON.parse(fs.readFileSync(Userpath + "/" + placefilename, "utf8"));//读取玩家位置文件
+        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if(placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
-        var placeid = Math.round(Math.random()*4 + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random()*(Object.keys(giftthing.placename).length-1) + 1)//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
@@ -918,5 +918,18 @@ export class qqy extends plugin {
             return true;
         }
         return false;
+    }
+    //判断逛街时侯的位置更换次数是否超出,超出则强制回家
+    async is_MAXEX(e){
+        var id = e.user_id
+        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
+        if(placejson[e.user_id].placetime >= 5) {
+            e.reply*(`单次逛街行动上限,你们回了家`)
+            placejson[id].place = "home"
+            placejson[id].placetime = 0
+            await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存
+            return true
+        }
+        else return false;
     }
 }
