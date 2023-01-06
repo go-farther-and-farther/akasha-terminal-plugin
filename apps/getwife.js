@@ -441,6 +441,7 @@ export class qqy extends plugin {
             sex = 'male'
             msg1 = msg + '正在按照您的要求寻找老公！'
         }
+        e.reply(msg1)
 
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
@@ -518,7 +519,9 @@ export class qqy extends plugin {
                 EX: cdTime
             });
         }
-        e.reply(msg);
+        setTimeout(() => {
+            e.reply(msg);
+        }, 3000);
         return true;
     }
     //主动分手/甩掉对方
@@ -688,7 +691,7 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
-        var placeid = Math.round(Math.random()*(Object.keys(giftthing.placename).length-1) + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1) + 1)//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
@@ -700,17 +703,17 @@ export class qqy extends plugin {
         return true;
     }
     //逛街事件继续(全是bug)
-    async gift_continue(e){
+    async gift_continue(e) {
         e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
-        if(placejson[id].place == "home") return//在家直接终止
+        if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
-        var placemsgid = Math.round(Math.random()*(Object.keys(placemodle)-1) + 1)//随机从B中选择一个位置id
+        var placemsgid = Math.round(Math.random() * (Object.keys(placemodle) - 1) + 1)//随机从B中选择一个位置id
         var placemsg = giftthing[userplacename[placemsgid]].msg//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
@@ -719,16 +722,16 @@ export class qqy extends plugin {
         if (await this.is_fw(e, json) == true) return
     }
     //逛街事件停止(大概没bug)
-    async gift_over(e){
+    async gift_over(e) {
         e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
         if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
-        if(placejson[id].place == "home") return//在家直接终止
+        if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
-        var placeid = Math.round(Math.random()*(Object.keys(giftthing.placename).length-1) + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1) + 1)//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
@@ -932,11 +935,11 @@ export class qqy extends plugin {
         return false;
     }
     //判断逛街时侯的位置更换次数是否超出,超出则强制回家
-    async is_MAXEX(e){
+    async is_MAXEX(e) {
         var id = e.user_id
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
-        if(placejson[e.user_id].placetime >= 5) {
-            e.reply*(`单次逛街行动上限,你们回了家`)
+        if (placejson[e.user_id].placetime >= 5) {
+            e.reply * (`单次逛街行动上限,你们回了家`)
             placejson[id].place = "home"
             placejson[id].placetime = 0
             await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存
