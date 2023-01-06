@@ -435,11 +435,11 @@ export class qqy extends plugin {
         }
         if (e.msg.includes('娶') || e.msg.includes('老婆')) {
             sex = 'female'
-            msg1 = msg + '正在按照您的要求寻找老婆！'
+            msg1 = msg1 + '正在按照您的要求寻找老婆！'
         }
         else {
             sex = 'male'
-            msg1 = msg + '正在按照您的要求寻找老公！'
+            msg1 = msg1 + '正在按照您的要求寻找老公！'
         }
         e.reply(msg1)
 
