@@ -472,6 +472,9 @@ export class qqy extends plugin {
             wife = femaleList[random];
             break;
         }
+
+
+        
         console.log(wife);
         let msg = []
         if (gailv < sjwife) {
