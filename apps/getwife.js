@@ -716,8 +716,9 @@ export class qqy extends plugin {
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
+        e.reply(`你在${userplacename}`)
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
-        var placemsgid = Math.round(Math.random() * (Object.keys(placemodle) - 1) + 1)//随机从B中选择一个位置id
+        var placemsgid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
         var placemsg = giftthing[userplacename[placemsgid]].msg//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
@@ -727,7 +728,6 @@ export class qqy extends plugin {
     }
     //逛街事件停止(大概没bug)
     async gift_over(e) {
-        e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
         if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
