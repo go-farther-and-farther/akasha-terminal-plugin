@@ -707,6 +707,7 @@ export class qqy extends plugin {
         e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
@@ -727,6 +728,7 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
