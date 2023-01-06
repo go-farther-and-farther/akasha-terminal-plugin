@@ -118,6 +118,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (!e.at && !e.atme) {
             e.reply(`请at你的情人哦`)
@@ -226,6 +227,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
@@ -326,6 +328,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, `yy`) == true) return
         if (e.atme || e.atall) {
@@ -369,6 +372,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(e.user_id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, `yy`) == true) return
         if (e.atme || e.atall) {
@@ -403,6 +407,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, `wife`) == true) return
         if (!json[id].s == 0) {
@@ -534,6 +539,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, `breakup`) == true) return
         if (e.msg == "分手" || e.msg == "闹离婚") {
@@ -587,6 +593,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         let iswife_list = []
         for (let j of Object.keys(json)) {
@@ -644,6 +651,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, `getmoney`) == true) return
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.user_id}`);
@@ -674,6 +682,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, 'gift') == true) { return }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
@@ -755,6 +764,7 @@ export class qqy extends plugin {
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
+            json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
         if (await this.is_killed(e, json, 'touch') == true) { return }
         if (e.atme || e.atall) {
