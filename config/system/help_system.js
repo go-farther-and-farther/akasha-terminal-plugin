@@ -86,6 +86,14 @@ export const helpList = [{
     desc: '创建老婆存档'
   }, {
     icon: 20,
+    title: '领取低保',
+    desc: '钱太少可以使用'
+  }, {
+    icon: 20,
+    title: '上交存款+数量',
+    desc: '将一部分钱上交给老婆'
+  }, {
+    icon: 20,
     title: '娶群友',
     desc: '随机娶一位群友做老婆'
   }, {

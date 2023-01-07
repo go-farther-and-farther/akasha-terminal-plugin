@@ -37,69 +37,71 @@ export class qqy extends plugin {
             event: 'message',
             priority: 66,
             rule: [{
-                /** 命令正则匹配 */
-                reg: "^#?(娶群友|娶老婆|娶群友老婆|娶群主|找老公)$",//随机娶一位群友
-                /** 执行方法 */
+                reg: "^#?(娶群友|娶老婆|娶群友老婆|娶群主|找老公)$",
                 fnc: 'wife'
             },
             {
-                reg: '^#?(创建老婆|我也要娶群友|你们都是我老婆|加入群老婆|找老婆)$', //加载老婆存档
+                reg: '^#?(创建老婆|找老婆)$',
                 fnc: 'creat'
             },
             {
-                reg: '^#?(强娶|娶)(.*)$', //指定求婚或者强娶一位群友
+                reg: '^#?(强娶|娶)(.*)$',
                 fnc: 'wife2'
             },
             {
-                reg: '^#?抢老婆(.*)$', //抢老婆!
+                reg: '^#?抢老婆(.*)$',
                 fnc: 'ntr'
             },
             {
-                reg: '^#?我愿意', //配合求婚需要at向你求婚的人
+                reg: '^#?我愿意',
                 fnc: 'yy'
             },
             {
-                reg: '^#?我拒绝', //配合求婚需要at向你求婚的人
+                reg: '^#?我拒绝',
                 fnc: 'jj'
             },
             {
-                reg: '^#?(闹离婚|甩掉|分手)', //娶过老婆的需要分手才可以继续娶老婆,甩掉at的人可以把你从ta的老婆里移除掉
+                reg: '^#?(闹离婚|甩掉|分手)',
                 fnc: 'breakup'
             },
             {
-                reg: '^#?(家庭信息|我的(老婆|老公|对象))(.*)$', //看看自己老婆是谁
+                reg: '^#?(家庭信息|我的(老婆|老公|对象))(.*)$',
                 fnc: 'read'
             },
             {
-                reg: '^#?打工赚钱$', //获取金币
+                reg: '^#?打工赚钱$',
                 fnc: 'getmoney'
             },
             {
-                reg: '^#?逛街$', //获取金币
+                reg: '^#?逛街$',
                 fnc: 'gift'
             },
             {
-                reg: '^#?进去看看$', //获取金币
+                reg: '^#?进去看看$',
                 fnc: 'gift_continue'
             },
             {
-                reg: '^#?去下一个地方$', //获取金币
+                reg: '^#?去下一个地方$',
                 fnc: 'gift_over'
             },
             {
-                reg: '^#?(拥抱|抱抱)(.*)$', //抱抱
+                reg: '^#?(拥抱|抱抱)(.*)$',
                 fnc: 'touch'
             },
             {
-                reg: '^#?(群cp|cp列表)$', //抱抱
+                reg: '^#?(群cp|cp列表)$',
                 fnc: 'cp'
             },
             {
-                reg: '^#?领取低保$', //抱抱
+                reg: '^#?领取低保$',
                 fnc: 'poor'
             },
             {
-                reg: '^#?清除老婆冷却$', //抱抱
+                reg: '^#?上交存款\d$',
+                fnc: 'Transfer_money'
+            },
+            {
+                reg: '^#?清除老婆冷却$',
                 fnc: 'delcd'
             }
             ]
@@ -873,6 +875,7 @@ export class qqy extends plugin {
         e.reply(msg)
         return true;
     }
+    //500以内可以领取低保
     async poor(e){
         let lastTime = await redis.get(`potato:wife-poor-cd:${e.user_id}`);
         if (lastTime ) {
@@ -886,15 +889,63 @@ export class qqy extends plugin {
         }
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
-        if (json[id].money < 500)
+        if (json[id].money < 500){
         e.reply(`领取成功,你现在有500金币了`)
-        else return
         josn[id].money = 500
         fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         await redis.set(`potato:wife-poor-cd:${e.user_id}`, currentTime, {
             EX: cdTime7
         });
+        }
+        if (json[id].money >= 500){
+        e.reply(`这就是有钱人的嘴脸吗`)}
         return true
+    }
+    //转账功能
+    async Transfer_money(e){
+        var id = e.user_id
+        var json = JSON.par(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
+        if(json[id].s == 0){
+            e.reply([
+                segment.at(id), "\n",
+                `你暂时没有老婆哦,不用上交了`
+            ])
+            return
+        }
+        if(json[id].money<=0){
+            e.reply([
+                segment.at(id), "\n",
+                `你自己已经很穷了,上交个啥?`
+            ])
+            return
+        }
+        var yingfu = Math.round(Number(e.msg.replace(/(上交存款|#)/g, "").replace(/[\n|\r]/g, "，").trim()))
+        var shifu = Math.round(yingfu*1.1)
+        e.reply([
+            segment.at(id), "\n",
+            `您本次应付需要${yingfu}金币,实付需要${shifu}`
+        ])
+        setTimeout(() => {
+            var id2 = json[id].s
+            if(json[id].money < shifu){
+                e.reply([
+                    segment.at(id), "\n",
+                    `你的金币不足,上交失败`
+                ])
+            }
+            else if(json[id].money >= shifu){
+                e.reply([
+                    segment.at(id), "\n",
+                    `上交成功\n`,
+                    segment.at(id2), "\n",
+                    `你的爱人向你上交了${yingfu}金币`
+                ])
+                josn[id].money -= shifu
+                json[id2].money += yingfu
+                fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+            }
+        }, 1500)
+        return true;
     }
     //清除所有人的冷却或者指定某个人的
     async delcd(e) {
