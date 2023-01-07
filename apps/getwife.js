@@ -729,7 +729,7 @@ export class qqy extends plugin {
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
         console.log(placemodle)
         var placemsgid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
-        var placemsg = giftthing[userplacename[placemsgid]].msg//获取消息
+        var placemsg = placemodle[placemsgid].msg//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
         placejson[id].placetime = 0
