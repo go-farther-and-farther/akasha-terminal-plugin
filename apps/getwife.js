@@ -25,6 +25,7 @@ let cdTime3 = Number(await command.getConfig("wife_cfg", "dgcd")) * 60;//打工�
 let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱冷却
 let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
 let cdTime6 = Number(await command.getConfig("wife_cfg", "qlpcd")) * 60;//抢老婆冷却
+let cdTime7 = Number(await command.getConfig("wife_cfg", "poorcd")) * 60;//抢老婆冷却
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
@@ -92,6 +93,10 @@ export class qqy extends plugin {
             {
                 reg: '^#?(群cp|cp列表)$', //抱抱
                 fnc: 'cp'
+            },
+            {
+                reg: '^#?领取低保$', //抱抱
+                fnc: 'poor'
             },
             {
                 reg: '^#?清除老婆冷却$', //抱抱
@@ -867,6 +872,29 @@ export class qqy extends plugin {
         }
         e.reply(msg)
         return true;
+    }
+    async poor(e){
+        let lastTime = await redis.get(`potato:wife-poor-cd:${e.user_id}`);
+        if (lastTime ) {
+            let tips = [
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `该命令有${cdTime7}秒cd`
+            ]
+            e.reply(tips);
+            return
+        }
+        var id = e.user_id
+        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
+        if (json[id].money < 500)
+        e.reply(`领取成功,你现在有500金币了`)
+        else return
+        josn[id].money = 500
+        fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        await redis.set(`potato:wife-poor-cd:${e.user_id}`, currentTime, {
+            EX: cdTime7
+        });
+        return true
     }
     //清除所有人的冷却或者指定某个人的
     async delcd(e) {

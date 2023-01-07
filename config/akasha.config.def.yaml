@@ -29,3 +29,5 @@ wife_cfg:
   ggcd: 45
   #抢老婆冷却
   qlpcd: 20
+  #领取低保冷却
+  poorcd: 1440
