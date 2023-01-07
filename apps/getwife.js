@@ -307,7 +307,7 @@ export class qqy extends plugin {
             `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
         ])
         if (json[jia].money < pcj) {
-            json[yi].money = json[jia].money
+            json[yi].money += json[jia].money
             json[jia].money = 0
             await redis.set(`potato:wife-jinbi-cd:${jia}`, currentTime, {
                 EX: jbtime
