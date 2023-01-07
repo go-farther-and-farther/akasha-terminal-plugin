@@ -10,10 +10,6 @@ const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 var filename = `qylp.json`
 var placefilename = `place.json`
-var place_template = {
-    "place": "home",
-    "placetime": 0
-}
 //如果文件夹不存在,创建文件夹
 if (!fs.existsSync(Userpath)) {
     fs.mkdirSync(Userpath);
@@ -694,7 +690,7 @@ export class qqy extends plugin {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
-        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//创建玩家初始数据
+        var placejson = await akasha_data.getLPUser(id, placejson, placefilename, false)//创建玩家初始数据
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             this.creat(e)
@@ -733,7 +729,7 @@ export class qqy extends plugin {
             `你选择[进去看看]还是[去下一个地方]?`
         ])
         placejson[id].place = giftthing.placename[placeid]
-        await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存位置
+        await akasha_data.getLPUser(id, placejson, placefilename, true)//保存位置
         fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return true;
     }
@@ -747,7 +743,7 @@ export class qqy extends plugin {
             e.reply(`金币都没了,还是别进去了吧`)
             return
         }
-        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
+        var placejson = await akasha_data.getLPUser(id, placejson, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if(placejson[id].place == "home"){
@@ -773,7 +769,7 @@ export class qqy extends plugin {
             `恭喜你,你本次的行动结果为,金币至${json[id].money},好感度至${json[id].love}`
         ])
         },1000)    
-        await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存位置
+        await akasha_data.getLPUser(id, placejson, placefilename, true)//保存位置
         fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         if (await this.is_fw(e, json) == true) return
     }
@@ -783,7 +779,7 @@ export class qqy extends plugin {
         if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
-        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
+        var placejson = await akasha_data.getLPUser(id, placejson, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if(placejson[id].place == "home"){
@@ -803,7 +799,7 @@ export class qqy extends plugin {
         ])
         placejson[id].place = giftthing.placename[placeid]
         placejson[id].placetime++
-        await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存位置
+        await akasha_data.getLPUser(id, placejson, placefilename, true)//保存位置
         if (await this.is_fw(e, json) == true) return
     }
     //抱抱,有千分之一的概率被干掉
@@ -1001,12 +997,12 @@ export class qqy extends plugin {
     //判断逛街时侯的位置更换次数是否超出,超出则强制回家
     async is_MAXEX(e) {
         var id = e.user_id
-        var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
+        var placejson = await akasha_data.getLPUser(id, placejson, placefilename, false)//读取玩家数据
         if (placejson[e.user_id].placetime >= 5) {
             e.reply(`单次逛街行动上限,你们啥也没干回了家`)
             placejson[id].place = "home"
             placejson[id].placetime = 0
-            await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存
+            await akasha_data.getLPUser(id, placejson, placefilename, true)//保存
             return true
         }
         else return false;

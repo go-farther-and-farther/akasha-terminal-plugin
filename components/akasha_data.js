@@ -24,7 +24,7 @@ async function getUser(id, json, Template, filename, is_save) {
         return json;
     }
 }
-async function getLPUser(id, json, Template, filename, is_save) {
+async function getLPUser(id, json, filename, is_save) {
     /*if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
         filename = filename + ".json";//添加.json
     }*/
@@ -38,7 +38,11 @@ async function getLPUser(id, json, Template, filename, is_save) {
         }
         var json = JSON.parse(fs.readFileSync(LPpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            json[id] = Template
+            let  place_template = {
+                "place": "home",
+                "placetime": 0
+            }        
+            json[id] = place_template
             fs.writeFileSync(LPpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
         return json;
