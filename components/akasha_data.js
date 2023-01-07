@@ -39,6 +39,7 @@ async function getLPUser(id, json, Template, filename, is_save) {
         var json = JSON.parse(fs.readFileSync(LPpath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             json[id] = Template
+            fs.writeFileSync(LPpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
         return json;
     }
