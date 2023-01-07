@@ -684,7 +684,6 @@ export class qqy extends plugin {
             e.reply(`你还没有老婆存档，我帮你创建好了！`)
             json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         }
-        if (await this.is_killed(e, json, 'gift') == true) { return }
         if (json[id].s == 0) {//如果json中不存在该用户或者老婆s为0
             e.reply(`醒醒,你还没有老婆!!`)
             return
@@ -703,10 +702,18 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
+        if(placejson[id].place !== "home"){
+            e.reply([
+                segment.at(id), "\n",
+                `你不在家,不能进行逛街,当前位置为${placejson[id].place}`
+            ])
+            return
+        }
+        if (await this.is_killed(e, json, 'gift') == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
-            segment.at(id), "\n"
+            segment.at(id), "\n",
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
         ])
@@ -724,6 +731,13 @@ export class qqy extends plugin {
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        if(placejson[id].place == "home"){
+            e.reply([
+                segment.at(id), "\n",
+                `你在家,先逛街出去吧,当前位置为${placejson[id].place}`
+            ])
+            return
+        }
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
@@ -736,7 +750,7 @@ export class qqy extends plugin {
         json[id].love += placemodle[placeid].love
         setTimeout(() => {
             e.reply([
-            segment.at(id), "\n"
+            segment.at(id), "\n",
             `恭喜你,你本次的行动结果为,金币至${json[id].money},好感度至${json[id].love}`
         ])
         },1000)    
@@ -753,11 +767,18 @@ export class qqy extends plugin {
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        if(placejson[id].place == "home"){
+            e.reply([
+                segment.at(id), "\n",
+                `你在家,先逛街出去吧,当前位置为${placejson[id].place}`
+            ])
+            return
+        }
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
-            segment.at(id), "\n"
+            segment.at(id), "\n",
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
         ])
