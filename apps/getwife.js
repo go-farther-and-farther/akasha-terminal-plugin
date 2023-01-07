@@ -97,7 +97,7 @@ export class qqy extends plugin {
                 fnc: 'poor'
             },
             {
-                reg: '^#?上交存款\d$',
+                reg: '^#?上交存款',
                 fnc: 'Transfer_money'
             },
             {
@@ -919,7 +919,12 @@ export class qqy extends plugin {
             ])
             return
         }
-        var yingfu = Math.round(Number(e.msg.replace(/(上交存款|#)/g, "").replace(/[\n|\r]/g, "，").trim()))
+        var msg = e.msg.replace(/(上交存款|#)/g, "").replace(/[\n|\r]/g, "，").trim()
+        if(isNaN(msg)){
+            e.reply(`${msg}不是有效值`)
+            return
+        }
+        var yingfu = Math.round(msg)
         var shifu = Math.round(yingfu*1.1)
         e.reply([
             segment.at(id), "\n",
