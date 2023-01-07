@@ -904,7 +904,7 @@ export class qqy extends plugin {
     //转账功能
     async Transfer_money(e){
         var id = e.user_id
-        var json = JSON.par(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
+        var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         if(json[id].s == 0){
             e.reply([
                 segment.at(id), "\n",
