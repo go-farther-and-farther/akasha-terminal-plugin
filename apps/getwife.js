@@ -704,7 +704,7 @@ export class qqy extends plugin {
             EX: cdTime5
         });
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
-        var placemsg = giftthing.start[placeid]//获取消息
+        var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
@@ -747,7 +747,7 @@ export class qqy extends plugin {
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
-        var placemsg = giftthing.start[placeid]//获取消息
+        var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
