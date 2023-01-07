@@ -703,7 +703,7 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-gift-cd:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
-        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1) + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
@@ -746,7 +746,7 @@ export class qqy extends plugin {
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
-        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1) + 1)//随机获取一个位置id
+        var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid]//获取消息
         e.reply([
             `${placemsg}\n`,
