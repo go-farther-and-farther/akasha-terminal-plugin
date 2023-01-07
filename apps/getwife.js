@@ -128,6 +128,10 @@ export class qqy extends plugin {
             e.reply(`不可以这样！`)
             return
         }
+        if (json[e.user_id].money <= 0) {
+            e.reply(`金币都没了,你不能娶老婆`)
+            return
+        }
         let she_he = await this.people(e, 'sex', e.at)//用is_she函数判断下这个人是男是女     
         let iswife_list = await this.is_wife(e.at)
         if (iswife_list.length > 0) {
@@ -242,6 +246,10 @@ export class qqy extends plugin {
         }
         if (json[e.user_id].s != 0) {
             e.reply(`你已经有老婆了还抢别人的???`)
+            return
+        }
+        if (json[e.user_id].money <= 0) {
+            e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
         let lastTime = await redis.get(`potato:wife-ntr-cd:${e.user_id}`);
@@ -735,6 +743,10 @@ export class qqy extends plugin {
         if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
+        if (json[e.user_id].money <= 0) {
+            e.reply(`金币都没了,还是别进去了吧`)
+            return
+        }
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
         if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
@@ -861,7 +873,7 @@ export class qqy extends plugin {
         e.reply(msg)
         return true;
     }
-    //清除所有人的冷却
+    //清除所有人的冷却或者指定某个人的
     async delcd(e) {
         if (e.isMaster) {
             let cddata = await redis.keys('potato:*', (err, data) => { });
@@ -952,7 +964,7 @@ export class qqy extends plugin {
             fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             return true
         }
-        if (kill < 100) {
+        /*if (kill < 100) {
             json[id].money -= 100
             fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             e.reply(`触发十分之一的概率事件!!!`)
@@ -960,7 +972,7 @@ export class qqy extends plugin {
                 e.reply('虽然不知道为什么,但是你的计划泡汤了,还没了100金币')
             }, 3000);//设置延迟
             return true
-        }
+        }*/
         return false
     }
     //判断好感度是否双方都小于等于0,是则拆散,单向老婆则只失去老婆
