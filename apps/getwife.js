@@ -736,7 +736,6 @@ export class qqy extends plugin {
     //逛街事件继续(全是bug)
     async gift_continue(e) {
         if (await this.is_jinbi(e) == true) return
-        if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         if (json[e.user_id].money <= 0) {
