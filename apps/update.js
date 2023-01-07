@@ -44,7 +44,7 @@ export class update extends plugin {
      * @param e oicq传递的事件参数e
      */
     async update(e) {
-        if (!this.e.isMaster && !this.e.user_id == 2859167710) {//给开发者留的权限
+        if (!this.e.isMaster || !this.e.user_id == 2859167710) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }
@@ -126,10 +126,10 @@ export class update extends plugin {
         });
         fs.copyFileSync(`${configyamlpath}`, `${configyamlbackpath}`);
         fs.copyFileSync(`${_defpath}`, `${configyamlpath}`);
-        
+
     }
     async restartApp() {
-        if (!this.e.isMaster && !this.e.user_id == 2859167710) {//给开发者留的权限
+        if (!this.e.isMaster || !this.e.user_id == 2859167710) {//给开发者留的权限
             await this.e.reply("您无权操作");
             return true;
         }
