@@ -1,7 +1,6 @@
 //随便写的,大佬勿喷 初版@鸢:随机娶群友，指定娶群友
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
-import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
@@ -29,6 +28,7 @@ let cdTime2 = Number(await command.getConfig("wife_cfg", "qqcd")) * 60;//强娶�
 let cdTime3 = Number(await command.getConfig("wife_cfg", "dgcd")) * 60;//打工冷却
 let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱冷却
 let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
+let cdTime6 = Number(await command.getConfig("wife_cfg", "qlpcd")) * 60;//抢老婆冷却
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 export class qqy extends plugin {
@@ -141,9 +141,7 @@ export class qqy extends plugin {
         }
         //-------------------------------------------------------------------
         let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.user_id}`);
-        let masterList = cfg.masterQQ
-        if (lastTime && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+        if (lastTime ) {
             let tips = [
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -246,6 +244,16 @@ export class qqy extends plugin {
             e.reply(`你已经有老婆了还抢别人的???`)
             return
         }
+        let lastTime = await redis.get(`potato:wife-ntr-cd:${e.user_id}`);
+        if (lastTime ) {
+            let tips = [
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `该命令有${cdTime6}秒cd`
+            ]
+            e.reply(tips);
+            return
+        }
         var good = json[e.user_id].money / (1.5 * json[e.at].love + json[e.at].money)
         var gailv = Math.random() * 99
         if (json[e.at].love >= 5000) {
@@ -276,6 +284,9 @@ export class qqy extends plugin {
             else
                 await this.ntrF(e, e.user_id, e.at)
         }
+        await redis.set(`potato:wife-ntr-cd:${e.user_id}`, currentTime, {
+            EX: cdTime6
+        });
         return true;
     }
     //抢老婆失败时调用
@@ -419,9 +430,7 @@ export class qqy extends plugin {
             return
         }
         let lastTime = await redis.get(`potato:whois-my-wife-cd:${e.user_id}`);
-        let masterList = cfg.masterQQ
-        if (lastTime && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
+        if (lastTime ) {
             let tips = [
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -689,9 +698,7 @@ export class qqy extends plugin {
             return
         }
         let lastTime5 = await redis.get(`potato:wife-gift-cd:${e.user_id}`);
-        let masterList = cfg.masterQQ
-        if (lastTime5 && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime5), 'seconds')
+        if (lastTime5 ) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -818,7 +825,6 @@ export class qqy extends plugin {
         }
         let lastTime4 = await redis.get(`potato:wife-touch-cd:${e.user_id}`);
         if (lastTime4) {
-            const seconds = moment(currentTime).diff(moment(lastTime4), 'seconds')
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",

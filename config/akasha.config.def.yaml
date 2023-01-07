@@ -24,6 +24,8 @@ wife_cfg:
   #打工冷却
   dgcd: 20
   #抱抱冷却
-  bbcd: 180
+  bbcd: 60
   #逛街冷却
   ggcd: 45
+  #抢老婆冷却
+  qlpcd: 20
