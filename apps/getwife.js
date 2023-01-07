@@ -706,6 +706,7 @@ export class qqy extends plugin {
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
+            segment.at(id), "\n"
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
         ])
@@ -716,8 +717,8 @@ export class qqy extends plugin {
     }
     //逛街事件继续(全是bug)
     async gift_continue(e) {
-        e.reply("功能测试中")
         if (await this.is_jinbi(e) == true) return
+        if (await this.is_MAXEX(e) == true) return
         var id = e.user_id
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         var placejson = await akasha_data.getLPUser(id, placejson, place_template, placefilename, false)//读取玩家数据
@@ -725,15 +726,22 @@ export class qqy extends plugin {
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (await this.is_killed(e, json, 'gift') == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
-        e.reply(`你在${userplacename}`)
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
-        console.log(placemodle)
-        var placemsgid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
-        var placemsg = placemodle[placemsgid].msg//获取消息
+        var placeid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
+        var placemsg = placemodle[placeid].msg//获取消息
         e.reply(`${placemsg}`)
         placejson[id].place = "home"
         placejson[id].placetime = 0
+        json[id].money += placemodle[placeid].money
+        json[id].love += placemodle[placeid].love
+        setTimeout(() => {
+            e.reply([
+            segment.at(id), "\n"
+            `恭喜你,你本次的行动结果为,金币至${json[id].money},好感度至${json[id].love}`
+        ])
+        },1000)    
         await akasha_data.getLPUser(id, placejson, place_template, placefilename, true)//保存位置
+        fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         if (await this.is_fw(e, json) == true) return
     }
     //逛街事件停止(大概没bug)
@@ -749,6 +757,7 @@ export class qqy extends plugin {
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid+1]//获取消息
         e.reply([
+            segment.at(id), "\n"
             `${placemsg}\n`,
             `你选择[进去看看]还是[去下一个地方]?`
         ])
@@ -921,7 +930,7 @@ export class qqy extends plugin {
             fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             e.reply(`触发十分之一的概率事件!!!`)
             setTimeout(() => {
-                e.reply('但是现在是公测阶段，惩罚变成了损失金币100')
+                e.reply('虽然不知道为什么,但是你的计划泡汤了,还没了100金币')
             }, 3000);//设置延迟
             return true
         }
