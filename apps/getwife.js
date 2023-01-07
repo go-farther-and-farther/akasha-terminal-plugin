@@ -891,7 +891,7 @@ export class qqy extends plugin {
         var json = JSON.parse(fs.readFileSync(Userpath + "/" + filename, "utf8"));//读取文件
         if (json[id].money < 500){
         e.reply(`领取成功,你现在有500金币了`)
-        josn[id].money = 500
+        json[id].money = 500
         fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         await redis.set(`potato:wife-poor-cd:${e.user_id}`, currentTime, {
             EX: cdTime7
@@ -945,7 +945,7 @@ export class qqy extends plugin {
                     segment.at(id2), "\n",
                     `你的爱人向你上交了${yingfu}金币`
                 ])
-                josn[id].money -= shifu
+                json[id].money -= shifu
                 json[id2].money += yingfu
                 fs.writeFileSync(Userpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
             }
