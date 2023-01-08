@@ -725,6 +725,7 @@ export class qqy extends plugin {
             `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}`
         ])
         },1000)    
+        await akasha_data.getQQYUserHome(id, placejson, placefilename, true)//保存位置
         await akasha_data.getQQYUserPlace(id, placejson, placefilename, true)//保存位置
         if (await this.is_fw(e, homejson) == true) return
     }
