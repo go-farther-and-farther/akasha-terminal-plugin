@@ -47,7 +47,7 @@ async function getQQYUserPlace(id, json, filename, is_save) {
         return json;
     }
     else {
-        fs.writeFileSync(LPpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        fs.writeFileSync(QQYplacepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
     }
 }
@@ -74,7 +74,7 @@ async function getQQYUserHome(id, json, filename, is_save) {
         return json;
     }
     else {
-        fs.writeFileSync(LPpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
     }
 }
