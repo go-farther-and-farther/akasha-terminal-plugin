@@ -97,6 +97,7 @@ export class qqy extends plugin {
     }
     //创建存档
     async creat(e) {
+
         var id = e.user_id
         this.creat(e, id)
         return true;
@@ -651,7 +652,7 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, homefilename, false)  
         var placefilename = e.group_id + `.json`
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, placefilename, false)
-        var giftthing = homejson.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
             e.reply(`醒醒,你还没有老婆!!`)
             return
@@ -700,7 +701,7 @@ export class qqy extends plugin {
             return
         }
         if (placejson[id].place == "home") return//在家直接终止
-        var giftthing = homejson.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if(placejson[id].place == "home"){
             e.reply([
                 segment.at(id), "\n",
@@ -737,7 +738,7 @@ export class qqy extends plugin {
         var placefilename = e.group_id + `.json`
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, placefilename, false)
         if (placejson[id].place == "home") return//在家直接终止
-        var giftthing = homejson.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
+        var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if(placejson[id].place == "home"){
             e.reply([
                 segment.at(id), "\n",
