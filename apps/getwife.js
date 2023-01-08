@@ -439,7 +439,7 @@ export class qqy extends plugin {
             sex = 'male'
             msg1 = msg1 + '正在按照您的要求寻找老公！'
         }
-        e.reply(msg1)
+        //e.reply(msg1)
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         //读取memberMap中的值，赋值给一个数组arrMember
