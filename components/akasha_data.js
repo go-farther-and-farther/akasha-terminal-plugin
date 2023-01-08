@@ -1,5 +1,6 @@
 import fs from "fs";
 const dirpath = "plugins/akasha-terminal-plugin/data"
+const QQYpath = "plugins/akasha-terminal-plugin/data/qylp"
 const QQYhomepath = "plugins/akasha-terminal-plugin/data/qylp/UserHome"
 const QQYplacepath = "plugins/akasha-terminal-plugin/data/qylp/UserPlace"
 //这两个函数都是用来读取和保存json数据的
@@ -28,6 +29,9 @@ async function getUser(id, json, Template, filename, is_save) {
 }
 async function getQQYUserPlace(id, json, filename, is_save) {
     if (!is_save) {
+        if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYpath);//创建文件夹
+        }
         if (!fs.existsSync(QQYplacepath)) {//如果文件夹不存在
             fs.mkdirSync(QQYplacepath);//创建文件夹
         }
@@ -53,6 +57,9 @@ async function getQQYUserPlace(id, json, filename, is_save) {
 }
 async function getQQYUserHome(id, json, filename, is_save) {
     if (!is_save) {
+        if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYpath);//创建文件夹
+        }
         if (!fs.existsSync(QQYhomepath)) {//如果文件夹不存在
             fs.mkdirSync(QQYhomepath);//创建文件夹
         }
