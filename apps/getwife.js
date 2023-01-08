@@ -923,11 +923,7 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, homefilename, false)  
         var placefilename = e.group_id + `.json`
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, placefilename, false)
-        if (!homejson.hasOwnProperty(id)) {//如果json中不存在该用户
-            e.reply(`创建成功,你现在的金币为100,位置在home`)
-            return
-        }
-        e.reply(`你已经有老婆存档了`)
+        e.reply(`好`)
     }
     //看看你是哪些人的老婆函数
     async is_wife(e, id) {
