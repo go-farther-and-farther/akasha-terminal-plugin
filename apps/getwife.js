@@ -317,11 +317,10 @@ export class qqy extends plugin {
                 segment.at(yi), "\n",
                 `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
             ])
-        if (homejson[jia].money <= (homejson[yi].love * 1.5))
-            e.reply([
-                segment.at(yi), "\n",
-                `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
-            ])
+        e.reply([
+            segment.at(yi), "\n",
+            `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
+        ])
         homejson[jia].s = homejson[yi].s
         homejson[jia].love = 6
         homejson[yi].s = 0
