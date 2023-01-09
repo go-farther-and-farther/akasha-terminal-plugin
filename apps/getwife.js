@@ -857,8 +857,6 @@ export class qqy extends plugin {
         var id = e.user_id
         var homefilename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, homefilename, false)  
-        var id2 = homejson[id].s
-        homejson = await akasha_data.getQQYUserHome(id2, homejson, homefilename, false)  
         if(homejson[id].s == 0){
             e.reply([
                 segment.at(id), "\n",
@@ -878,6 +876,8 @@ export class qqy extends plugin {
             e.reply(`${msg}不是有效值`)
             return
         }
+        var id2 = homejson[id].s
+        var homejson = await akasha_data.getQQYUserHome(id2, homejson, homefilename, false)  //给老婆创建存档
         var yingfu = Math.round(msg)
         var shifu = Math.round(yingfu*1.1)
         e.reply([
@@ -885,7 +885,6 @@ export class qqy extends plugin {
             `您本次应付需要${yingfu}金币,实付需要${shifu}`
         ])
         setTimeout(() => {
-            var id2 = homejson[id].s
             if(homejson[id].money < shifu){
                 e.reply([
                     segment.at(id), "\n",
@@ -901,9 +900,9 @@ export class qqy extends plugin {
                 ])
                 homejson[id].money -= shifu
                 homejson[id2].money += yingfu
+                akasha_data.getQQYUserHome(id, homejson, homefilename, true)  
             }
         }, 1500)
-        await akasha_data.getQQYUserHome(id, homejson, homefilename, true)  
         return true;
     }
     //清除所有人的冷却或者指定某个人的
