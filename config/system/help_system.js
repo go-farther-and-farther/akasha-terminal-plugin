@@ -40,10 +40,6 @@ export const helpCfg = {
 export const helpList = [{
   group: '决斗!属性系统',
   list: [{
-    icon: 20,
-    title: '#加入决斗/决斗状态',
-    desc: '创建/查看状态'
-}, {
     icon: 21,
     title: '#锻炼',
     desc: '生命在于运动。锻炼提升你的经验吧'
