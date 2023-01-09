@@ -858,7 +858,7 @@ export class qqy extends plugin {
         var homefilename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, homefilename, false)  
         var id2 = homejson[id].s
-        await akasha_data.getQQYUserHome(id2, homejson, homefilename, false)  
+        homejson = await akasha_data.getQQYUserHome(id2, homejson, homefilename, false)  
         if(homejson[id].s == 0){
             e.reply([
                 segment.at(id), "\n",
