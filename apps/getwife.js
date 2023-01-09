@@ -225,7 +225,7 @@ export class qqy extends plugin {
         }
         if (await this.is_killed(e, homejson, `ntr`) == true) return
         if (homejson[e.at].s == 0) {
-            e.reply("虽然但是,对方没有老婆啊!(￣_,￣ ),要不你俩试试?")
+            e.reply("虽然但是,对方在这里没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return
         }
         if (homejson[e.user_id].s != 0) {
@@ -523,13 +523,8 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, homefilename, false)  
         if (await this.is_killed(e, homejson, `breakup`) == true) return
         if (e.msg == "分手" || e.msg == "闹离婚") {
-            if (!homejson.hasOwnProperty(id)) {//如果json中不存在该用户
-                e.reply(`你还没有老婆存档。我帮你创建吧`)
-                this.creat(e)
-                return
-            }
             if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-                e.reply(`醒醒,你根本没有老婆!!`)
+                e.reply(`醒醒,你根本在这里没有老婆!!`)
                 return
             }
             let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
@@ -589,12 +584,12 @@ export class qqy extends plugin {
             msg = '喜欢你的人一个也没有'
         }
         if (homejson[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply([`醒醒,你还没有老婆,也没有人喜欢你!!\n你现在还剩下${homejson[id].money}金币`])
+            e.reply([`醒醒,你还在这里没有老婆,也没有人喜欢你!!\n你现在还剩下${homejson[id].money}金币`])
             return
         }
-        if (homejson[id].s == 0 && !iswife_list.length == 0) {//自己没有老婆的，但是有人喜欢
+        if (homejson[id].s == 0 && !iswife_list.length == 0) {//自己在这里没有老婆的，但是有人喜欢
             e.reply([
-                `醒醒,你还没有老婆!!\n`,
+                `醒醒,你还在这里没有老婆!!\n`,
                 `你现在还剩下${homejson[id].money}金币\n${msg}`
             ])
             return
@@ -653,7 +648,7 @@ export class qqy extends plugin {
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, placefilename, false)
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取文件
         if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply(`醒醒,你还没有老婆!!`)
+            e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
         let lastTime5 = await redis.get(`potato:wife-gift-cd:${e.user_id}`);
@@ -771,7 +766,7 @@ export class qqy extends plugin {
             return
         }
         if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply(`醒醒,你还没有老婆!!`)
+            e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
         if (!e.at && !e.atme) {
@@ -860,7 +855,7 @@ export class qqy extends plugin {
         if(homejson[id].s == 0){
             e.reply([
                 segment.at(id), "\n",
-                `你暂时没有老婆哦,不用上交了`
+                `你暂时在这里没有老婆哦,不用上交了`
             ])
             return
         }
