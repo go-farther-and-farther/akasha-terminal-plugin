@@ -228,11 +228,11 @@ export class qqy extends plugin {
             e.reply("虽然但是,对方在这里没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return
         }
-        if (homejson[e.user_id].s != 0) {
+        if (homejson[id].s != 0) {
             e.reply(`你已经有老婆了还抢别人的???`)
             return
         }
-        if (homejson[e.user_id].money <= 0) {
+        if (homejson[id].money <= 0) {
             e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
@@ -247,31 +247,31 @@ export class qqy extends plugin {
             return
         }
         var good = homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money)
-        var gailv = Math.random() * 99
+        await e.reply(`你的金币数为${homejson[id].money},\n对方的金币数为${homejson[e.at].money},\n对方老婆对对方的好感度为${homejson[e.at].love},你的成功率为${good*100}%`)
         if (homejson[e.at].love >= 5000) {
             e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
             await this.ntrF(e, e.user_id, e.at)
         }
         if (homejson[e.at].love < 5000 && homejson[e.at] >= 2500) {
-            if (good > 1.6 || gailv >= 90)
+            if (good > 1.6)
                 await this.ntrT(e, e.user_id, e.at)
             else
                 await this.ntrF(e, e.user_id, e.at)
         }
         if (homejson[e.at].love < 2500 && homejson[e.at] >= 1000) {
-            if (good > 1.3 || gailv >= 80)
+            if (good > 1.4)
                 await this.ntrT(e, e.user_id, e.at)
             else
                 await this.ntrF(e, e.user_id, e.at)
         }
         if (homejson[e.at].love < 1000 && homejson[e.at] >= 500) {
-            if (good > 1 || gailv >= 70)
+            if (good > 1.2)
                 await this.ntrT(e, e.user_id, e.at)
             else
                 await this.ntrF(e, e.user_id, e.at)
         }
         if (homejson[e.at].love < 500) {
-            if (gailv >= 50)
+            if (good > 1)
                 await this.ntrT(e, e.user_id, e.at)
             else
                 await this.ntrF(e, e.user_id, e.at)
@@ -317,10 +317,10 @@ export class qqy extends plugin {
                 segment.at(yi), "\n",
                 `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
             ])
-        e.reply([
-            segment.at(yi), "\n",
-            `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
-        ])
+        else {e.reply([
+                segment.at(yi), "\n",
+                `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
+            ])}
         homejson[jia].s = homejson[yi].s
         homejson[jia].love = 6
         homejson[yi].s = 0
