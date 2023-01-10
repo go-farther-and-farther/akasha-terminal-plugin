@@ -246,36 +246,17 @@ export class qqy extends plugin {
             e.reply(tips);
             return
         }
-        var good = homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money)
-        await e.reply(`你的金币数为${homejson[id].money},\n对方的金币数为${homejson[e.at].money},\n对方老婆对对方的好感度为${homejson[e.at].love},你的成功率为${good*100}%`)
+        var good = homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100
+        var gailv = Math.round(Math.random()*99)
+        await e.reply(`你的金币数为${homejson[id].money},\n对方的金币数为${homejson[e.at].money},\n对方老婆对对方的好感度为${homejson[e.at].love},你的成功率为${good}%`)
         if (homejson[e.at].love >= 5000) {
             e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
             await this.ntrF(e, e.user_id, e.at)
         }
-        if (homejson[e.at].love < 5000 && homejson[e.at] >= 2500) {
-            if (good > 1.6)
+        else if (good > gailv)
                 await this.ntrT(e, e.user_id, e.at)
             else
                 await this.ntrF(e, e.user_id, e.at)
-        }
-        if (homejson[e.at].love < 2500 && homejson[e.at] >= 1000) {
-            if (good > 1.4)
-                await this.ntrT(e, e.user_id, e.at)
-            else
-                await this.ntrF(e, e.user_id, e.at)
-        }
-        if (homejson[e.at].love < 1000 && homejson[e.at] >= 500) {
-            if (good > 1.2)
-                await this.ntrT(e, e.user_id, e.at)
-            else
-                await this.ntrF(e, e.user_id, e.at)
-        }
-        if (homejson[e.at].love < 500) {
-            if (good > 1)
-                await this.ntrT(e, e.user_id, e.at)
-            else
-                await this.ntrF(e, e.user_id, e.at)
-        }
         await redis.set(`potato:wife-ntr-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime6
         });
