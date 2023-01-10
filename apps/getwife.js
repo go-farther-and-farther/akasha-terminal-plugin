@@ -122,7 +122,7 @@ export class qqy extends plugin {
             return
         }
         let she_he = await this.people(e, 'sex', e.at)//用is_she函数判断下这个人是男是女     
-        let iswife_list = await this.is_wife(e.at)
+        let iswife_list = await this.is_wife(e, e.at)
         if (iswife_list.length > 0) {
             let msg = `已经人喜欢${she_he}了哦！让${she_he}先处理一下！\n喜欢${she_he}的人有：`
             for (let i of iswife_list) {
@@ -457,7 +457,7 @@ export class qqy extends plugin {
             })
         }
         //写个过滤器删掉bot和发起人
-        femaleList = femaleList.filter(item => { return item.user_id != e.user_id && item.user_id != e.at })
+        femaleList = femaleList.filter(item => { return item.user_id != e.user_id && item.user_id != Bot.uin })
         var gailv = Math.round(Math.random() * 9);
         let wife = {}
 
