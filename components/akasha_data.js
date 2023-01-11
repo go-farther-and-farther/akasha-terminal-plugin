@@ -3,6 +3,7 @@ const dirpath = "plugins/akasha-terminal-plugin/data"
 const QQYpath = "plugins/akasha-terminal-plugin/data/qylp"
 const QQYhomepath = "plugins/akasha-terminal-plugin/data/qylp/UserHome"
 const QQYplacepath = "plugins/akasha-terminal-plugin/data/qylp/UserPlace"
+const QQYhousepath = "plugins/akasha-terminal-plugin/data/qylp/UserHouse"
 //这两个函数都是用来读取和保存json数据的
 async function getUser(id, json, Template, filename, is_save) {
     /*if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
@@ -85,6 +86,36 @@ async function getQQYUserHome(id, json, filename, is_save) {
         return json;
     }
 }
+async function getQQYUserHouse(id, json, filename, is_save) {
+    if (!is_save) {
+        if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYpath);//创建文件夹
+        }
+        if (!fs.existsSync(QQYhousepath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYhousepath);//创建文件夹
+        }
+        if (!fs.existsSync(QQYhousepath + "/" + filename)) {//如果文件不存在
+            fs.writeFileSync(QQYhousepath + "/" + filename, JSON.stringify({//创建文件
+            }));
+        }
+        var json = JSON.parse(fs.readFileSync(QQYhomepath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            let house_template = {
+                "name":"居无定所",
+                "space": 6,
+                "price": 500,
+                "loveup": 1
+            }
+            json[id] = house_template
+            fs.writeFileSync(QQYhousepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        }
+        return json;
+    }
+    else {
+        fs.writeFileSync(QQYhousepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return json;
+    }
+}
 async function getUser2(user_id, json, dirname, is_save) {
     if (is_save) {
         let filename = `${user_id}.json`;
@@ -105,4 +136,4 @@ async function getUser2(user_id, json, dirname, is_save) {
         return json
     }
 }
-export default { getUser, getQQYUserPlace, getQQYUserHome, getUser2 }
+export default { getUser, getQQYUserPlace, getQQYUserHome, getQQYUserHouse, getUser2 }

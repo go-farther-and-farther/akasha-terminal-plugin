@@ -86,6 +86,14 @@ export const helpList = [{
     desc: '钱太少可以使用'
   }, {
     icon: 20,
+    title: '看房',
+    desc: '看看当前可买房产'
+  }, {
+    icon: 20,
+    title: '买房+id',
+    desc: '还没写'
+  }, {
+    icon: 20,
     title: '上交存款+数量',
     desc: '将一部分钱上交给老婆'
   }, {
@@ -135,7 +143,7 @@ export const helpList = [{
   }, {
     icon: 20,
     title: '家庭信息',
-    desc: '看看老婆,看看家'
+    desc: '看看家,看看资产'
   }]
 }, {
   group: '管理命令，仅bot管理员可用',
