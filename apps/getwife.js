@@ -127,7 +127,8 @@ export class qqy extends plugin {
             e.reply(`金币都没了,你不能娶老婆`)
             return
         }
-        let she_he = await this.people(e, 'sex', e.at)//用is_she函数判断下这个人是男是女     
+        let she_he = await this.people(e, 'sex', e.at)//用is_she函数判断下这个人是男是女  
+        let name = await this.people(e, 'nickname', e.at)//用is_she函数获取昵称
         let iswife_list = await this.is_wife(e, e.at)
         if (iswife_list.length > 0) {
             let msg = `已经人喜欢${she_he}了哦！让${she_he}先处理一下！\n喜欢${she_he}的人有：`
@@ -184,7 +185,7 @@ export class qqy extends plugin {
                     segment.at(id), "\n",
                     segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${id}`), "\n",
                     `恭喜你！`, "\n",
-                    `在茫茫人海中，你成功强娶到了${user_id2_nickname}!`,
+                    `在茫茫人海中，你成功强娶到了${name}!`,
                     "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`), "\n",
                 ])
                         await redis.set(`potato:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
@@ -471,11 +472,13 @@ export class qqy extends plugin {
             else if (wife.sex == 'female') {
                 py = `她`
             }
+            let name = await this.people(e, 'nickname', wife.user_id)//用is_she函数获取昵称
             msg = [
                 segment.at(e.user_id), "\n",
                 `${wife.nickname}答应了你哦！(*/ω＼*)`, "\n",
-                `今天你的${cp}朋友是`, "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${wife.user_id}`), "\n",
-                `【${wife.nickname}】 (${wife.user_id}) `, "\n",
+                `今天你的${cp}朋友是`, "\n", 
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${wife.user_id}`), "\n",
+                `【${name}}】 (${wife.user_id}) `, "\n",
                 `来自【${e.group_name}】`, "\n",
                 `要好好对待${py}哦！`,
             ]
@@ -571,17 +574,6 @@ export class qqy extends plugin {
         else {
             msg = '喜欢你的人一个也没有'
         }
-        if (homejson[id].s == 0 && iswife_list.length == 0) {//如果json中不存在该用户或者老婆s为0
-            e.reply([`醒醒,你还在这里没有老婆,也没有人喜欢你!!\n你现在还剩下${homejson[id].money}金币`])
-            return
-        }
-        if (homejson[id].s == 0 && !iswife_list.length == 0) {//自己在这里没有老婆的，但是有人喜欢
-            e.reply([
-                `醒醒,你还在这里没有老婆!!\n`,
-                `你现在还剩下${homejson[id].money}金币\n${msg}`
-            ])
-            return
-        }
         let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
         let name = await this.people(e, 'nickname', homejson[id].s)//用is_she函数获取昵称
         if (iswife_list.includes(homejson[id].s)) {//两情相悦的
@@ -604,6 +596,15 @@ export class qqy extends plugin {
             `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
         ])
         }
+        else if (homejson[id].s == 0) {//单身的
+            e.reply([
+                segment.at(id), "\n",
+                `现在的你还是一位单身贵族\n`,
+                `你现在还剩下${homejson[id].money}金币\n${msg}`,
+                `你的房产信息为\n`,
+                `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
+            ])
+            }
         return true;
     }
     //打工
@@ -950,7 +951,7 @@ export class qqy extends plugin {
             return she_he
         }
         if (keys == 'nickname') {
-            let name = lp.nickname
+            let name = lp.card
             return name
         }
 
