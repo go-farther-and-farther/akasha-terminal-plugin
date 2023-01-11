@@ -635,7 +635,7 @@ export class qqy extends plugin {
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
         var msg = '欢迎光临\n请过目\n'
         for(let i of Object.keys(housething)){
-            msg += `名${housething[i].name}\n容量${housething[i].space}\n价格${housething[i].price}\n好感增幅${housething[i].loveup}`
+            msg += `名${housething[i].name}\n容量${housething[i].space}\n价格${housething[i].price}\n好感增幅${housething[i].loveup}\n`
         }
         e.reply(msg)
         return true
