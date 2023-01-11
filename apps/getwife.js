@@ -693,7 +693,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)  
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
-        var housejson = await akasha_data.getQQYUserPlace(id, housejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         if (homejson[e.user_id].money <= 0) {
             e.reply(`金币都没了,还是别进去了吧`)
             return
@@ -763,7 +763,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)  
-        var housejson = await akasha_data.getQQYUserPlace(id, housejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         if (await this.is_killed(e, homejson, 'touch') == true) { return }
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
@@ -856,7 +856,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)  
-        var housejson = await akasha_data.getQQYUserPlace(id, housejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         if(homejson[id].s == 0){
             e.reply([
                 segment.at(id), "\n",
@@ -924,7 +924,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)  
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
-        var housejson = await akasha_data.getQQYUserPlace(id, housejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
     }
     //看看你是哪些人的老婆函数
     async is_wife(e, id) {
