@@ -574,27 +574,29 @@ export class qqy extends plugin {
         else {
             msg = '喜欢你的人一个也没有'
         }
-        let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
-        let name = await this.people(e, 'nickname', homejson[id].s)//用is_she函数获取昵称
-        if (iswife_list.includes(homejson[id].s)) {//两情相悦的
-            e.reply([segment.at(id), segment.at(homejson[id].s), "\n",
+        if (homejson[id].s !== 0) {//有老婆的
+            let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
+            let name = await this.people(e, 'nickname', homejson[id].s)//用is_she函数获取昵称
+            if (iswife_list.includes(homejson[id].s)) {//两情相悦的
+                e.reply([segment.at(id), segment.at(homejson[id].s), "\n",
                 `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
-            `你的群友老婆是${name},${she_he}也喜欢你\n`,
-            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
-            `${she_he}对你的好感度为${homejson[id].love}\n`,
-            `你对${she_he}的好感度为${homejson[homejson[id].s].love}\n`,
-            `你现在还剩下${homejson[id].money}金币`])
-        }
-        else if (!homejson[id].s == 0) {//只有喜欢的人的
-            e.reply([
-            segment.at(id), "\n",
-            `你的群友老婆是${name}\n`,
-            segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
-            `${she_he}对你的好感度为${homejson[id].love}\n`,
-            `你现在还剩下${homejson[id].money}金币\n${msg}`,
-            `你的住所信息为\n`,
-            `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
-        ])
+                `你的群友老婆是${name},${she_he}也喜欢你\n`,
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
+                `${she_he}对你的好感度为${homejson[id].love}\n`,
+                `你对${she_he}的好感度为${homejson[homejson[id].s].love}\n`,
+                `你现在还剩下${homejson[id].money}金币`])
+            }
+            else{
+                e.reply([
+                    segment.at(id), "\n",
+                    `你的群友老婆是${name}\n`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
+                    `${she_he}对你的好感度为${homejson[id].love}\n`,
+                    `你现在还剩下${homejson[id].money}金币\n${msg}`,
+                    `你的住所信息为\n`,
+                    `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
+                ])
+            }
         }
         else if (homejson[id].s == 0) {//单身的
             e.reply([
