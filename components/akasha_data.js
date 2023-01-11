@@ -98,7 +98,7 @@ async function getQQYUserHouse(id, json, filename, is_save) {
             fs.writeFileSync(QQYhousepath + "/" + filename, JSON.stringify({//创建文件
             }));
         }
-        var json = JSON.parse(fs.readFileSync(QQYhomepath + "/" + filename, "utf8"));//读取文件
+        var json = JSON.parse(fs.readFileSync(QQYhousepath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
             let house_template = {
                 "name": "小破屋",
