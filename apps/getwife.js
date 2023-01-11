@@ -630,7 +630,7 @@ export class qqy extends plugin {
         e.reply(`恭喜你!现在你有${homejson[id].money}金币了!`)
         return true;
     }
-    //买房
+    //看房
     async gethouse(e){
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
         var msg = '欢迎光临\n请过目\n'
@@ -640,7 +640,7 @@ export class qqy extends plugin {
         e.reply(msg)
         return true
     }   
-    //逛街(大概没bug了)
+    //逛街
     async gift(e) {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
@@ -683,7 +683,7 @@ export class qqy extends plugin {
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         return true;
     }
-    //逛街事件继续(全是bug)
+    //逛街事件结束
     async gift_continue(e) {
         if (await this.is_jinbi(e) == true) return
         var id = e.user_id
@@ -724,7 +724,7 @@ export class qqy extends plugin {
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         if (await this.is_fw(e, homejson) == true) return
     }
-    //逛街事件停止(大概没bug)
+    //逛街事件继续
     async gift_over(e) {
         if (await this.is_jinbi(e) == true) return
         if (await this.is_MAXEX(e) == true) return
