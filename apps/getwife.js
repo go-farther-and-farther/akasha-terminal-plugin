@@ -570,8 +570,7 @@ export class qqy extends plugin {
                 iswife_list.push(j)
         }
         //你的钱,你的房子
-        let msg_house = [`你现在还剩下${homejson[id].money}金币\n`,
-        `你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
+        let msg_house = [`你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
         //最后发送的信息
         let msg = []
 
