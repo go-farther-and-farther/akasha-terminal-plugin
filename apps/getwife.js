@@ -621,7 +621,7 @@ export class qqy extends plugin {
                 msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
-        let msg2 = msg_love3 + msg_love2 + msg_lovemsg_house
+        let msg2 = msg_love3 + msg_love2 + msg_love + msg_house
         //最后回复信息
         if (homejson[id].s !== 0) {
             e.reply([
