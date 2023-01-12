@@ -624,13 +624,16 @@ export class qqy extends plugin {
 
         //最后回复信息
         if (homejson[id].s !== 0) {
-            msg = msg + msg_love3 + msg_love2 + msg_love + msg_house
             e.reply([
                 segment.at(id),  "\n", 
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
                 msg,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n", 
-            ])
+                msg_love3,
+                msg_love2,
+                msg_love,
+                msg_house
+                ])
         }
         else {
             msg = msg + msg_love + msg_house
