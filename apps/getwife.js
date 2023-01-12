@@ -617,7 +617,7 @@ export class qqy extends plugin {
                 msg_love = msg_love + `${i}\n好感度为：${homejson[i].love}\n`
             msg_love = msg_love + `快去处理一下吧\n`
         }
-        else msg_love = '喜欢你的人一个也没有\n'
+        else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
 
         if (homejson[id].s !== 0) {
             msg = msg + msg_love2 + msg_love + msg_house
