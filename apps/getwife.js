@@ -840,7 +840,7 @@ export class qqy extends plugin {
         let namelist = []
         for (let i = 0; i < arrMember.length; i++) {
             idlist[i] = arrMember[i].user_id
-            namelist[arrMember[i].user_id] = arrMember[i].nickname
+            namelist[arrMember[i].user_id] = arrMember[i].card
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
         //e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
