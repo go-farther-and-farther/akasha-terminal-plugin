@@ -319,7 +319,7 @@ export class qqy extends plugin {
     }
     //愿意
     async yy(e) {
-        var id = e.at
+        var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         if (await this.is_killed(e, homejson, `yy`) == true) return
@@ -331,6 +331,7 @@ export class qqy extends plugin {
             e.reply(`请at你愿意嫁给的人哦(˵¯͒〰¯͒˵)`)
             return
         }
+        id = e.at
         if (homejson[id].wait == 0) {
             e.reply(`对方还未向任何人求婚呢,就不要捣乱了`)
             return
@@ -567,7 +568,7 @@ export class qqy extends plugin {
         for (let j of Object.keys(homejson)) {
             //若果这个人的老婆 == id
             if (homejson[j].s == id)
-                iswife_list.push(j)
+                iswife_list.push(Number(j))
         }
         //你的钱,你的房子
         let msg_house = [`你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
@@ -586,11 +587,11 @@ export class qqy extends plugin {
                 `${she_he}对你的好感度为：${homejson[id].love}\n`
             ]
             //两情相悦的
-            if (iswife_list.includes(homejson[id].s)) {
+            if (iswife_list.includes(Number(homejson[id].s))) {
                 msg = [
                     `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n`,
                     `和你两情相悦的人是${name},\n希望你和${she_he}的爱情能够天长地久\n`,
-                    `${she_he}对你的好感度为：${homejson[id].love}\n`]
+                ]
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
             }
@@ -612,16 +613,21 @@ export class qqy extends plugin {
         //喜欢你的人
         let msg_love = '喜欢你但是你不喜欢的人有：\n'
         if (!iswife_list.length == 0) {
-            for (let i of iswife_list)
+            var notlqxyk = iswife_list.filter(item => item != Number(homejson[id].s))//去掉老婆
+            for (let i of notlqxyk)
                 msg_love = msg_love + `${i}\n好感度为：${homejson[i].love}\n`
-            msg_love = msg_love + `快去处理一下吧\n`
+                msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
 
         //最后回复信息
         if (homejson[id].s !== 0) {
             msg = msg + msg_love2 + msg_love + msg_house
-            e.reply([segment.at(id), segment.at(homejson[id].s), "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n", msg])
+            e.reply([
+                segment.at(id),  "\n", 
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n", 
+                msg
+            ])
         }
         else {
             msg = msg + msg_love + msg_house
