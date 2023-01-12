@@ -943,8 +943,14 @@ export class qqy extends plugin {
     async delcd(e) {
         if (e.isMaster) {
             let cddata = await redis.keys(`potato:*:${e.group_id}:*`, (err, data) => { });
+            if(e.at){
+            cddata = await redis.keys(`potato:*:${e.group_id}:${e.at}`, (err, data) => { });
+            e.reply(`成功清除${e.at}的冷却`)
+            }
+            else {
+                e.reply(`成功清除本群的冷却`)
+            }
             await redis.del(cddata);
-            e.reply("成功清除本群冷却")
             return true;
         }
     }
