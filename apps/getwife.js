@@ -571,10 +571,10 @@ export class qqy extends plugin {
                 iswife_list.push(Number(j))
         }
         //你的钱,你的房子
-        let msg_house = [`你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
+        var msg_house = [`你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
         //最后发送的信息
-        let msg = []
-        let msg_love3 = ""
+        var msg = []
+        var msg_love3 = ""
         //有老婆的
         if (homejson[id].s !== 0) {
             //用is_she函数判断下这个人是男是女
