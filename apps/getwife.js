@@ -553,59 +553,81 @@ export class qqy extends plugin {
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
             return
-        }
+        }//@了所有人和机器人
         var id = e.user_id
         var filename = e.group_id + `.json`
+        //读取家庭和房子信息
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
+        //如果有人被@
         if (e.at) id = e.at
+        //获取你是哪些人的老婆
         let iswife_list = []
+        //遍历这个群里面所以人
         for (let j of Object.keys(homejson)) {
+            //若果这个人的老婆 == id
             if (homejson[j].s == id)
                 iswife_list.push(j)
         }
-        var msg = '喜欢你的人有：\n'
-        if (!iswife_list.length == 0) {
-            for (let i of iswife_list) {
-                msg = msg + `${i}\n好感度为：${homejson[i].love}\n`
+        //你的钱,你的房子
+        let msg_house = [`你现在还剩下${homejson[id].money}金币\n`,
+        `你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
+        //最后发送的信息
+        let msg = []
+
+
+        //有老婆的
+        if (homejson[id].s !== 0) {
+            //用is_she函数判断下这个人是男是女
+            let she_he = await this.people(e, 'sex', homejson[id].s)
+            //用is_she函数获取昵称
+            let name = await this.people(e, 'nickname', homejson[id].s)
+            //你的老婆和好感度
+            var msg_love2 = [
+                `${she_he}对你的好感度为：${homejson[id].love}\n`
+            ]
+            //两情相悦的
+            if (iswife_list.includes(homejson[id].s)) {
+                msg = [
+                    `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
+                    `你的群友老婆是${name},${she_he}也喜欢你\n`,
+                    `${she_he}对你的好感度为：${homejson[id].love}\n`]
+                //把喜欢你的人从这个数组去除
+                iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
             }
+            //不是两情相悦的的
+            else {
+                msg = [
+                    `你的群友老婆是${name}\n`,]
+            }
+        }
+        //单身的
+        else {
+            msg = [
+                `现在的你还是一位单身贵族\n`
+            ]
+            //单身的没有msg_love2，就是没有老婆
+
+        }
+        //对msg_love处理
+        //喜欢你的人
+        let msg_love = '喜欢你但是你不喜欢的人有：\n'
+        if (!iswife_list.length == 0) {
+            for (let i of iswife_list)
+                msg_love = msg_love + `${i}\n好感度为：${homejson[i].love}\n`
+            msg_love = msg_love + `快去处理一下吧\n`
+        }
+        else msg_love = '喜欢你的人一个也没有\n'
+
+        if (homejson[id].s !== 0) {
+            msg = msg + msg_love2 + msg_love + msg_house
+            e.reply([segment.at(id), segment.at(homejson[id].s), "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n", msg])
         }
         else {
-            msg = '喜欢你的人一个也没有\n'
+            msg = msg + msg_love + msg_house
+            e.reply([segment.at(id), "\n", msg])
         }
-        if (homejson[id].s !== 0) {//有老婆的
-            let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
-            let name = await this.people(e, 'nickname', homejson[id].s)//用is_she函数获取昵称
-            if (iswife_list.includes(homejson[id].s)) {//两情相悦的
-                e.reply([segment.at(id), segment.at(homejson[id].s), "\n",
-                    `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
-                `你的群友老婆是${name},${she_he}也喜欢你\n`,
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
-                `${she_he}对你的好感度为：${homejson[id].love}\n`,
-                `你对${she_he}的好感度为：${homejson[homejson[id].s].love}\n`,
-                `你现在还剩下${homejson[id].money}金币`])
-            }
-            else {//不是两情相悦的的
-                e.reply([
-                    segment.at(id), "\n",
-                    `你的群友老婆是${name}\n`,
-                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n",
-                    `${she_he}对你的好感度为：${homejson[id].love}\n`,
-                    `你现在还剩下${homejson[id].money}金币\n${msg}`,
-                    `你的住所信息为\n`,
-                    `名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
-                ])
-            }
-        }
-        else if (homejson[id].s == 0) {//单身的
-            e.reply([
-                segment.at(id), "\n",
-                `现在的你还是一位单身贵族\n`,
-                `你现在还剩下${homejson[id].money}金币\n${msg}`,
-                `你的房产信息为\n`,
-                `名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
-            ])
-        }
+
         return true;
     }
     //打工
