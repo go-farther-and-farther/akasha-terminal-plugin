@@ -589,8 +589,8 @@ export class qqy extends plugin {
             //两情相悦的
             if (iswife_list.includes(homejson[id].s)) {
                 msg = [
-                    `两心靠近是情缘,更是吸引;两情相悦是喜欢,更是眷恋。\n`,
-                    `你的群友老婆是${name},${she_he}也喜欢你\n`,
+                    `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n`,
+                    `和你两情相悦的人是${name},\n希望你和${she_he}的爱情能够天长地久\n`,
                     `${she_he}对你的好感度为：${homejson[id].love}\n`]
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
@@ -604,7 +604,7 @@ export class qqy extends plugin {
         //单身的
         else {
             msg = [
-                `现在的你还是一位单身贵族\n`
+                `现在的你还是一位单身贵族，没有老婆哦\n`
             ]
             //单身的没有msg_love2，就是没有老婆
 
@@ -619,6 +619,7 @@ export class qqy extends plugin {
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
 
+        //最后回复信息
         if (homejson[id].s !== 0) {
             msg = msg + msg_love2 + msg_love + msg_house
             e.reply([segment.at(id), segment.at(homejson[id].s), "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n", msg])
