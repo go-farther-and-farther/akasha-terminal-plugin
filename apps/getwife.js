@@ -571,7 +571,7 @@ export class qqy extends plugin {
                 iswife_list.push(Number(j))
         }
         //你的钱,你的房子
-        var msg_house = [`你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`]
+        var msg_house = `你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
         //最后发送的信息
         var msg = []
         var msg_love3 = ""
@@ -593,7 +593,7 @@ export class qqy extends plugin {
                     `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n`,
                     `和你两情相悦的人是${name},\n`,
                 ]
-                msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}`
+                msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}\n`
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
             }
@@ -621,7 +621,7 @@ export class qqy extends plugin {
                 msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
-
+        let msg2 = msg_love3 + msg_love2 + msg_lovemsg_house
         //最后回复信息
         if (homejson[id].s !== 0) {
             e.reply([
@@ -629,10 +629,7 @@ export class qqy extends plugin {
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
                 msg,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n", 
-                msg_love3,
-                msg_love2,
-                msg_love,
-                msg_house
+                msg2
                 ])
         }
         else {
