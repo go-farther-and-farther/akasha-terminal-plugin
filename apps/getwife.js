@@ -840,6 +840,8 @@ export class qqy extends plugin {
         let namelist = []
         for (let i = 0; i < arrMember.length; i++) {
             idlist[i] = arrMember[i].user_id
+            namelist[arrMember[i].user_id] = arrMember[i].nickname
+            if(arrMember[i].card !== '')
             namelist[arrMember[i].user_id] = arrMember[i].card
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
@@ -976,15 +978,15 @@ export class qqy extends plugin {
         })
         var lp = this_one[0]
         if (keys == 'sex') {
-            let she_he = ''
-            if (lp.sex == 'female')
-                she_he = '她'
+            var she_he = '她'
             if (lp.sex == 'male')
                 she_he = '他'
             return she_he
         }
         if (keys == 'nickname') {
-            let name = lp.card
+            var name = lp.nickname
+            if(lp.card !== '')
+            name = lp.card
             return name
         }
 
