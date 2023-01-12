@@ -586,6 +586,7 @@ export class qqy extends plugin {
             var msg_love2 = [
                 `${she_he}对你的好感度为：${homejson[id].love}\n`
             ]
+            console.log(name, she_he)
             //两情相悦的
             if (iswife_list.includes(Number(homejson[id].s))) {
                 msg = [
@@ -975,9 +976,11 @@ export class qqy extends plugin {
         })
         var lp = this_one[0]
         if (keys == 'sex') {
-            let she_he = '他'
+            let she_he = ''
             if (lp.sex == 'female')
                 she_he = '她'
+            if (lp.sex == 'male')
+                she_he = '他'
             return she_he
         }
         if (keys == 'nickname') {
