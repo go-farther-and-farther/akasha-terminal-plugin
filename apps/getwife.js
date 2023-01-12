@@ -579,18 +579,22 @@ export class qqy extends plugin {
         //有老婆的
         if (homejson[id].s !== 0) {
             //用is_she函数判断下这个人是男是女
-            let she_he = await this.people(e, 'sex', homejson[id].s)
+            let she_he = await this.people(e, 'sex', Number(homejson[id].s))
             //用is_she函数获取昵称
-            let name = await this.people(e, 'nickname', homejson[id].s)
+            let name = await this.people(e, 'nickname', Number(homejson[id].s))
             //你的老婆和好感度
             var msg_love2 = [
                 `${she_he}对你的好感度为：${homejson[id].love}\n`
             ]
             //两情相悦的
             if (iswife_list.includes(Number(homejson[id].s))) {
+                var mywife = homejson[id].s
                 msg = [
                     `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n`,
-                    `和你两情相悦的人是${name},\n希望你和${she_he}的爱情能够天长地久\n`,
+                    `和你两情相悦的人是${name}`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`),
+                    `\n希望你和${she_he}的爱情能够天长地久\n`,
+                    `你对${she_he}的好感为${homejson[mywife].love}`
                 ]
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
@@ -598,7 +602,9 @@ export class qqy extends plugin {
             //不是两情相悦的的
             else {
                 msg = [
-                    `你的群友老婆是${name}\n`,]
+                    `你的群友老婆是${name}\n`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`)
+                ]
             }
         }
         //单身的
@@ -607,7 +613,6 @@ export class qqy extends plugin {
                 `现在的你还是一位单身贵族，没有老婆哦\n`
             ]
             //单身的没有msg_love2，就是没有老婆
-
         }
         //对msg_love处理
         //喜欢你的人
@@ -619,13 +624,11 @@ export class qqy extends plugin {
                 msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
-
         //最后回复信息
         if (homejson[id].s !== 0) {
             msg = msg + msg_love2 + msg_love + msg_house
             e.reply([
                 segment.at(id),  "\n", 
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${homejson[id].s}`), "\n", 
                 msg
             ])
         }
@@ -839,7 +842,7 @@ export class qqy extends plugin {
         let namelist = []
         for (let i = 0; i < arrMember.length; i++) {
             idlist[i] = arrMember[i].user_id
-            namelist[arrMember[i].user_id] = arrMember[i].nickname
+            namelist[arrMember[i].user_id] = arrMember[i].card
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
         //e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
