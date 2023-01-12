@@ -572,9 +572,10 @@ export class qqy extends plugin {
         }
         //你的钱,你的房子
         var msg_house = `你现在还剩下${homejson[id].money}金币\n你的住所信息为\n名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
-        //最后发送的信息
-        var msg = []
+        //你对老婆的好感
         var msg_love3 = ""
+        //开头语
+        var msgstart = ""
         //有老婆的
         if (homejson[id].s !== 0) {
             //用is_she函数判断下这个人是男是女
@@ -585,31 +586,23 @@ export class qqy extends plugin {
             var msg_love2 = [
                 `${she_he}对你的好感度为：${homejson[id].love}\n`
             ]
-            console.log(name, she_he)
             //两情相悦的
             if (iswife_list.includes(Number(homejson[id].s))) {
                 let mywife = homejson[id].s
-                msg = [
-                    `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n`,
-                    `和你两情相悦的人是${name},\n`,
-                ]
+                msgstart =  `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n和你两情相悦的人是${name},\n`,
                 msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}\n`
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
             }
             //不是两情相悦的的
             else {
-                msg = [
-                    `你的群友老婆是${name}\n`,]
+                msgstart = `你的群友老婆是${name}\n`
             }
         }
         //单身的
         else {
-            msg = [
-                `现在的你还是一位单身贵族，没有老婆哦\n`
-            ]
+            msgstart = `现在的你还是一位单身贵族，没有老婆哦\n`
             //单身的没有msg_love2，就是没有老婆
-
         }
         //对msg_love处理
         //喜欢你的人
@@ -621,20 +614,25 @@ export class qqy extends plugin {
                 msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
+        //其他信息
         let msg2 = msg_love3 + msg_love2 + msg_love + msg_house
         //最后回复信息
         if (homejson[id].s !== 0) {
             e.reply([
                 segment.at(id),  "\n", 
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
-                msg,
+                msgstart,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n", 
                 msg2
                 ])
         }
         else {
-            msg = msg + msg_love + msg_house
-            e.reply([segment.at(id), "\n", msg])
+            let msg  = msgstart + msg_love + msg_house
+            e.reply([
+                segment.at(id), "\n", 
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
+                msg,
+            ])
         }
 
         return true;
