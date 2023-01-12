@@ -579,9 +579,9 @@ export class qqy extends plugin {
         //有老婆的
         if (homejson[id].s !== 0) {
             //用is_she函数判断下这个人是男是女
-            let she_he = await this.people(e, 'sex', homejson[id].s)
+            var she_he = await this.people(e, 'sex', homejson[id].s)
             //用is_she函数获取昵称
-            let name = await this.people(e, 'nickname', homejson[id].s)
+            var name = await this.people(e, 'nickname', homejson[id].s)
             //你的老婆和好感度
             var msg_love2 = [
                 `${she_he}对你的好感度为：${homejson[id].love}\n`
