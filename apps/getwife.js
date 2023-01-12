@@ -34,23 +34,23 @@ export class qqy extends plugin {
                 fnc: 'creat'
             },
             {
-                reg: '^#?(强娶|娶)(.*)$',
+                reg: '^#?(强娶|娶)$',
                 fnc: 'wife2'
             },
             {
-                reg: '^#?抢老婆(.*)$',
+                reg: '^#?抢老婆$',
                 fnc: 'ntr'
             },
             {
-                reg: '^#?我愿意',
+                reg: '^#?我愿意$',
                 fnc: 'yy'
             },
             {
-                reg: '^#?我拒绝',
+                reg: '^#?我拒绝$',
                 fnc: 'jj'
             },
             {
-                reg: '^#?(闹离婚|甩掉|分手)',
+                reg: '^#?(闹离婚|甩掉|分手)$',
                 fnc: 'breakup'
             },
             {
