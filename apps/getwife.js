@@ -564,17 +564,14 @@ export class qqy extends plugin {
             if (homejson[j].s == id)
                 iswife_list.push(j)
         }
-        var msg = '喜欢你的人有：'
+        var msg = '喜欢你的人有：\n'
         if (!iswife_list.length == 0) {
             for (let i of iswife_list) {
-                msg = msg + [
-                    `\n${i}`, "\n",
-                    `好感度为：${homejson[i].love}`
-                ]
+                msg = msg + `${i}\n好感度为：${homejson[i].love}\n`
             }
         }
         else {
-            msg = '喜欢你的人一个也没有'
+            msg = '喜欢你的人一个也没有\n'
         }
         if (homejson[id].s !== 0) {//有老婆的
             let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
@@ -588,7 +585,7 @@ export class qqy extends plugin {
                 `你对${she_he}的好感度为：${homejson[homejson[id].s].love}\n`,
                 `你现在还剩下${homejson[id].money}金币`])
             }
-            else {
+            else {//不是两情相悦的的
                 e.reply([
                     segment.at(id), "\n",
                     `你的群友老婆是${name}\n`,
@@ -596,7 +593,7 @@ export class qqy extends plugin {
                     `${she_he}对你的好感度为：${homejson[id].love}\n`,
                     `你现在还剩下${homejson[id].money}金币\n${msg}`,
                     `你的住所信息为\n`,
-                    `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
+                    `名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
                 ])
             }
         }
@@ -606,7 +603,7 @@ export class qqy extends plugin {
                 `现在的你还是一位单身贵族\n`,
                 `你现在还剩下${homejson[id].money}金币\n${msg}`,
                 `你的房产信息为\n`,
-                `名字${housejson[id].name}\n容量${housejson[id].space}\n价值${housejson[id].price}金币\n好感倍率${housejson[id].loveup}`
+                `名字：${housejson[id].name}\n容量：${housejson[id].space}\n价值：${housejson[id].price}金币\n好感倍率：${housejson[id].loveup}`
             ])
         }
         return true;
@@ -640,7 +637,7 @@ export class qqy extends plugin {
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
         var msg = '欢迎光临\n请过目\n'
         for (let i of Object.keys(housething)) {
-            msg += `名${housething[i].name}\n容量${housething[i].space}\n价格${housething[i].price}\n好感增幅${housething[i].loveup}\n`
+            msg += `名${housething[i].name}\n容量：${housething[i].space}\n价格${housething[i].price}\n好感增幅${housething[i].loveup}\n`
         }
         e.reply(msg)
         return true
