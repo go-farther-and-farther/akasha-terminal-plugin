@@ -854,12 +854,6 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
-        if (!e.at && !e.atme) {
-            e.reply([
-                segment.at(homejson[id].s), "\n",
-                `他摸了摸你`,
-            ])
-        }
         if (e.at && e.at != homejson[id].s) {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
@@ -981,8 +975,6 @@ export class qqy extends plugin {
                     segment.at(id), "\n",
                     `上交成功\n`,
                     `老婆对你的好感上升了${Math.round(yingfu / 10)}`,
-                    segment.at(id2), "\n",
-                    `你的爱人向你上交了${yingfu}金币`
                 ])
                 homejson[id].money -= shifu
                 homejson[id2].money += yingfu
