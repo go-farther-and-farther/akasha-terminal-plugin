@@ -62,8 +62,16 @@ export class qqy extends plugin {
                 fnc: 'getmoney'
             },
             {
+                reg: '^#?住所改名',
+                fnc: 'namedhouse'
+            },
+            {
                 reg: '^#?看房$',
                 fnc: 'gethouse'
+            },
+            {
+                reg: '^#?买房',
+                fnc: 'buyhouse'
             },
             {
                 reg: '^#?逛街$',
@@ -666,10 +674,55 @@ export class qqy extends plugin {
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
         var msg = '欢迎光临\n请过目\n'
         for (let i of Object.keys(housething)) {
-            msg += `名${housething[i].name}\n容量：${housething[i].space}\n价格${housething[i].price}\n好感增幅${housething[i].loveup}\n`
+            msg += `id: ${i}\n${housething[i].name}\n容量: ${housething[i].space}\n价格: ${housething[i].price}\n好感增幅: ${housething[i].loveup}\n`
         }
         e.reply(msg)
         return true
+    }
+    //买房,可以给别人买
+    async buyhouse(e){
+        var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
+        var msg = e.msg.replace(/(买房|#)/g, "").replace(/[\n|\r]/g, "，").trim()
+        if (isNaN(msg)) {
+            e.reply(`${msg}不是在可买id范围内`)
+            return
+        }
+        if(homejson[id].money < housething[msg].price){
+            e.reply(`金币不足`)
+            return
+        }
+        if(e.at) id = e.at
+        homejson[e.user_id].money -= housething[msg].price
+        housejson[id].space += housething[msg].space
+        housejson[id].loveup += housething[msg].loveup
+        housejson[id].price += housething[msg].price
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        await akasha_data.getQQYUserHouse(id, housejson, filename, true)
+        e.reply(`购买成功,你本次为${id}消费${housething[msg].price}金币`)
+        return true;
+    }
+    //住所改名
+    async namedhouse(e){
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
+        var msg = e.msg.replace(/(住所改名|#)/g, "").replace(/[\n|\r]/g, "，").trim()
+        var shifu = housejson[id].space * 10
+        if(homejson[id].money < shifu){
+            e.reply(`金币不足,需要${shifu}金币`)
+            return
+        }
+        homejson[id].money -= shifu
+        housejson[id].name = msg
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        await akasha_data.getQQYUserHouse(id, housejson, filename, true)
+        e.reply(`改名"${msg}"成功`)
+        return true;
     }
     //逛街
     async gift(e) {

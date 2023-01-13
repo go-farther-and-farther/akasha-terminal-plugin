@@ -86,12 +86,16 @@ export const helpList = [{
     desc: '钱太少可以使用'
   }, {
     icon: 20,
+    title: '住所改名xxx',
+    desc: '给家改名'
+  }, {
+    icon: 20,
     title: '看房',
     desc: '看看当前可买房产'
   }, {
     icon: 20,
-    title: '买房+id',
-    desc: '还没写'
+    title: '买房+id(@群友)',
+    desc: '给自己或群友购买房产,增加各类数值'
   }, {
     icon: 20,
     title: '上交存款+数量',
@@ -155,7 +159,7 @@ export const helpList = [{
   }, {
     icon: 40,
     title: '#清除老婆冷却',
-    desc: '清楚娶群友游戏的所有冷却状态'
+    desc: '清除本群冷却,at则清除对方冷却'
   }]
 }]
 

@@ -2,13 +2,13 @@
     "1": {
         "name": "标准两室一厅",
         "space": 70,
-        "price": 6000,
+        "price": 7000,
         "loveup": 0.2
     },
     "2": {
         "name": "大型别墅",
         "space": 150,
-        "price": 12000,
+        "price": 15000,
         "loveup": 0.5
     }
 }
