@@ -158,7 +158,7 @@ export class qqy extends plugin {
             e.reply(tips);
             return
         }
-        if (await this.is_killed(e, homejson, `wife2`) == true) return
+        if (await this.is_killed(e, `wife2`) == true) return
         let sex = await Bot.pickFriend(e.user_id).sex
         let ex = ''
         if (sex == 'male') {
@@ -238,7 +238,7 @@ export class qqy extends plugin {
             e.reply(`你想抢谁的老婆呢?at出来!`)
             return
         }
-        if (await this.is_killed(e, homejson, `ntr`) == true) return
+        if (await this.is_killed(e, `ntr`) == true) return
         if (homejson[e.at].s == 0) {
             e.reply("虽然但是,对方在这里没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return
@@ -330,7 +330,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, homejson, `yy`) == true) return
+        if (await this.is_killed(e, `yy`) == true) return
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -371,7 +371,7 @@ export class qqy extends plugin {
         var id = e.at
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, homejson, `yy`) == true) return
+        if (await this.is_killed(e, `yy`) == true) return
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -402,7 +402,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, homejson, `wife`) == true) return
+        if (await this.is_killed(e, `wife`) == true) return
         if (!homejson[id].s == 0) {
             e.reply(`你似乎已经有爱人了,要不分手?`)
             return
@@ -522,7 +522,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, homejson, `breakup`) == true) return
+        if (await this.is_killed(e, `breakup`) == true) return
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
                 e.reply(`醒醒,你根本在这里没有老婆!!`)
@@ -651,7 +651,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, homejson, `getmoney`) == true) return
+        if (await this.is_killed(e, `getmoney`) == true) return
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
         if (lastTime2) {
             e.reply([
@@ -695,6 +695,7 @@ export class qqy extends plugin {
             e.reply(`金币不足`)
             return
         }
+        if (await this.is_killed(e, 'buyhouse') == true) return
         if(e.at) id = e.at
         homejson[e.user_id].money -= housething[msg].price
         housejson[id].space += housething[msg].space
@@ -755,7 +756,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, homejson, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift') == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid + 1]//获取消息
         e.reply([
@@ -788,7 +789,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, homejson, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift') == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
         var placeid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
@@ -825,7 +826,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, homejson, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift') == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid + 1]//获取消息
         e.reply([
@@ -845,7 +846,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
-        if (await this.is_killed(e, homejson, 'touch') == true) { return }
+        if (await this.is_killed(e, 'touch') == true) { return }
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
             return
@@ -916,8 +917,8 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         if (homejson[id].money < 500) {
-            e.reply(`领取成功,你现在有500金币了`)
-            homejson[id].money = 500
+            homejson[id].money += 500
+            e.reply(`成功领取500金币`)
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             await redis.set(`potato:wife-poor-cd:${e.group_id}:${e.user_id}`, currentTime, {
                 EX: cdTime7
@@ -1055,14 +1056,15 @@ export class qqy extends plugin {
         return false
     }
     //看看你会不会被干掉
-    async is_killed(e, homejson, category) {
+    async is_killed(e, key) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         let kill = Math.round(Math.random() * 999)
         if (kill == 6) {
             e.reply([`触发千分之一的概率事件!!!,\n`,
-                `很遗憾的告诉你,发生了意外,你失去了你所有的金币...你,失去了你的老婆...真是离谱(划掉)遗憾啊,\n`, "\n",
+                `很遗憾的告诉你,发生了意外,你失去了你所有的金币你的住所...失去了你的老婆...真是离谱(划掉)遗憾啊,\n`, "\n",
                 `你,是否愿意重来呢?`, "\n",
                 `即使,金钱,好感...一切都要重新开始吗?`, "\n",
                 `做出你的选择吧!`
@@ -1070,17 +1072,23 @@ export class qqy extends plugin {
             homejson[id].money = 0
             homejson[id].love = 0
             homejson[id].s = 0
+            housejson[id].price = 0
+            housejson[id].space = 0
+            housejson[id].loveup = 1
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
+            await akasha_data.getQQYUserHouse(id, housejson, filename, true)
             return true
         }
-        /*if (kill < 100) {
-            homejson[id].money -= 100
-                e.reply(`触发十分之一的概率事件!!!`)
-            setTimeout(() => {
-                e.reply('虽然不知道为什么,但是你的计划泡汤了,还没了100金币')
-            }, 3000);//设置延迟
+        if(key = "buyhouse" && kill < 10){
+            homejson[id].money = 0
+            await akasha_data.getQQYUserHome(id, homejson, filename, true)
+            e.reply([
+                `很遗憾的告诉你,\n`,
+                `你被卷进一起诈骗案中\n`
+                `你被骗的苦茶子都没了`
+            ])
             return true
-        }*/
+        }
         return false
     }
     //判断好感度是否双方都小于等于0,是则拆散,单向老婆则只失去老婆
