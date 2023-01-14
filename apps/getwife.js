@@ -868,7 +868,7 @@ export class qqy extends plugin {
             e.reply(`输入有误,篮球不能超过16,红球不能含有重复号码`)
             return
         }
-        for(var b=0; i<haoma.length; i++){
+        for(var b=0; b<haoma.length; b++){
             if(haoma[b] > 33 || haoma[b] == '00'){
             e.reply(`输入有误,红球号码不能超过33,号码不能为00`)
             return
