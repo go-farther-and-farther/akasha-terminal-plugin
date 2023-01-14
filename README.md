@@ -22,7 +22,7 @@
 - 推荐使用git进行安装，以方便后续升级。在BOT根目录夹打开终端，运行
 
 ```base
-git clone https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin/
+git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin
 ```
 
 使用`虚空更新`来更新插件。
