@@ -527,7 +527,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `breakup`) == true) return
+        if (await this.is_killed(e, `breakup`, false) == true) return
         if (e.msg == "分手" || e.msg == "闹离婚") {
             if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
                 e.reply(`醒醒,你根本在这里没有老婆!!`)
