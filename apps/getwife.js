@@ -932,9 +932,10 @@ export class qqy extends plugin {
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
         for (let i of Object.keys(homejson)) {
-            if (idlist.includes(homejson[i].s))
+            if (idlist.includes(homejson[i].s)){
                 var she_he = await this.people(e, 'sex', Number(i))
                 msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
+            }
         }
         e.reply(msg)
         return true;
