@@ -87,7 +87,7 @@ export class qqy extends plugin {
                 fnc: 'gift_over'
             },
             {
-                reg: '^#?购买双色球([0-3][0-9](?:\\s)){6}[0-1][0-6]$',
+                reg: '^#?购买双色球([0-3][0-9](?:\\s)){6}[0-1][0-9]$',
                 fnc: 'lottery1'
             },
             {
@@ -864,13 +864,13 @@ export class qqy extends plugin {
         console.log(haoma)
         console.log(redball)
         console.log(blueball)
-        if(haoma.length !== 7 || haoma.includes('00') || haoma.length-1 !== new Set(haoma).size){
-            e.reply(`输入有误,规则,红球6位1到33\n篮球1位1到16样例\n购买双色球12 13 15 25 30 22 15`)
+        if(blueball > 16 || haoma.includes('00') || haoma.length-1 !== new Set(haoma).size){
+            e.reply(`输入有误,输入了00或篮球超出范围或红球含有重复号码`)
             return
         }
         for(var i=0; i<haoma.length; i++){
             if(haoma[i] > 33){
-            e.reply(`输入有误,规则,红球6位1到33\n篮球1位1到16样例\n购买双色球12 13 15 25 30 22 15`)
+            e.reply(`输入有误,红球号码不能超过33`)
             return
             }
         }
