@@ -1123,7 +1123,7 @@ export class qqy extends plugin {
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply([
                 `很遗憾的告诉你,\n`,
-                `你被卷进一起诈骗案中\n`
+                `你被卷进一起诈骗案中\n`,
                 `你被骗的苦茶子都没了`
             ])
             return true
