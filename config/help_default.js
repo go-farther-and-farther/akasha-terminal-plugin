@@ -137,7 +137,7 @@ export const helpList = [{
   }, {
     icon: 20,
     title: '逛街',
-    desc: '增加你老婆对你的好感度吧'
+    desc: '出门解锁更多玩法和随机事件'
   }, {
     icon: 20,
     title: '抱抱@老婆',
