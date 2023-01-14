@@ -864,7 +864,7 @@ export class qqy extends plugin {
         console.log(haoma)
         console.log(redball)
         console.log(blueball)
-        if(blueball > 16 || haoma.length-1 !== new Set(haoma).size){
+        if(blueball > 16 || redball.length !== new Set(redball).size){
             e.reply(`输入有误,篮球不能超过16,红球不能含有重复号码`)
             return
         }
