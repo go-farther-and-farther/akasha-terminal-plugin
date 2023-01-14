@@ -864,13 +864,13 @@ export class qqy extends plugin {
         console.log(haoma)
         console.log(redball)
         console.log(blueball)
-        if(blueball > 16 || haoma.includes('00') || haoma.length-1 !== new Set(haoma).size){
-            e.reply(`输入有误,输入了00或篮球超出范围或红球含有重复号码`)
+        if(blueball > 16 || haoma.length-1 !== new Set(haoma).size){
+            e.reply(`输入有误,篮球不能超过16,红球不能含有重复号码`)
             return
         }
-        for(var i=0; i<haoma.length; i++){
-            if(haoma[i] > 33){
-            e.reply(`输入有误,红球号码不能超过33`)
+        for(var b=0; i<haoma.length; i++){
+            if(haoma[b] > 33 || haoma[b] == '00'){
+            e.reply(`输入有误,红球号码不能超过33,号码不能为00`)
             return
             }
         }
