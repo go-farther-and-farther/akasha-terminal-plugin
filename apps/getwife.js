@@ -87,6 +87,10 @@ export class qqy extends plugin {
                 fnc: 'gift_over'
             },
             {
+                reg: '^#?购买双色球([0-3][0-9](?:\\s)){6}[0-1][0-6]$',
+                fnc: 'lottery1'
+            },
+            {
                 reg: '^#?(拥抱|抱抱)(.*)$',
                 fnc: 'touch'
             },
@@ -839,6 +843,39 @@ export class qqy extends plugin {
         placejson[id].placetime++
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         if (await this.is_fw(e, homejson) == true) return
+    }
+    //买双色球
+    async lottery1(e){
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
+        if (placejson[id].place !== "SportsLottery") {
+            e.reply([
+                segment.at(id), "\n",
+                `你不在体彩店周围,当前位置为：${placejson[id].place}`
+            ])
+            return
+        }
+        var msg = e.msg.replace(/(购买双色球|#)/g, "").replace(/[\n|\r]/g, "")
+        var haoma = msg.split(" ")
+        var redball = haoma.slice(0, -1)
+        var blueball = haoma[6]
+        console.log(haoma)
+        console.log(redball)
+        console.log(blueball)
+        if(haoma.length !== 7 || haoma.includes('00') || haoma.length-1 !== new Set(haoma).size){
+            e.reply(`输入有误,规则,红球6位1到33\n篮球1位1到16样例\n购买双色球12 13 15 25 30 22 15`)
+            return
+        }
+        for(var i=0; i<haoma.length; i++){
+            if(haoma[i] > 33){
+            e.reply(`输入有误,规则,红球6位1到33\n篮球1位1到16样例\n购买双色球12 13 15 25 30 22 15`)
+            return
+            }
+        }
+        e.reply(`你选择了红球${redball.toString()}和蓝球${blueball}\n但是在测试,所以没啥用`)
+        return true;
     }
     //抱抱,有千分之一的概率被干掉
     async touch(e) {
