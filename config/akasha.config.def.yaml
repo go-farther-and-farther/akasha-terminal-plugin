@@ -31,3 +31,6 @@ wife_cfg:
   qlpcd: 20
   #领取低保冷却
   poorcd: 1440
+  #行动限制,单位(次)
+  #逛街->去下一个地方
+  gifttime: 5

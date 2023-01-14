@@ -14,9 +14,10 @@ let cdTime3 = Number(await command.getConfig("wife_cfg", "dgcd")) * 60;//打工�
 let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱冷却
 let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
 let cdTime6 = Number(await command.getConfig("wife_cfg", "qlpcd")) * 60;//抢老婆冷却
-let cdTime7 = Number(await command.getConfig("wife_cfg", "poorcd")) * 60;//抢老婆冷却
+let cdTime7 = Number(await command.getConfig("wife_cfg", "poorcd")) * 60;//低保冷却
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
+let gifttime = await command.getConfig("wife_cfg", "gifttime");//逛街换地上限
 export class qqy extends plugin {
     constructor() {
         super({
@@ -158,7 +159,7 @@ export class qqy extends plugin {
             e.reply(tips);
             return
         }
-        if (await this.is_killed(e, `wife2`) == true) return
+        if (await this.is_killed(e, `wife2`,true) == true) return
         let sex = await Bot.pickFriend(e.user_id).sex
         let ex = ''
         if (sex == 'male') {
@@ -238,7 +239,7 @@ export class qqy extends plugin {
             e.reply(`你想抢谁的老婆呢?at出来!`)
             return
         }
-        if (await this.is_killed(e, `ntr`) == true) return
+        if (await this.is_killed(e, `ntr`, true) == true) return
         if (homejson[e.at].s == 0) {
             e.reply("虽然但是,对方在这里没有老婆啊!(￣_,￣ ),要不你俩试试?")
             return
@@ -330,7 +331,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `yy`) == true) return
+        if (await this.is_killed(e, `yy`, false) == true) return
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -371,7 +372,7 @@ export class qqy extends plugin {
         var id = e.at
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `yy`) == true) return
+        if (await this.is_killed(e, `jj`, false) == true) return
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
@@ -402,7 +403,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `wife`) == true) return
+        if (await this.is_killed(e, `wife`, false) == true) return
         if (!homejson[id].s == 0) {
             e.reply(`你似乎已经有爱人了,要不分手?`)
             return
@@ -651,7 +652,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `getmoney`) == true) return
+        if (await this.is_killed(e, `getmoney`, false) == true) return
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
         if (lastTime2) {
             e.reply([
@@ -695,7 +696,7 @@ export class qqy extends plugin {
             e.reply(`金币不足`)
             return
         }
-        if (await this.is_killed(e, 'buyhouse') == true) return
+        if (await this.is_killed(e, 'buyhouse', true) == true) return
         if(e.at) id = e.at
         homejson[e.user_id].money -= housething[msg].price
         housejson[id].space += housething[msg].space
@@ -756,7 +757,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift', true) == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid + 1]//获取消息
         e.reply([
@@ -789,7 +790,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift', true) == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
         var placeid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
@@ -812,7 +813,7 @@ export class qqy extends plugin {
     //逛街事件继续
     async gift_over(e) {
         if (await this.is_jinbi(e) == true) return
-        if (await this.is_MAXEX(e) == true) return
+        if (await this.is_MAXEX(e, 'gift') == true) return
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
@@ -826,7 +827,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        if (await this.is_killed(e, 'gift') == true) { return }
+        if (await this.is_killed(e, 'gift', true) == true) { return }
         var placeid = Math.round(Math.random() * (Object.keys(giftthing.placename).length - 1))//随机获取一个位置id
         var placemsg = giftthing.start[placeid + 1]//获取消息
         e.reply([
@@ -846,7 +847,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
-        if (await this.is_killed(e, 'touch') == true) { return }
+        if (await this.is_killed(e, 'touch', false) == true) { return }
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
             return
@@ -893,10 +894,10 @@ export class qqy extends plugin {
             namelist[arrMember[i].user_id] = arrMember[i].card
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
-        //e.reply('如果你看到这个，说明现在还在测试,测试者快要疯掉了')
         for (let i of Object.keys(homejson)) {
             if (idlist.includes(homejson[i].s))
-                msg = msg + `${namelist[i]}   和他的老婆${namelist[homejson[i].s]}   \n`
+                var she_he = await this.people(e, 'sex', arrMember[i].user_id)
+                msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
         }
         e.reply(msg)
         return true;
@@ -1055,14 +1056,14 @@ export class qqy extends plugin {
         }
         return false
     }
-    //看看你会不会被干掉
-    async is_killed(e, key) {
+    //看看你会不会被干掉,key是事件名称,globaldeath是全局千分之一死亡
+    async is_killed(e, keys, globaldeath) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         let kill = Math.round(Math.random() * 999)
-        if (kill == 6) {
+        if (kill == 6 && globaldeath) {
             e.reply([`触发千分之一的概率事件!!!,\n`,
                 `很遗憾的告诉你,发生了意外,你失去了你所有的金币你的住所...失去了你的老婆...真是离谱(划掉)遗憾啊,\n`, "\n",
                 `你,是否愿意重来呢?`, "\n",
@@ -1079,7 +1080,7 @@ export class qqy extends plugin {
             await akasha_data.getQQYUserHouse(id, housejson, filename, true)
             return true
         }
-        if(key = "buyhouse" && kill < 10){
+        if(keys = "buyhouse" && kill < 10){
             homejson[id].money = 0
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply([
@@ -1115,12 +1116,12 @@ export class qqy extends plugin {
         }
         return false;
     }
-    //判断逛街时侯的位置更换次数是否超出,超出则强制回家
-    async is_MAXEX(e) {
+    //判断行为次数是否上限
+    async is_MAXEX(e, keys) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
-        if (placejson[e.user_id].placetime >= 5) {
+        if (placejson[e.user_id].placetime >= gifttime && keys == 'gift') {
             e.reply(`单次逛街行动上限,你们啥也没干回了家`)
             placejson[id].place = "home"
             placejson[id].placetime = 0
