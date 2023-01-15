@@ -28,8 +28,10 @@ export class thumbUp extends plugin {
 	 * @param e oicq传递的事件参数e
 	 */
     async redblueball(e){
-        if(e.isMaster)
-        redblueball_start(e);
+        if(!e.isMaster)
+            return
+        redblueball_start();
+        e.reply(`手动开奖成功,请检查本插件resources/qylp/lottery.json`)
     }
 }
 //这个是获取一个6~7点的时间，到了时间则执行任务
@@ -38,7 +40,7 @@ schedule.scheduleJob(redblueball_time, function () {
 }
 );
 
-async function redblueball_start(e) {
+async function redblueball_start() {
     const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp`
     let filename = `lottery.json`
     if (!fs.existsSync(lotterypath + "/" + filename)) {//如果文件不存在
@@ -55,18 +57,19 @@ async function redblueball_start(e) {
         }
         redballarr.push(redballnum)
         if(redballarr.length == 6){
+            let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${Date().getDate()}`
             var ssqjson = JSON.parse(fs.readFileSync(lotterypath + "/" + filename, "utf8"));//读取文件
             let blueballnum =  Math.round(Math.random()*15 + 1)
             if(blueballnum<10)
             blueballnum = "0" + blueballnum
             let ssqdata = {
                 redball: redballarr,
-                blueball: blueballnum
+                blueball: blueballnum,
+                time: buytime
             }
             let title = "RBB"
             ssqjson[title] = ssqdata
             fs.writeFileSync(lotterypath + "/" + filename, JSON.stringify(ssqjson, null, "\t"));//写入文件
-            e.reply(`本次号码为红${redballarr.toString()},蓝${blueballnum}`);
             break//有六个不同数字时结束
         }
     }

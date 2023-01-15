@@ -874,7 +874,8 @@ export class qqy extends plugin {
             return
             }
         }
-        e.reply(`你选择了红球${redball.toString()}和蓝球${blueball}\n但是在测试,所以没啥用`)
+        let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${Date().getDate()}`
+        e.reply(`你选择了红球${redball.toString()}和蓝球${blueball}\n购买时间${buytime}\n但是在测试,所以没啥用`)
         return true;
     }
     //抱抱,有千分之一的概率被干掉
