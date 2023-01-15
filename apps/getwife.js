@@ -1145,7 +1145,7 @@ export class qqy extends plugin {
             await akasha_data.getQQYUserHouse(id, housejson, filename, true)
             return true
         }
-        if(keys = "buyhouse" && kill < 10){
+        if(keys == "buyhouse" && kill < 10){
             homejson[id].money = 0
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply([
