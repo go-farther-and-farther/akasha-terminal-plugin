@@ -87,6 +87,10 @@ export class qqy extends plugin {
                 fnc: 'gift_over'
             },
             {
+                reg: '^#?回家$',
+                fnc: 'gohome'
+            },
+            {
                 reg: '^#?购买双色球([0-3][0-9](?:\\s)){6}[0-1][0-9]$',
                 fnc: 'lottery1'
             },
@@ -776,6 +780,7 @@ export class qqy extends plugin {
     //逛街事件结束
     async gift_continue(e) {
         if (await this.is_jinbi(e) == true) return
+        if (await this.is_MAXEX(e, 'gift') == true) return
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
@@ -785,49 +790,49 @@ export class qqy extends plugin {
             e.reply(`金币都没了,还是别进去了吧`)
             return
         }
-        if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (placejson[id].place == "home") {
             e.reply([
                 segment.at(id), "\n",
-                `你在家,先逛街出去吧,当前位置为：${placejson[id].place}`
+                `你在家,先逛街出去吧`
             ])
             return
         }
+        if (placejson[id].place == "any")
+            return
         if (await this.is_killed(e, 'gift', true) == true) { return }
         var userplacename = placejson[id].place//获取玩家位置名A
         var placemodle = giftthing[userplacename]//获取位置资源中的位置A的数据B
         var placeid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
         var placemsg = placemodle[placeid].msg//获取消息
         e.reply(`${placemsg}`)
-        placejson[id].place = "home"
-        placejson[id].placetime = 0
+        placejson[id].place == "any"
+        placejson[id].placetime++
         homejson[id].money += placemodle[placeid].money
         homejson[id].love += Math.round(placemodle[placeid].love * housejson[id].loveup)
         setTimeout(() => {
             e.reply([
                 segment.at(id), "\n",
-                `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}`
+                `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}\n你可以选择[去下一个地方]或者[回家]`
             ])
         }, 1000)
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         if (await this.is_fw(e, homejson) == true) return
+        return true;
     }
     //逛街事件继续
     async gift_over(e) {
         if (await this.is_jinbi(e) == true) return
-        if (await this.is_MAXEX(e, 'gift') == true) return
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
-        if (placejson[id].place == "home") return//在家直接终止
         var giftthing = JSON.parse(fs.readFileSync(giftpath, "utf8"));//读取位置资源文件
         if (placejson[id].place == "home") {
             e.reply([
                 segment.at(id), "\n",
-                `你在家,先逛街出去吧,当前位置为：${placejson[id].place}`
+                `你在家,先逛街出去吧`
             ])
             return
         }
@@ -840,9 +845,30 @@ export class qqy extends plugin {
             `你选择[进去看看]还是[去下一个地方]?`
         ])
         placejson[id].place = giftthing.placename[placeid]
-        placejson[id].placetime++
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
-        if (await this.is_fw(e, homejson) == true) return
+        return true;
+    }
+    //回家
+    async gohome(e) {
+        if (await this.is_jinbi(e) == true) return
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
+        if (placejson[id].place == "home") {
+            e.reply([
+                segment.at(id), "\n",
+                `你已经在家了`
+            ])
+            return
+        }
+        if (await this.is_killed(e, 'gohome', true) == true) { return }
+        e.reply([
+            segment.at(id), "\n",
+            `你回到了家`
+        ])
+        placejson[id].place = "home"
+        await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
+        return true;
     }
     //买双色球
     async lottery1(e){
@@ -874,7 +900,7 @@ export class qqy extends plugin {
             return
             }
         }
-        let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${Date().getDate()}`
+        let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         e.reply(`你选择了红球${redball.toString()}和蓝球${blueball}\n购买时间${buytime}\n但是在测试,所以没啥用`)
         return true;
     }
