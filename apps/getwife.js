@@ -806,7 +806,7 @@ export class qqy extends plugin {
         var placeid = Math.round(Math.random() * (Object.keys(placemodle).length - 1) + 1)//随机从B中选择一个位置id
         var placemsg = placemodle[placeid].msg//获取消息
         e.reply(`${placemsg}`)
-        placejson[id].place == "any"
+        placejson[id].place = "any"
         placejson[id].placetime++
         homejson[id].money += placemodle[placeid].money
         homejson[id].love += Math.round(placemodle[placeid].love * housejson[id].loveup)
