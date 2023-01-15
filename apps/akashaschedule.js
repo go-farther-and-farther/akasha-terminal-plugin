@@ -2,7 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import schedule from "node-schedule";
 import fs from 'fs'
 let redblueball_time = String(Math.floor(Math.random() * 60)) + ' ' + String(Math.floor(Math.random() * 60)) + ' ' + String(Math.floor(Math.random() * 2) + 6) + ' * * *'
-export class thumbUp extends plugin {
+export class akashakaijiang extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
@@ -57,7 +57,7 @@ async function redblueball_start() {
         }
         redballarr.push(redballnum)
         if(redballarr.length == 6){
-            let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${Date().getDate()}`
+            let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
             var ssqjson = JSON.parse(fs.readFileSync(lotterypath + "/" + filename, "utf8"));//读取文件
             let blueballnum =  Math.round(Math.random()*15 + 1)
             if(blueballnum<10)
