@@ -755,9 +755,6 @@ export class qqy extends plugin {
             ]);
             return
         }
-        await redis.set(`potato:wife-gift-cd:${e.group_id}:${e.user_id}`, currentTime, {
-            EX: cdTime5
-        });
         if (placejson[id].place !== "home") {
             e.reply([
                 segment.at(id), "\n",
@@ -775,6 +772,9 @@ export class qqy extends plugin {
         ])
         placejson[id].place = giftthing.placename[placeid]
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
+        await redis.set(`potato:wife-gift-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            EX: cdTime5
+        });
         return true;
     }
     //逛街事件结束
@@ -796,6 +796,10 @@ export class qqy extends plugin {
                 segment.at(id), "\n",
                 `你在家,先逛街出去吧`
             ])
+            return
+        }
+        if (homejson[id].s == 0) {//如果json中不存在该用户或者老婆s为0
+            e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
         if (placejson[id].place == "any")

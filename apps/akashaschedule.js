@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import schedule from "node-schedule";
 import fs from 'fs'
-let redblueball_time = String(Math.floor(Math.random() * 60)) + ' ' + String(Math.floor(Math.random() * 60)) + ' ' + String(Math.floor(Math.random() * 2) + 6) + ' * * *'
+let redblueball_time = '0 0 12 * * ? *'
 export class akashakaijiang extends plugin {
 	constructor() {
 		super({
