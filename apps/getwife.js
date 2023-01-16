@@ -928,7 +928,7 @@ export class qqy extends plugin {
         myRBB = myRBB.toString().split(":")
         console.log(myRBB)
         switch(myRBB.length){
-            case 0:
+            case 1:
             e.reply(`你还没买`)
             break            
             case 5:
