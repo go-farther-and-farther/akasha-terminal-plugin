@@ -878,7 +878,7 @@ export class qqy extends plugin {
     async lottery1(e){
         let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
-        if (myRBB.length == 5) {
+        if (myRBB.length == 6) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `你买过了`
@@ -928,7 +928,7 @@ export class qqy extends plugin {
         myRBB = myRBB.toString().split(":")
         myRBB = myRBB[4]
         console.log(myRBB)
-        if (myRBB.length == 5)
+        if (myRBB.length == 6)
             e.reply(`你的双色球为${myRBB}`)
         return true;
     }
