@@ -19,7 +19,7 @@ export class akashakaijiang extends plugin {
 					reg: "^#?双色球开奖$", //匹配消息正则，命令正则
 					/** 执行方法 */
 					fnc: 'redblueball'
-				}
+                }
 			]
 		})
 	}
@@ -69,6 +69,8 @@ async function redblueball_start() {
             }
             let title = "RBB"
             ssqjson[title] = ssqdata
+            let kjdata = `Red${redballarr.toString()}Blue${blueballnum}Time${buytime}`
+            console.log(`开奖球设置为${kjdata}`)
             fs.writeFileSync(lotterypath + "/" + filename, JSON.stringify(ssqjson, null, "\t"));//写入文件
             break//有六个不同数字时结束
         }

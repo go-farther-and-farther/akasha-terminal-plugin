@@ -71,7 +71,7 @@ export class qqy extends plugin {
                 fnc: 'gethouse'
             },
             {
-                reg: '^#?买房',
+                reg: '^#?买房[0-9]{1,}$',
                 fnc: 'buyhouse'
             },
             {
@@ -91,8 +91,12 @@ export class qqy extends plugin {
                 fnc: 'gohome'
             },
             {
-                reg: '^#?购买双色球([0-3][0-9](?:\\s)){6}[0-1][0-9]$',
+                reg: '^#?购买双色球([0-9][0-9](?:\\s)){6}[0-9][0-9]$',
                 fnc: 'lottery1'
+            },
+            {
+                reg: '^#?我的双色球$',
+                fnc: 'readRBB'
             },
             {
                 reg: '^#?(拥抱|抱抱)(.*)$',
@@ -107,7 +111,7 @@ export class qqy extends plugin {
                 fnc: 'poor'
             },
             {
-                reg: '^#?上交存款',
+                reg: '^#?上交存款[0-9]{1,}$',
                 fnc: 'Transfer_money'
             },
             {
@@ -696,10 +700,6 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         var msg = e.msg.replace(/(买房|#)/g, "").replace(/[\n|\r]/g, "，").trim()
-        if (isNaN(msg)) {
-            e.reply(`${msg}不是在可买id范围内`)
-            return
-        }
         if(homejson[id].money < housething[msg].price){
             e.reply(`金币不足`)
             return
@@ -817,7 +817,7 @@ export class qqy extends plugin {
         setTimeout(() => {
             e.reply([
                 segment.at(id), "\n",
-                `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}\n你可以选择[去下一个地方]或者[回家]`
+                `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}\n你可以选择[去下一个地方]或者[回家]\n当前剩余行动点${gifttime - placejson[id].placetime}`
             ])
         }, 1000)
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
@@ -876,6 +876,14 @@ export class qqy extends plugin {
     }
     //买双色球
     async lottery1(e){
+        let ForTbuy = await redis.get(`akasha:lottery1:${e.group_id}:${e.user_id}:*`);
+        if (ForTbuy) {
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `你已经买过了`
+            ])
+            return
+        }
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
@@ -905,7 +913,29 @@ export class qqy extends plugin {
             }
         }
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
-        e.reply(`你选择了红球${redball.toString()}和蓝球${blueball}\n购买时间${buytime}\n但是在测试,所以没啥用`)
+        let ssqdata = `Red${redball.toString()}Blue${blueball}Time${buytime}`
+        console.log(`${id}购买双色球${ssqdata}`)
+        await redis.set(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:${ssqdata}`, currentTime, {
+            EX: 86400
+        });
+        e.reply(`你选择了${ssqdata}\n但是在测试,所以没啥用`)
+        return true;
+    }
+    //看看自己的双色球
+    async readRBB(e){
+        let ForTbuy = await redis.get(`akasha:lottery1:${e.group_id}:${e.user_id}:*`);
+        if (!ForTbuy) {
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `你还没买`
+            ])
+            return
+        }
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        myRBB = myRBB.toString().split(":")
+        myRBB = myRBB[4]
+        console.log(myRBB)
+        e.reply(`你的双色球为${myRBB}`)
         return true;
     }
     //抱抱,有千分之一的概率被干掉
@@ -1021,10 +1051,6 @@ export class qqy extends plugin {
             return
         }
         var msg = e.msg.replace(/(上交存款|#)/g, "").replace(/[\n|\r]/g, "，").trim()
-        if (isNaN(msg)) {
-            e.reply(`${msg}不是有效值`)
-            return
-        }
         var id2 = homejson[id].s
         var homejson = await akasha_data.getQQYUserHome(id2, homejson, filename, false)  //给老婆创建存档
         var yingfu = Math.round(msg)
@@ -1191,7 +1217,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
         if (placejson[e.user_id].placetime >= gifttime && keys == 'gift') {
-            e.reply(`单次逛街行动上限,你们啥也没干回了家`)
+            e.reply(`单次逛街行动上限,你回了家`)
             placejson[id].place = "home"
             placejson[id].placetime = 0
             await akasha_data.getQQYUserPlace(id, placejson, filename, true)
