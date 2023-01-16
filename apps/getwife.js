@@ -926,10 +926,11 @@ export class qqy extends plugin {
     async readRBB(e){
         let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
-        myRBB = myRBB[4]
         console.log(myRBB)
-        if (myRBB.length == 6)
+        if (myRBB.length == 6){
+            myRBB = myRBB[4]
             e.reply(`你的双色球为${myRBB}`)
+        }
         return true;
     }
     //抱抱,有千分之一的概率被干掉
