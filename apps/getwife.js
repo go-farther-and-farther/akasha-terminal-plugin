@@ -927,16 +927,17 @@ export class qqy extends plugin {
         let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         console.log(myRBB)
-        if (!myRBB.length){
+        switch(myRBB.length){
+            case 0:
             e.reply(`你还没买`)
-            return
-        }
-        if (myRBB.length == 5){
+            break            
+            case 5:
             myRBB = myRBB[4]
             e.reply(`你的双色球为${myRBB}`)
-            return
+            break
+            default:
+            e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
-        e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         return true;
     }
     //抱抱,有千分之一的概率被干掉
