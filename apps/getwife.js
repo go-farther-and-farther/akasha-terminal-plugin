@@ -876,8 +876,9 @@ export class qqy extends plugin {
     }
     //买双色球
     async lottery1(e){
-        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`);
-        if (myRBB) {
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        myRBB = myRBB.toString().split(":")
+        if (myRBB.length == 5) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `你买过了`
@@ -927,7 +928,8 @@ export class qqy extends plugin {
         myRBB = myRBB.toString().split(":")
         myRBB = myRBB[4]
         console.log(myRBB)
-        e.reply(`你的双色球为${myRBB}`)
+        if (myRBB.length == 5)
+            e.reply(`你的双色球为${myRBB}`)
         return true;
     }
     //抱抱,有千分之一的概率被干掉
