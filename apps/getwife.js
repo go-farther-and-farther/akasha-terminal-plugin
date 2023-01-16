@@ -876,7 +876,7 @@ export class qqy extends plugin {
     }
     //买双色球
     async lottery1(e){
-        let ForTbuy = await redis.get(`akasha:lottery1:${e.group_id}:${e.user_id}:*`);
+        let ForTbuy = await redis.get(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`);
         if (ForTbuy) {
             e.reply([
                 segment.at(e.user_id), "\n",
@@ -923,15 +923,14 @@ export class qqy extends plugin {
     }
     //看看自己的双色球
     async readRBB(e){
-        let ForTbuy = await redis.get(`akasha:lottery1:${e.group_id}:${e.user_id}:*`);
-        if (!ForTbuy) {
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        if (!myRBB) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `你还没买`
             ])
             return
         }
-        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         myRBB = myRBB[4]
         console.log(myRBB)
