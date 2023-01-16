@@ -158,8 +158,8 @@ export const helpList = [{
     desc: '赋予/撤销一名群员特殊权能'
   }, {
     icon: 40,
-    title: '#清除老婆冷却',
-    desc: '清除本群冷却,at则清除对方冷却'
+    title: '#清除老婆数据',
+    desc: '清除本群非存档数据,at则清除对方非存档数据'
   }]
 }]
 

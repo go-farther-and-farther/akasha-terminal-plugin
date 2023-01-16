@@ -115,7 +115,7 @@ export class qqy extends plugin {
                 fnc: 'Transfer_money'
             },
             {
-                reg: '^#?清除老婆冷却$',
+                reg: '^#?清除老婆数据$',
                 fnc: 'delcd'
             }
             ]
@@ -876,9 +876,9 @@ export class qqy extends plugin {
     }
     //买双色球
     async lottery1(e){
-        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
-        if (myRBB.length == 6) {
+        if (myRBB.length == 5) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `你买过了`
@@ -916,7 +916,7 @@ export class qqy extends plugin {
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         let ssqdata = `Red${redball.toString()}Blue${blueball}Time${buytime}`
         console.log(`${id}购买双色球${ssqdata}`)
-        await redis.set(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:${ssqdata}`, currentTime, {
+        await redis.set(`potato:wife-lottery1:${e.group_id}:${e.user_id}:${ssqdata}`, currentTime, {
             EX: 86400
         });
         e.reply(`你选择了${ssqdata}\n但是在测试,所以没啥用`)
@@ -924,13 +924,19 @@ export class qqy extends plugin {
     }
     //看看自己的双色球
     async readRBB(e){
-        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         console.log(myRBB)
-        if (myRBB.length == 6){
+        if (!myRBB.length){
+            e.reply(`你还没买`)
+            return
+        }
+        if (myRBB.length == 5){
             myRBB = myRBB[4]
             e.reply(`你的双色球为${myRBB}`)
+            return
         }
+        e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         return true;
     }
     //抱抱,有千分之一的概率被干掉
@@ -1082,10 +1088,10 @@ export class qqy extends plugin {
             let cddata = await redis.keys(`potato:*:${e.group_id}:*`, (err, data) => { });
             if(e.at){
             cddata = await redis.keys(`potato:*:${e.group_id}:${e.at}`, (err, data) => { });
-            e.reply(`成功清除${e.at}的冷却`)
+            e.reply(`成功清除${e.at}的数据,存档不会丢失`)
             }
             else {
-                e.reply(`成功清除本群的冷却`)
+                e.reply(`成功清除本群的数据,存档不会丢失`)
             }
             await redis.del(cddata);
             return true;
