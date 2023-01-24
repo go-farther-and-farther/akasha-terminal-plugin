@@ -960,6 +960,7 @@ export class qqy extends plugin {
         }
         if(myRBB.length == 7){
             var trueRBBjosn = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
+            let title = "RBB"
             var trueR = trueRBBjosn[title].redball
             var trueB = trueRBBjosn[title].blueball
             var lastR = []
