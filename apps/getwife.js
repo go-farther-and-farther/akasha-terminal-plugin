@@ -951,8 +951,8 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        var myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
-        myRBB = myRBB.toString().split(":")
+        var AmyRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        var myRBB = AmyRBB.toString().split(":")
         if(myRBB.length == 1){
             e.reply(`你还没买`)
             return
@@ -984,6 +984,7 @@ export class qqy extends plugin {
                         homejson[id].money += 200000                
                         e.reply(`恭喜你!!!获得二等奖20万金币!!!`)
                     }
+                break
                 case 5:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得三等奖5万金币!!!`)
@@ -993,6 +994,7 @@ export class qqy extends plugin {
                         homejson[id].money += 20000          
                         e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
                     }
+                break
                 case 4:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
@@ -1002,21 +1004,25 @@ export class qqy extends plugin {
                         homejson[id].money += 1000          
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
                     }
+                break
                 case 3:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
                         homejson[id].money += 1000                
                     }
+                break
                 case 2:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
                         homejson[id].money += 500                
                     }
+                break
                 case 1:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
                         homejson[id].money += 500                
                     }
+                break
                 default:
                     e.reply(`啥也没中`)
             }
@@ -1025,7 +1031,9 @@ export class qqy extends plugin {
         else{
             e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
-        return true;
+        await redis.del(AmyRBB);
+        e.reply(`成功兑换,`)
+    return true;
     }
     //抱抱,有千分之一的概率被干掉
     async touch(e) {
