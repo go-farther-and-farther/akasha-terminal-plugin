@@ -32,7 +32,7 @@ wife_cfg:
   #领取低保冷却
   poorcd: 1440
   #购买双色球的cd
-  RBBgetcd: 43200
+  RBBgetcd: 720
   #行动限制,单位(次)
   #逛街->去下一个地方
   gifttime: 5
