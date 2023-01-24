@@ -43,12 +43,12 @@ export class getconfig extends plugin {
         }
         if (!fs.existsSync(configyamlpath)) {//如果配置不存在，则复制一份默认配置到配置里面
             fs.copyFileSync(`${_defpath}`, `${configyamlpath}`);
-            e.reply(`${configyamlpath}不存在配置，已经自动生成。`)
+            e.reply(`${configyamlpath}不存在配置，已经自动生成。重启后确保生效`)
         }
         else {
             fs.copyFileSync(`${configyamlpath}`, `${configyamlbackpath}`);
             fs.copyFileSync(`${_defpath}`, `${configyamlpath}`);
-            e.reply(`${configyamlpath}存在配置，已经自动重置并备份。`)
+            e.reply(`${configyamlpath}存在配置，已经自动重置并备份。重启后确保生效`)
         }
     }
     async getconfig(e) {
