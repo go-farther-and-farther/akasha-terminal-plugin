@@ -16,6 +16,7 @@ let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱�
 let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
 let cdTime6 = Number(await command.getConfig("wife_cfg", "qlpcd")) * 60;//抢老婆冷却
 let cdTime7 = Number(await command.getConfig("wife_cfg", "poorcd")) * 60;//低保冷却
+let cdTime8 = Number(await command.getConfig("wife_cfg", "RBBgetcd")) * 60;//购买双色球的cd
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 let gifttime = await command.getConfig("wife_cfg", "gifttime");//逛街换地上限
@@ -890,6 +891,15 @@ export class qqy extends plugin {
             ])
             return
         }
+        let lastTime6 = await redis.get(`potato:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime6) {
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `该命令有${cdTime8}秒cd`
+            ]);
+            return
+        }
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
@@ -928,6 +938,9 @@ export class qqy extends plugin {
         });
         homejson[id].money -= 300
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        await redis.set(`potato:wife-lottery1-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            EX: cdTime8
+        });
         e.reply(`你选择了${ssqdata}`)
         return true;
     }
@@ -1017,11 +1030,19 @@ export class qqy extends plugin {
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
                         homejson[id].money += 1000                
                     }
+                    else{
+                        homejson[id].money += 6        
+                        e.reply(`安慰奖6个金币!`)
+                    }
                 break
                 case 2:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
                         homejson[id].money += 500                
+                    }
+                    else{
+                        homejson[id].money += 6        
+                        e.reply(`安慰奖6个金币!`)
                     }
                 break
                 case 1:
@@ -1029,9 +1050,13 @@ export class qqy extends plugin {
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
                         homejson[id].money += 500                
                     }
+                    else{
+                        homejson[id].money += 6        
+                        e.reply(`安慰奖6个金币!`)
+                    }
                 break
                 default:
-                    e.reply(`啥也没中`)
+                    e.reply(`一个也没中`)
             }
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
         }
@@ -1039,7 +1064,7 @@ export class qqy extends plugin {
             e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
         await redis.del(AmyRBB);
-        e.reply(`成功兑换,`)
+        e.reply(`成功兑换,请查看你的信息`)
     return true;
     }
     //抱抱,有千分之一的概率被干掉
