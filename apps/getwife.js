@@ -960,7 +960,7 @@ export class qqy extends plugin {
         if(myRBB.length == 7){
             var trueRBBjosn = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
             let title = "RBB"
-            var trueR = trueRBBjosn[title].redball
+            var trueR = (trueRBBjosn[title].redball).toString().split(",")
             var trueB = trueRBBjosn[title].blueball
             console.log(trueR)
             console.log(trueB)
@@ -1007,7 +1007,12 @@ export class qqy extends plugin {
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
                         homejson[id].money += 1000                
                     }
-                case 2 || 1:
+                case 2:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
+                        homejson[id].money += 500                
+                    }
+                case 1:
                     if(myB == trueB){
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
                         homejson[id].money += 500                
