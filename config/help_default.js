@@ -140,6 +140,14 @@ export const helpList = [{
     desc: '出门解锁更多玩法和随机事件'
   }, {
     icon: 20,
+    title: '我的彩票',
+    desc: '查看当前购买的彩票'
+  }, {
+    icon: 20,
+    title: '双色球兑换',
+    desc: '兑换当期奖励'
+  }, {
+    icon: 20,
     title: '抱抱@老婆',
     desc: '抱抱增加好感度'
   }, {
@@ -162,5 +170,9 @@ export const helpList = [{
     icon: 40,
     title: '#清除老婆数据',
     desc: '清除本群非存档数据,at则清除对方非存档数据'
+  }, {
+    icon: 40,
+    title: '#双色球开奖',
+    desc: '顾名思义'
   }]
 }]

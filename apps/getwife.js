@@ -96,7 +96,7 @@ export class qqy extends plugin {
                 fnc: 'lottery1'
             },
             {
-                reg: '^#?我的双色球$',
+                reg: '^#?我的彩票$',
                 fnc: 'readRBB'
             },
             {
@@ -926,6 +926,8 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
             EX: 86400
         });
+        homejson[id].money -= 300
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
         e.reply(`你选择了${ssqdata}`)
         return true;
     }
@@ -954,7 +956,7 @@ export class qqy extends plugin {
         var AmyRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         var myRBB = AmyRBB.toString().split(":")
         if(myRBB.length == 1){
-            e.reply(`你还没买`)
+            e.reply(`你还没买或已过期`)
             return
         }
         if(myRBB.length == 7){
@@ -962,6 +964,7 @@ export class qqy extends plugin {
             let title = "RBB"
             var trueR = (trueRBBjosn[title].redball).toString().split(",")
             var trueB = trueRBBjosn[title].blueball
+            var trueTime = trueRBBjosn[title].time
             console.log(trueR)
             console.log(trueB)
             var lastR = []
@@ -969,6 +972,10 @@ export class qqy extends plugin {
             console.log(myR)
             var myB = myRBB[5].toString()
             console.log(myB)
+            var mytime = myRBB[6]
+            console.log(`购买时间${mytime}当前开奖时间${trueTime}`)
+            if(mytime !== trueTime)
+                return e.reply(`未开奖或已过期`)
             trueR.some(function(i){
                 if(myR.includes(i))
                 lastR.push(i)
