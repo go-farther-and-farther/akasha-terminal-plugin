@@ -7,6 +7,7 @@ import command from '../components/command.js'
 import akasha_data from '../components/akasha_data.js'
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const housepath = `plugins/akasha-terminal-plugin/resources/qylp/house.json`
+const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp/lottery.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 let cdTime = Number(await command.getConfig("wife_cfg", "sjcd")) * 60;//随机娶群友冷却
 let cdTime2 = Number(await command.getConfig("wife_cfg", "qqcd")) * 60;//强娶冷却
@@ -97,6 +98,10 @@ export class qqy extends plugin {
             {
                 reg: '^#?我的双色球$',
                 fnc: 'readRBB'
+            },
+            {
+                reg: '^#?双色球兑换$',
+                fnc: 'useRBB'
             },
             {
                 reg: '^#?(拥抱|抱抱)(.*)$',
@@ -677,7 +682,7 @@ export class qqy extends plugin {
         await redis.set(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime3
         });
-        homejson[id].money += Math.round(Math.random() * 50 + 50)
+        homejson[id].money += Math.round(Math.random() * 100 + 100)
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
         e.reply(`恭喜你!现在你有${homejson[id].money}金币了!`)
         return true;
@@ -878,7 +883,7 @@ export class qqy extends plugin {
     async lottery1(e){
         let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
-        if (myRBB.length == 5) {
+        if (myRBB.length == 7) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `你买过了`
@@ -913,13 +918,15 @@ export class qqy extends plugin {
             return
             }
         }
+        if(homejson[id].money < 300)
+            return e.reply(`金币不足,需要300金币`)
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
-        let ssqdata = `Red${redball.toString()}Blue${blueball}Time${buytime}`
+        let ssqdata = `红${redball.toString()}蓝${blueball}时间${buytime}`
         console.log(`${id}购买双色球${ssqdata}`)
-        await redis.set(`potato:wife-lottery1:${e.group_id}:${e.user_id}:${ssqdata}`, currentTime, {
+        await redis.set(`potato:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
             EX: 86400
         });
-        e.reply(`你选择了${ssqdata}\n但是在测试,所以没啥用`)
+        e.reply(`你选择了${ssqdata}`)
         return true;
     }
     //看看自己的双色球
@@ -929,13 +936,86 @@ export class qqy extends plugin {
         console.log(myRBB)
         switch(myRBB.length){
             case 1:
-            e.reply(`你还没买`)
+            e.reply(`你还没买或已过期`)
             break            
-            case 5:
-            myRBB = myRBB[4]
-            e.reply(`你的双色球为${myRBB}`)
+            case 7:
+            e.reply(`你的双色球为红球${myRBB[4]},蓝球${myRBB[5]},购买时间${myRBB[6]},有效期24小时`)
             break
             default:
+            e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
+        }
+        return true;
+    }
+    //兑换双色球
+    async useRBB(e){
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        myRBB = myRBB.toString().split(":")
+        console.log(myRBB)
+        if(myRBB.length == 1){
+            e.reply(`你还没买`)
+            return
+        }
+        if(myRBB.length == 7){
+            var trueRBBjosn = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
+            var trueR = trueRBBjosn[title].redball
+            var trueB = trueRBBjosn[title].blueball
+            var lastR = []
+            var myR = myRBB[4].split(",")
+            console.log(myR)
+            var myB = myRBB[5]
+            console.log(myB)
+            trueR.some(function(i){
+                if(myR.includes(i))
+                lastR.push(i)
+            })
+            console.log(lastR)
+            switch(lastR.length){
+                case 6:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得一等奖50万金币!!!`)
+                        homejson[id].money += 5000000                
+                    }
+                    else{
+                        homejson[id].money += 200000                
+                        e.reply(`恭喜你!!!获得二等奖20万金币!!!`)
+                    }
+                case 5:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得三等奖5万金币!!!`)
+                        homejson[id].money += 50000                
+                    }
+                    else{
+                        homejson[id].money += 20000          
+                        e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
+                    }
+                case 4:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
+                        homejson[id].money += 20000                
+                    }
+                    else{
+                        homejson[id].money += 1000          
+                        e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
+                    }
+                case 3:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
+                        homejson[id].money += 1000                
+                    }
+                case 2 || 1:
+                    if(myB == trueB){
+                        e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
+                        homejson[id].money += 500                
+                    }
+                default:
+                    e.reply(`啥也没中`)
+            }
+            await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        }
+        else{
             e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
         return true;
@@ -1186,6 +1266,15 @@ export class qqy extends plugin {
                 `你被骗的苦茶子都没了`
             ])
             return true
+        }
+        if(keys == "getmoney"){
+            if(kill < 300){
+                homejson[id].money += 100
+                e.reply(`老板看你挺卖力,发了100奖金给你`)}
+            if(kill >= 600){
+                homejson[id].money -=50
+                e.reply(`摸鱼被发现了,罚款50`)}
+            await akasha_data.getQQYUserHome(id, homejson, filename, true)
         }
         return false
     }

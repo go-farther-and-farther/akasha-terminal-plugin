@@ -56,6 +56,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 |主动分手,被动甩掉   |不要老婆或被老婆甩掉   |
 |获取金币   |凡是都是需要付出的   |
 |花金币   |钱不能白赚   |
+|随机事件   |处处有惊喜   |
 |查看家庭   |看看和群友构建的家   |
 |更多功能   |敬请期待。或提交Issues   |
 
@@ -64,6 +65,9 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 #### 常见问题
   - xxx is not defined
   - #重置虚空配置后重启
+  
+  - 娶群友相关功能出现cannot read ... (reading"sex"或者'nickname')
+  - 有人老婆退群导致,前往data/qylp/UserHome/群号 文件自行删除ta
 
   - 上述方法未能解决或我有其他问题!
   - 联系我们 Q群 906539561
