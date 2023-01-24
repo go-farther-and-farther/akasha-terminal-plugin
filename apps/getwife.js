@@ -953,7 +953,6 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
-        console.log(myRBB)
         if(myRBB.length == 1){
             e.reply(`你还没买`)
             return
@@ -963,10 +962,12 @@ export class qqy extends plugin {
             let title = "RBB"
             var trueR = trueRBBjosn[title].redball
             var trueB = trueRBBjosn[title].blueball
+            console.log(trueR)
+            console.log(trueB)
             var lastR = []
             var myR = myRBB[4].split(",")
             console.log(myR)
-            var myB = myRBB[5]
+            var myB = myRBB[5].toString()
             console.log(myB)
             trueR.some(function(i){
                 if(myR.includes(i))
