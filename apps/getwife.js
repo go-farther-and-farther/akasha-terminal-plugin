@@ -670,7 +670,6 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if (await this.is_killed(e, `getmoney`, false) == true) return
         let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
         if (lastTime2) {
             e.reply([
@@ -680,6 +679,7 @@ export class qqy extends plugin {
             ]);
             return
         }
+        if (await this.is_killed(e, `getmoney`, false) == true) return
         await redis.set(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime3
         });
