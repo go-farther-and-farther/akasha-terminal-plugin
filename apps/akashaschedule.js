@@ -4,6 +4,7 @@ import common from '../../../lib/common/common.js'
 import moment from "moment"
 import yzcfg from '../../../lib/config/config.js'
 import fs from 'fs'
+var Group = []
 export class akashakaijiang extends plugin {
 	constructor() {
 		super({
