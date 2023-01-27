@@ -301,7 +301,7 @@ export class duel_exercise extends plugin {//修炼
                 experience_ = Math.round(3 + 3 * Math.random())
                 json[user_id].experience += experience_
                 e.reply([segment.at(user_id),
-                `\n🎉感谢你获得了${experience_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
+                `\n🎉恭喜你获得了${experience_}点内力，睡个午觉吧！\n你的内力为:${json[user_id].experience}\n你的境界为${json[user_id].levelname}`]);//发送消息
             } else if (hours > 23 || hours <= 5) {
                 e.group.muteMember(user_id, 60 * 60 * 6); //禁言
                 experience_ = Math.round(3 + 3 * Math.random())
