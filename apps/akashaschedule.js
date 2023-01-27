@@ -5,7 +5,8 @@ import moment from "moment"
 import yzcfg from '../../../lib/config/config.js'
 import command from '../components/command.js'
 import fs from 'fs'
-var Group = await command.getConfig("wife_cfg", "group");//强娶概率
+var Group = await command.getConfig("wife_cfg", "group");
+var RBBtime = Number(await command.getConfig("wife_cfg", "RBBtime"))
 export class akashakaijiang extends plugin {
 	constructor() {
 		super({
@@ -35,25 +36,25 @@ export class akashakaijiang extends plugin {
         if(!e.isMaster)
             return
         redblueball_start();
-        e.reply(`手动开奖成功,请检查本插件resources/qylp/lottery.json`)
     }
 }
 //每小时执行任务
 schedule.scheduleJob('0 0 * * * *', async() => {
     let time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     let hour = new Date(time).getHours()
-    if(hour == 20)
+    if(hour == RBBtime)
 	redblueball_start();
 }
 );
 
 async function redblueball_start() {
-    if(Group.length){
-        console.log(Group)
+    try{
+        console.log(`正在通知群聊${Group}双色球开奖`)
         for(let key of Group){
             await Bot.pickGroup(key).sendMsg(`双色球已开奖,玩家们k快发送'双色球段焕吧'吧`)
         }
     }
+    catch{}
     for(let mat of yzcfg.masterQQ){
     await common.relpyPrivate(mat, `双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
     }
