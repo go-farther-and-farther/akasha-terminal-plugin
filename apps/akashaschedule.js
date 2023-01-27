@@ -51,7 +51,7 @@ async function redblueball_start() {
     try{
         console.log(`正在通知群聊${Group}双色球开奖`)
         for(let key of Group){
-            await Bot.pickGroup(key).sendMsg(`双色球已开奖,玩家们k快发送'双色球段焕吧'吧`)
+            await Bot.pickGroup(key).sendMsg(`双色球已开奖,玩家们k快发送'双色球兑换吧'吧`)
         }
     }
     catch{}
