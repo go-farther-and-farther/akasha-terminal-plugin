@@ -1,5 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import schedule from "node-schedule"
+import common from '../../../lib/common/common.js'
 import moment from "moment"
 import yzcfg from '../../../lib/config/config.js'
 import fs from 'fs'
@@ -45,7 +46,13 @@ schedule.scheduleJob('0 0 * * * *', async() => {
 );
 
 async function redblueball_start() {
-    Bot.pickFriend(yzcfg.MasterQQ[0]).sendMsg(`双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
+    if(Group.length)
+    for(let key of Group){
+    await Bot.pickGroup(key).sendMsg(`双色球已开奖,玩家们k快发送'双色球段焕吧'吧`)
+    }
+    for(let mat of yzcfg.masterQQ){
+    await common.relpyPrivate(mat, `双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
+    }
     const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp`
     let filename = `lottery.json`
     if (!fs.existsSync(lotterypath + "/" + filename)) {//如果文件不存在
