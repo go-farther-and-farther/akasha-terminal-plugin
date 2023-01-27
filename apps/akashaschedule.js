@@ -51,12 +51,12 @@ async function redblueball_start() {
     try{
         console.log(`正在通知群聊${Group}双色球开奖`)
         for(let key of Group){
-            await Bot.pickGroup(key).sendMsg(`双色球已开奖,玩家们k快发送'双色球兑换吧'吧`)
+            await Bot.pickGroup(key).sendMsg(`娶群友小游戏双色球已开奖,今日购买的玩家们可以发送'双色球兑换'进行兑换\n也可'我的彩票'查看自己的号码`)
         }
     }
     catch{}
     for(let mat of yzcfg.masterQQ){
-    await common.relpyPrivate(mat, `双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
+    await common.relpyPrivate(mat, `娶群友小游戏双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
     }
     const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp`
     let filename = `lottery.json`
