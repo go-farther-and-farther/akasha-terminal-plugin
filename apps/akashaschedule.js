@@ -1,7 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import schedule from "node-schedule";
+import schedule from "node-schedule"
+import moment from "moment"
+import yzcfg from '../../../lib/config/config.js'
 import fs from 'fs'
-let redblueball_time = '0 0 12 * * ? *'
 export class akashakaijiang extends plugin {
 	constructor() {
 		super({
@@ -34,13 +35,17 @@ export class akashakaijiang extends plugin {
         e.reply(`手动开奖成功,请检查本插件resources/qylp/lottery.json`)
     }
 }
-//这个是获取一个6~7点的时间，到了时间则执行任务
-schedule.scheduleJob(redblueball_time, function () {
+//每小时执行任务
+schedule.scheduleJob('0 0 * * * *', async() => {
+    /*let time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    let hour = new Date(time).getHours()
+    if(hour == 20)*/
 	redblueball_start();
 }
 );
 
 async function redblueball_start() {
+    Bot.pickFriend(yzcfg.MasterQQ[0]).sendMsg(`双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
     const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp`
     let filename = `lottery.json`
     if (!fs.existsSync(lotterypath + "/" + filename)) {//如果文件不存在
