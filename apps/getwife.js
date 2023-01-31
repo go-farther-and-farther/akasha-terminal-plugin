@@ -41,7 +41,7 @@ export class qqy extends plugin {
                 fnc: 'wife2'
             },
             {
-                reg: '^#?抢老婆$',
+                reg: '^#?抢老婆(.*)$',
                 fnc: 'ntr'
             },
             {
