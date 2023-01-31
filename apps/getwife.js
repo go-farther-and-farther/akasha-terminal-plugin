@@ -1450,7 +1450,7 @@ export class qqy extends plugin {
         let random = Math.random() * 100//禁言随机数
         //提示
         e.reply([segment.at(e.user_id),
-        `你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
+        `你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win}`]);//发送消息
         //判断
         let is_win = false
         if (win > random) {//判断是否成功
