@@ -5,6 +5,17 @@ import { segment } from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
 import akasha_data from '../components/akasha_data.js'
+const dirpath = "plugins/akasha-terminal-plugin/data";//文件夹路径
+const dirpath2 = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
+const filename = `battle.json`;//文件名
+var Template = {//创建该用户
+	"experience": 0,
+	"level": 0,
+	"levelname": '无等级',
+	"Privilege": 0,
+};
+let Magnification = await command.getConfig("duel_cfg", "Magnification");
+
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const housepath = `plugins/akasha-terminal-plugin/resources/qylp/house.json`
 const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp/lottery.json`
