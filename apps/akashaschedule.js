@@ -69,11 +69,11 @@ async function redblueball_start() {
     var redballarr = []
     for(;;){
         let redballnum = Math.round(Math.random()*32 + 1)//生成1到33随机数
-        if(redballarr.includes(redballnum))
-            redballarr = []//含有重复数字则重新开始
         if(redballnum<10){
             redballnum = "0" + redballnum//小于10改为01,02形式
         }
+        if(redballarr.includes(redballnum))
+            redballarr = []//含有重复数字则重新开始
         redballarr.push(redballnum)
         if(redballarr.length == 6){
             let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
