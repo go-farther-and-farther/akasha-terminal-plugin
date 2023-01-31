@@ -59,7 +59,10 @@ export class duel extends plugin {//决斗
 		if (typeof (msg) == 'number') {
 			if (number > 3 || number < 1) {
 				e.reply(`战斗力意义系数应该是1~3之间`)
-			} else { Magnification = number }
+			} else {
+				Magnification = number
+				e.reply(`战斗力意义系数设置成功`)
+			}
 		}
 		return
 	}

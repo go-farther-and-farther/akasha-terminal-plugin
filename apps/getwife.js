@@ -177,7 +177,7 @@ export class qqy extends plugin {
             e.reply(tips);
             return
         }
-        if (await this.is_killed(e, `wife2`,true) == true) return
+        if (await this.is_killed(e, `wife2`, true) == true) return
         let sex = await Bot.pickFriend(e.user_id).sex
         let ex = ''
         if (sex == 'male') {
@@ -282,7 +282,17 @@ export class qqy extends plugin {
         }
         var good = homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100
         var gailv = Math.round(Math.random() * 99)
-        await e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},你的成功率为：${good}%`)
+        //这里用了和决斗一样的数据
+        let is_win = await this.duel(e)
+
+        if (is_win) {
+            await e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
+            good += 10
+        }
+        else {
+            await e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
+            good -= 10
+        }
         if (homejson[e.at].love >= 5000) {
             e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
             await this.ntrF(e, e.user_id, e.at)
@@ -616,8 +626,8 @@ export class qqy extends plugin {
             //两情相悦的
             if (iswife_list.includes(Number(homejson[id].s))) {
                 let mywife = homejson[id].s
-                msgstart =  `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n和你两情相悦的人是${name},\n`,
-                msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}\n`
+                msgstart = `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n和你两情相悦的人是${name},\n`,
+                    msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}\n`
                 //把喜欢你的人从这个数组去除
                 iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
             }
@@ -638,7 +648,7 @@ export class qqy extends plugin {
             var notlqxyk = iswife_list.filter(item => item != Number(homejson[id].s))//去掉老婆
             for (let i of notlqxyk)
                 msg_love = msg_love + `${i}\n好感度为：${homejson[i].love}\n`
-                msg_love = msg_love + `快去处理一下吧\n`
+            msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
         //其他信息
@@ -646,18 +656,18 @@ export class qqy extends plugin {
         //最后回复信息
         if (homejson[id].s !== 0) {
             e.reply([
-                segment.at(id),  "\n", 
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
+                segment.at(id), "\n",
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
                 msgstart,
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n", 
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n",
                 msg2
-                ])
+            ])
         }
         else {
-            let msg  = msgstart + msg_love + msg_house
+            let msg = msgstart + msg_love + msg_house
             e.reply([
-                segment.at(id), "\n", 
-                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n", 
+                segment.at(id), "\n",
+                segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
                 msg,
             ])
         }
@@ -699,19 +709,19 @@ export class qqy extends plugin {
         return true
     }
     //买房,可以给别人买
-    async buyhouse(e){
+    async buyhouse(e) {
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         var msg = e.msg.replace(/(买房|#)/g, "").replace(/[\n|\r]/g, "，").trim()
-        if(homejson[id].money < housething[msg].price){
+        if (homejson[id].money < housething[msg].price) {
             e.reply(`金币不足`)
             return
         }
         if (await this.is_killed(e, 'buyhouse', true) == true) return
-        if(e.at) id = e.at
+        if (e.at) id = e.at
         homejson[e.user_id].money -= housething[msg].price
         housejson[id].space += housething[msg].space
         housejson[id].loveup += housething[msg].loveup
@@ -722,14 +732,14 @@ export class qqy extends plugin {
         return true;
     }
     //住所改名
-    async namedhouse(e){
+    async namedhouse(e) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         var msg = e.msg.replace(/(住所改名|#)/g, "").replace(/[\n|\r]/g, "，").trim()
         var shifu = housejson[id].space * 10
-        if(homejson[id].money < shifu){
+        if (homejson[id].money < shifu) {
             e.reply(`金币不足,需要${shifu}金币`)
             return
         }
@@ -882,7 +892,7 @@ export class qqy extends plugin {
         return true;
     }
     //买双色球
-    async lottery1(e){
+    async lottery1(e) {
         let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         if (myRBB.length == 7) {
@@ -919,17 +929,17 @@ export class qqy extends plugin {
         console.log(haoma)
         console.log(redball)
         console.log(blueball)
-        if(blueball > 16 || redball.length !== new Set(redball).size){
+        if (blueball > 16 || redball.length !== new Set(redball).size) {
             e.reply(`输入有误,篮球不能超过16,红球不能含有重复号码`)
             return
         }
-        for(var b=0; b<haoma.length; b++){
-            if(haoma[b] > 33 || haoma[b] == '00'){
-            e.reply(`输入有误,红球号码不能超过33,号码不能为00`)
-            return
+        for (var b = 0; b < haoma.length; b++) {
+            if (haoma[b] > 33 || haoma[b] == '00') {
+                e.reply(`输入有误,红球号码不能超过33,号码不能为00`)
+                return
             }
         }
-        if(homejson[id].money < 300)
+        if (homejson[id].money < 300)
             return e.reply(`金币不足,需要300金币`)
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         let ssqdata = `红${redball.toString()}蓝${blueball}时间${buytime}`
@@ -946,34 +956,34 @@ export class qqy extends plugin {
         return true;
     }
     //看看自己的双色球
-    async readRBB(e){
+    async readRBB(e) {
         let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         console.log(myRBB)
-        switch(myRBB.length){
+        switch (myRBB.length) {
             case 1:
-            e.reply(`你还没买或已过期`)
-            break            
+                e.reply(`你还没买或已过期`)
+                break
             case 7:
-            e.reply(`你的双色球为红球${myRBB[4]},蓝球${myRBB[5]},购买时间${myRBB[6]},有效期24小时`)
-            break
+                e.reply(`你的双色球为红球${myRBB[4]},蓝球${myRBB[5]},购买时间${myRBB[6]},有效期24小时`)
+                break
             default:
-            e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
+                e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
         return true;
     }
     //兑换双色球
-    async useRBB(e){
+    async useRBB(e) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var AmyRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         var myRBB = AmyRBB.toString().split(":")
-        if(myRBB.length == 1){
+        if (myRBB.length == 1) {
             e.reply(`你还没买或已过期`)
             return
         }
-        if(myRBB.length == 7){
+        if (myRBB.length == 7) {
             var trueRBBjosn = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
             let title = "RBB"
             var trueR = (trueRBBjosn[title].redball).toString().split(",")
@@ -988,85 +998,85 @@ export class qqy extends plugin {
             console.log(myB)
             var mytime = myRBB[6]
             console.log(`购买时间${mytime}当前开奖时间${trueTime}`)
-            if(mytime !== trueTime)
+            if (mytime !== trueTime)
                 return e.reply(`未开奖或已过期`)
-            trueR.some(function(i){
-                if(myR.includes(i))
-                lastR.push(i)
+            trueR.some(function (i) {
+                if (myR.includes(i))
+                    lastR.push(i)
             })
             console.log(lastR)
-            switch(lastR.length){
+            switch (lastR.length) {
                 case 6:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得一等奖50万金币!!!`)
-                        homejson[id].money += 5000000                
+                        homejson[id].money += 5000000
                     }
-                    else{
-                        homejson[id].money += 200000                
+                    else {
+                        homejson[id].money += 200000
                         e.reply(`恭喜你!!!获得二等奖20万金币!!!`)
                     }
-                break
+                    break
                 case 5:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得三等奖5万金币!!!`)
-                        homejson[id].money += 50000                
+                        homejson[id].money += 50000
                     }
-                    else{
-                        homejson[id].money += 20000          
+                    else {
+                        homejson[id].money += 20000
                         e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
                     }
-                break
+                    break
                 case 4:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得四等奖2万金币!!!`)
-                        homejson[id].money += 20000                
+                        homejson[id].money += 20000
                     }
-                    else{
-                        homejson[id].money += 1000          
+                    else {
+                        homejson[id].money += 1000
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
                     }
-                break
+                    break
                 case 3:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得五等奖1千金币!!!`)
-                        homejson[id].money += 1000                
+                        homejson[id].money += 1000
                     }
-                    else{
-                        homejson[id].money += 6        
+                    else {
+                        homejson[id].money += 6
                         e.reply(`安慰奖6个金币!`)
                     }
-                break
+                    break
                 case 2:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
-                        homejson[id].money += 500                
+                        homejson[id].money += 500
                     }
-                    else{
-                        homejson[id].money += 6        
+                    else {
+                        homejson[id].money += 6
                         e.reply(`安慰奖6个金币!`)
                     }
-                break
+                    break
                 case 1:
-                    if(myB == trueB){
+                    if (myB == trueB) {
                         e.reply(`恭喜你!!!获得六等奖5百金币!!!`)
-                        homejson[id].money += 500                
+                        homejson[id].money += 500
                     }
-                    else{
-                        homejson[id].money += 6        
+                    else {
+                        homejson[id].money += 6
                         e.reply(`安慰奖6个金币!`)
                     }
-                break
+                    break
                 default:
                     e.reply(`一个也没中`)
             }
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
         }
-        else{
+        else {
             e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
         await redis.del(AmyRBB);
         e.reply(`成功兑换,请查看你的信息`)
-    return true;
+        return true;
     }
     //抱抱,有千分之一的概率被干掉
     async touch(e) {
@@ -1118,12 +1128,12 @@ export class qqy extends plugin {
         for (let i = 0; i < arrMember.length; i++) {
             idlist[i] = arrMember[i].user_id
             namelist[arrMember[i].user_id] = arrMember[i].nickname
-            if(arrMember[i].card !== '')
-            namelist[arrMember[i].user_id] = arrMember[i].card
+            if (arrMember[i].card !== '')
+                namelist[arrMember[i].user_id] = arrMember[i].card
         }
         //我这里的做法是，把user_id和nickname格外取出来，因为arrMember里面是按照顺序排列的，不能使用arrMember[id]
         for (let i of Object.keys(homejson)) {
-            if (idlist.includes(homejson[i].s)){
+            if (idlist.includes(homejson[i].s)) {
                 var she_he = await this.people(e, 'sex', Number(i))
                 msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
             }
@@ -1215,9 +1225,9 @@ export class qqy extends plugin {
     async delcd(e) {
         if (e.isMaster) {
             let cddata = await redis.keys(`potato:*:${e.group_id}:*`, (err, data) => { });
-            if(e.at){
-            cddata = await redis.keys(`potato:*:${e.group_id}:${e.at}`, (err, data) => { });
-            e.reply(`成功清除${e.at}的数据,存档不会丢失`)
+            if (e.at) {
+                cddata = await redis.keys(`potato:*:${e.group_id}:${e.at}`, (err, data) => { });
+                e.reply(`成功清除${e.at}的数据,存档不会丢失`)
             }
             else {
                 e.reply(`成功清除本群的数据,存档不会丢失`)
@@ -1263,8 +1273,8 @@ export class qqy extends plugin {
         }
         if (keys == 'nickname') {
             var name = lp.nickname
-            if(lp.card !== '')
-            name = lp.card
+            if (lp.card !== '')
+                name = lp.card
             return name
         }
 
@@ -1305,7 +1315,7 @@ export class qqy extends plugin {
             await akasha_data.getQQYUserHouse(id, housejson, filename, true)
             return true
         }
-        if(keys == "buyhouse" && kill < 10){
+        if (keys == "buyhouse" && kill < 10) {
             homejson[id].money = 0
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply([
@@ -1315,13 +1325,15 @@ export class qqy extends plugin {
             ])
             return true
         }
-        if(keys == "getmoney"){
-            if(kill < 300){
+        if (keys == "getmoney") {
+            if (kill < 300) {
                 homejson[id].money += 100
-                e.reply(`老板看你挺卖力,发了100奖金给你`)}
-            if(kill >= 600){
-                homejson[id].money -=50
-                e.reply(`摸鱼被发现了,罚款50`)}
+                e.reply(`老板看你挺卖力,发了100奖金给你`)
+            }
+            if (kill >= 600) {
+                homejson[id].money -= 50
+                e.reply(`摸鱼被发现了,罚款50`)
+            }
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
         }
         return false
@@ -1363,5 +1375,89 @@ export class qqy extends plugin {
             return true
         }
         else return false;
+    }
+    async duel(e) {
+        console.log("用户命令：", e.msg);
+        let user_id = e.user_id;
+        let user_id2 = e.at; //获取当前at的那个人
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+            fs.mkdirSync(dirpath);//创建文件夹
+        }
+        if (!fs.existsSync(dirpath + "/" + filename)) {//如果文件不存在
+            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({//创建文件
+            }));
+        }
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
+            json[e.user_id] = Template
+        }
+        if (!json.hasOwnProperty(user_id2)) {//如果json中不存在该用户
+            json[user_id2] = Template
+        }
+        let level = json[user_id].level
+        let level2 = json[user_id2].level
+        let user_id2_nickname = null
+        for (let msg of e.message) { //赋值给user_id2_nickname
+            if (msg.type === 'at') {
+                user_id2_nickname = msg.text//获取at的那个人的昵称
+                break;
+            }
+        }
+        if (!level)
+            level = 0
+        if (!level2)
+            level2 = 0
+        let filename1 = `${user_id}.json`;
+        let filename2 = `${user_id2}.json`;
+        let num13 = 0
+        let num14 = 0
+        let num15 = 0
+        let num23 = 0
+        let num24 = 0
+        let num25 = 0
+        if (fs.existsSync(dirpath2 + "/" + filename1)) {
+            var json1 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename1, "utf8"));
+            if (json1.hasOwnProperty(3))
+                num13 = Object.keys(json1[3]).length
+            if (json1.hasOwnProperty(4))
+                num14 = Object.keys(json1[4]).length
+            if (json1.hasOwnProperty(5))
+                num15 = Object.keys(json1[5]).length
+        }
+        if (fs.existsSync(dirpath2 + "/" + filename2)) {
+            var json2 = JSON.parse(fs.readFileSync(dirpath2 + "/" + filename2, "utf8"));
+            if (json2.hasOwnProperty(3))
+                num23 = Object.keys(json2[3]).length
+            if (json2.hasOwnProperty(4))
+                num24 = Object.keys(json2[4]).length
+            if (json2.hasOwnProperty(5))
+                num25 = Object.keys(json2[5]).length
+        }
+        //读取文件
+        var win_level = level - level2
+        let win = 50 + Magnification * win_level + num13 + num14 * 2 + num15 * 3 - num23 - num24 * 2 - num25 * 3
+        let random = Math.random() * 100//禁言随机数
+        //提示
+        e.reply([segment.at(e.user_id),
+        `你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
+        //判断
+        let is_win = false
+        if (win > random) {//判断是否成功
+            setTimeout(() => {//延迟5秒
+                is_win = true
+
+                e.reply([segment.at(e.user_id),
+                `恭喜你与${user_id2_nickname}决斗成功。抢老婆概率增加10%`]);//发送消息
+            }, 3000);//设置延时
+        }
+        else {
+            setTimeout(() => {
+
+                e.reply([segment.at(e.user_id), `你与${user_id2_nickname}决斗失败。抢老婆概率减少10%`]);//发送消息
+            }, 3000);//设置延时
+        }//经验小于0时候重置经验
+        //console.log(`发起者：${user_id}被动者： ${user_id2}随机时间：${random_time}分钟`); //输出日志
+        //fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return is_win;
     }
 }
