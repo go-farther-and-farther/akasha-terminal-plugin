@@ -9,10 +9,10 @@ const dirpath = "plugins/akasha-terminal-plugin/data";//文件夹路径
 const dirpath2 = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
 const filename = `battle.json`;//文件名
 var Template = {//创建该用户
-	"experience": 0,
-	"level": 0,
-	"levelname": '无等级',
-	"Privilege": 0,
+    "experience": 0,
+    "level": 0,
+    "levelname": '无等级',
+    "Privilege": 0,
 };
 let Magnification = await command.getConfig("duel_cfg", "Magnification");
 
@@ -52,7 +52,7 @@ export class qqy extends plugin {
                 fnc: 'wife2'
             },
             {
-                reg: '^#?抢老婆(.*)$',
+                reg: '^#?抢老婆$',
                 fnc: 'ntr'
             },
             {
@@ -291,7 +291,7 @@ export class qqy extends plugin {
             e.reply(tips);
             return
         }
-        var good = homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100
+        var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
         var gailv = Math.round(Math.random() * 99)
         //这里用了和决斗一样的数据
         let is_win = await this.duel(e)
@@ -1454,21 +1454,8 @@ export class qqy extends plugin {
         //判断
         let is_win = false
         if (win > random) {//判断是否成功
-            setTimeout(() => {//延迟5秒
-                is_win = true
-
-                e.reply([segment.at(e.user_id),
-                `恭喜你与${user_id2_nickname}决斗成功。抢老婆概率增加10%`]);//发送消息
-            }, 3000);//设置延时
+            is_win = true
         }
-        else {
-            setTimeout(() => {
-
-                e.reply([segment.at(e.user_id), `你与${user_id2_nickname}决斗失败。抢老婆概率减少10%`]);//发送消息
-            }, 3000);//设置延时
-        }//经验小于0时候重置经验
-        //console.log(`发起者：${user_id}被动者： ${user_id2}随机时间：${random_time}分钟`); //输出日志
-        //fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return is_win;
     }
 }
