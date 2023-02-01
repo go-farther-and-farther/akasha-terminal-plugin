@@ -995,11 +995,11 @@ export class qqy extends plugin {
             return
         }
         if (myRBB.length == 7) {
-            var trueRBBjosn = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
+            var trueRBBjson = JSON.parse(fs.readFileSync(lotterypath, "utf8"));//读取文件
             let title = "RBB"
-            var trueR = (trueRBBjosn[title].redball).toString().split(",")
-            var trueB = trueRBBjosn[title].blueball
-            var trueTime = trueRBBjosn[title].time
+            var trueR = (trueRBBjson[title].redball).toString().split(",")
+            var trueB = trueRBBjson[title].blueball
+            var trueTime = trueRBBjson[title].time
             console.log(trueR)
             console.log(trueB)
             var lastR = []

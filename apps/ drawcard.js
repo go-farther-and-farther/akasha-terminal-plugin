@@ -197,21 +197,27 @@ export class drawcard extends plugin {
         var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
         let msg = `五星武器：`;
         if (json.hasOwnProperty(5)) {
-            for (let i in Object.keys(json[5])) {
+            console.log(json[5])
+            for (let i of Object.keys(json[5])) {
+                console.log(i)
                 if (weapon[5][i])
                     msg = msg + `\n${weapon[5][i]} 数量：${json[5][i]}`
             }
         }
         msg = msg + `\n四星武器:`
         if (json.hasOwnProperty(4)) {
-            for (let i in Object.keys(json[4])) {
+            console.log(json[4])
+            for (let i of Object.keys(json[4])) {
+                console.log(i)
                 if (weapon[4][i])
                     msg = msg + `\n${weapon[4][i]} 数量：${json[4][i]}`
             }
         }
         msg = msg + `\n三星武器:`
         if (json.hasOwnProperty(3)) {
-            for (let i in Object.keys(json[3])) {
+            console.log(json[3])
+            for (let i of Object.keys(json[3])) {
+                console.log(i)
                 if (weapon[3][i])
                     msg = msg + `\n${weapon[3][i]} 数量：${json[3][i]}`
             }
