@@ -132,8 +132,8 @@ export class qqy extends plugin {
                 fnc: 'Transfer_money'
             },
             {
-                reg: '^#?清除老婆数据$',
-                fnc: 'delcd'
+                reg: '^#?(虚空)(时间重置|重置时间)$',
+                fnc: 'delREDIS'
             }
             ]
         })
@@ -178,7 +178,7 @@ export class qqy extends plugin {
             return
         }
         //-------------------------------------------------------------------
-        let lastTime = await redis.get(`potato:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
+        let lastTime = await redis.get(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
         if (lastTime) {
             let tips = [
                 segment.at(e.user_id), "\n",
@@ -226,7 +226,7 @@ export class qqy extends plugin {
                     `在茫茫人海中，你成功强娶到了${name}!`,
                     "\n", segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`), "\n",
                 ])
-                await redis.set(`potato:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
+                await redis.set(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
             }
@@ -234,7 +234,7 @@ export class qqy extends plugin {
                 var sbcf = Math.round(Math.random() * (20 - 10) + 10)
                 homejson[id].money -= sbcf
                 e.reply(`很遗憾,你没能成功将${she_he}娶走,${she_he}报警,你被罚款${sbcf}`)
-                await redis.set(`potato:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
+                await redis.set(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
             }
@@ -281,7 +281,7 @@ export class qqy extends plugin {
             e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
-        let lastTime = await redis.get(`potato:wife-ntr-cd:${e.group_id}:${e.user_id}`);
+        let lastTime = await redis.get(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`);
         if (lastTime) {
             let tips = [
                 segment.at(e.user_id), "\n",
@@ -312,7 +312,7 @@ export class qqy extends plugin {
             await this.ntrT(e, e.user_id, e.at)
         else
             await this.ntrF(e, e.user_id, e.at)
-        await redis.set(`potato:wife-ntr-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime6
         });
         return true;
@@ -331,7 +331,7 @@ export class qqy extends plugin {
         if (homejson[jia].money < pcj) {
             homejson[yi].money += homejson[jia].money
             homejson[jia].money = 0
-            await redis.set(`potato:wife-jinbi-cd:${jia}`, currentTime, {
+            await redis.set(`akasha:wife-jinbi-cd:${jia}`, currentTime, {
                 EX: jbtime
             });
             e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
@@ -451,7 +451,7 @@ export class qqy extends plugin {
             e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
-        let lastTime = await redis.get(`potato:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
+        let lastTime = await redis.get(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
         if (lastTime) {
             let tips = [
                 segment.at(e.user_id), "\n",
@@ -536,7 +536,7 @@ export class qqy extends plugin {
             homejson[id].s = wife.user_id
             homejson[id].money -= 30
             homejson[id].love = Math.round(Math.random() * (70 - 1) + 1)
-            await redis.set(`potato:whois-my-wife-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            await redis.set(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`, currentTime, {
                 EX: cdTime
             });
         }
@@ -547,7 +547,7 @@ export class qqy extends plugin {
                 `好遗憾，你谁也没娶到,${dsp}金币打水漂了!`
             ]
             homejson[id].money -= dsp
-            await redis.set(`potato:whois-my-wife-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            await redis.set(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`, currentTime, {
                 EX: cdTime
             });
         }
@@ -691,7 +691,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        let lastTime2 = await redis.get(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
+        let lastTime2 = await redis.get(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
         if (lastTime2) {
             e.reply([
                 segment.at(e.user_id), "\n",
@@ -701,7 +701,7 @@ export class qqy extends plugin {
             return
         }
         if (await this.is_killed(e, `getmoney`, false) == true) return
-        await redis.set(`potato:wife-getmoney-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime3
         });
         homejson[id].money += Math.round(Math.random() * 100 + 100)
@@ -773,7 +773,7 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
-        let lastTime5 = await redis.get(`potato:wife-gift-cd:${e.group_id}:${e.user_id}`);
+        let lastTime5 = await redis.get(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`);
         if (lastTime5) {
             e.reply([
                 segment.at(e.user_id), "\n",
@@ -799,7 +799,7 @@ export class qqy extends plugin {
         ])
         placejson[id].place = giftthing.placename[placeid]
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
-        await redis.set(`potato:wife-gift-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime5
         });
         return true;
@@ -904,7 +904,7 @@ export class qqy extends plugin {
     }
     //买双色球
     async lottery1(e) {
-        let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         if (myRBB.length == 7) {
             e.reply([
@@ -913,7 +913,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        let lastTime6 = await redis.get(`potato:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
+        let lastTime6 = await redis.get(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
         if (lastTime6) {
             e.reply([
                 segment.at(e.user_id), "\n",
@@ -955,12 +955,12 @@ export class qqy extends plugin {
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         let ssqdata = `红${redball.toString()}蓝${blueball}时间${buytime}`
         console.log(`${id}购买双色球${ssqdata}`)
-        await redis.set(`potato:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
+        await redis.set(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
             EX: 86400
         });
         homejson[id].money -= 300
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
-        await redis.set(`potato:wife-lottery1-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime8
         });
         e.reply(`你选择了${ssqdata}`)
@@ -968,7 +968,7 @@ export class qqy extends plugin {
     }
     //看看自己的双色球
     async readRBB(e) {
-        let myRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         console.log(myRBB)
         switch (myRBB.length) {
@@ -988,7 +988,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        var AmyRBB = await redis.keys(`potato:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        var AmyRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         var myRBB = AmyRBB.toString().split(":")
         if (myRBB.length == 1) {
             e.reply(`你还没买或已过期`)
@@ -1109,7 +1109,7 @@ export class qqy extends plugin {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
-        let lastTime4 = await redis.get(`potato:wife-touch-cd:${e.group_id}:${e.user_id}`);
+        let lastTime4 = await redis.get(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`);
         if (lastTime4) {
             e.reply([
                 segment.at(e.user_id), "\n",
@@ -1118,7 +1118,7 @@ export class qqy extends plugin {
             ]);
             return
         }
-        await redis.set(`potato:wife-touch-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime4
         });
         homejson[id].love += Math.round((Math.random() * 30 + 45) * housejson[id].loveup)
@@ -1154,7 +1154,7 @@ export class qqy extends plugin {
     }
     //500以内可以领取低保
     async poor(e) {
-        let lastTime = await redis.get(`potato:wife-poor-cd:${e.group_id}:${e.user_id}`);
+        let lastTime = await redis.get(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`);
         if (lastTime) {
             let tips = [
                 segment.at(e.user_id), "\n",
@@ -1171,7 +1171,7 @@ export class qqy extends plugin {
             homejson[id].money += 500
             e.reply(`成功领取500金币`)
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
-            await redis.set(`potato:wife-poor-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            await redis.set(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`, currentTime, {
                 EX: cdTime7
             });
             return
@@ -1232,16 +1232,16 @@ export class qqy extends plugin {
         }, 1500)
         return true;
     }
-    //清除所有人的冷却或者指定某个人的
-    async delcd(e) {
+    //清除所有人的本插件redis数据或者指定某个人的
+    async delREDIS(e) {
         if (e.isMaster) {
-            let cddata = await redis.keys(`potato:*:${e.group_id}:*`, (err, data) => { });
+            let cddata = await redis.keys(`akasha:*:${e.group_id}:*`, (err, data) => { });
             if (e.at) {
-                cddata = await redis.keys(`potato:*:${e.group_id}:${e.at}`, (err, data) => { });
-                e.reply(`成功清除${e.at}的数据,存档不会丢失`)
+                cddata = await redis.keys(`akasha:*:${e.group_id}:${e.at}`, (err, data) => { });
+                e.reply(`成功重置${e.at}的时间`)
             }
             else {
-                e.reply(`成功清除本群的数据,存档不会丢失`)
+                e.reply(`成功清除本群所有人的的时间`)
             }
             await redis.del(cddata);
             return true;
@@ -1292,7 +1292,7 @@ export class qqy extends plugin {
     }
     //看看你是不是在关禁闭
     async is_jinbi(e) {
-        let jinbi = await redis.get(`potato:wife-jinbi-cd:${e.group_id}:${e.user_id}`);
+        let jinbi = await redis.get(`akasha:wife-jinbi-cd:${e.group_id}:${e.user_id}`);
         if (jinbi) {
             e.reply([
                 segment.at(e.user_id), "\n",
