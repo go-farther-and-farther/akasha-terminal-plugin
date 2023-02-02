@@ -168,8 +168,8 @@ export const helpList = [{
     desc: '赋予/撤销一名群员特殊权能'
   }, {
     icon: 40,
-    title: '#清除老婆数据',
-    desc: '清除本群非存档数据,at则清除对方非存档数据'
+    title: '虚空重置时间',
+    desc: '清除本群的时间记录,at则清除对方的'
   }, {
     icon: 40,
     title: '#双色球开奖',
