@@ -339,14 +339,14 @@ export class qqy extends plugin {
             });
             setTimeout(() => {
                 e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime/60}分`)
-            }, 2000);
+            }, 5000);
         }
         if (homejson[jia].money >= pcj) {
             homejson[yi].money += pcj
             homejson[jia].money -= pcj
             setTimeout(() => {
                 e.reply(`你成功清赔款${pcj}金币!`)
-            }, 2000);
+            }, 6000);
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
     }
@@ -704,7 +704,9 @@ export class qqy extends plugin {
         });
         homejson[id].money += Math.round(Math.random() * 100 + 100)
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
-        e.reply(`恭喜你!现在你有${homejson[id].money}金币了!`)
+        setTimeout(() => {
+            e.reply(`恭喜你!现在你有${homejson[id].money}金币了!`)
+        }, 2000);
         return true;
     }
     //看房
