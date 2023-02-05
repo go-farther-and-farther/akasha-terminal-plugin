@@ -7,6 +7,7 @@ import command from '../components/command.js'
 import fs from 'fs'
 var Group = await command.getConfig("wife_cfg", "group");
 var RBBtime = Number(await command.getConfig("wife_cfg", "RBBtime"))
+var notice = await command.getConfig("wife_cfg", "notice");
 export class akashakaijiang extends plugin {
 	constructor() {
 		super({
@@ -21,7 +22,7 @@ export class akashakaijiang extends plugin {
 			rule: [
 				{
 					/** 命令正则匹 配 */
-					reg: "^#?双色球开奖$", //匹配消息正则，命令正则
+					reg: "^#?虚空彩球开奖$", //匹配消息正则，命令正则
 					/** 执行方法 */
 					fnc: 'redblueball'
                 }
@@ -50,16 +51,18 @@ schedule.scheduleJob('0 0 * * * *', async() => {
 async function redblueball_start() {
     for(let key of Group){
         try{
-            await Bot.pickGroup(key).sendMsg(`娶群友小游戏双色球已开奖,今日购买的玩家们可以发送'双色球兑换'进行兑换\n也可'我的彩票'查看自己的号码`)
-            console.log(`正在通知群聊${key}双色球开奖`)
+            await Bot.pickGroup(key).sendMsg(`娶群友小游戏虚空彩球已开奖,今日购买的玩家们可以发送'虚空彩球兑换'进行兑换\n也可'我的彩票'查看自己的号码`)
+            console.log(`正在通知群聊${key}虚空彩球开奖`)
         }
         catch(err){
             console.log(`群聊${key}不存在`)
         }
     }
-    for(let mat of yzcfg.masterQQ){
-    await common.relpyPrivate(mat, `娶群友小游戏双色球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
-    }
+    if(notice){
+        for(let mat of yzcfg.masterQQ){
+            await common.relpyPrivate(mat, `娶群友小游戏虚空彩球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
+        }
+     }
     const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp`
     let filename = `lottery.json`
     if (!fs.existsSync(lotterypath + "/" + filename)) {//如果文件不存在

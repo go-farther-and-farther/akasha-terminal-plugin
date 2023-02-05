@@ -27,7 +27,7 @@ let cdTime4 = Number(await command.getConfig("wife_cfg", "bbcd")) * 60;//抱抱�
 let cdTime5 = Number(await command.getConfig("wife_cfg", "ggcd")) * 60;//逛街冷却
 let cdTime6 = Number(await command.getConfig("wife_cfg", "qlpcd")) * 60;//抢老婆冷却
 let cdTime7 = Number(await command.getConfig("wife_cfg", "poorcd")) * 60;//低保冷却
-let cdTime8 = Number(await command.getConfig("wife_cfg", "RBBgetcd")) * 60;//购买双色球的cd
+let cdTime8 = Number(await command.getConfig("wife_cfg", "RBBgetcd")) * 60;//获取虚空彩球的cd
 let qqwife = await command.getConfig("wife_cfg", "qqwife");//强娶概率
 let sjwife = await command.getConfig("wife_cfg", "sjwife");//随机概率
 let gifttime = await command.getConfig("wife_cfg", "gifttime");//逛街换地上限
@@ -104,7 +104,7 @@ export class qqy extends plugin {
                 fnc: 'gohome'
             },
             {
-                reg: '^#?购买双色球([0-9][0-9](?:\\s)){6}[0-9][0-9]$',
+                reg: '^#?获取虚空彩球([0-9][0-9](?:\\s)){6}[0-9][0-9]$',
                 fnc: 'lottery1'
             },
             {
@@ -112,7 +112,7 @@ export class qqy extends plugin {
                 fnc: 'readRBB'
             },
             {
-                reg: '^#?双色球兑换$',
+                reg: '^#?虚空彩球兑换$',
                 fnc: 'useRBB'
             },
             {
@@ -902,7 +902,7 @@ export class qqy extends plugin {
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         return true;
     }
-    //买双色球
+    //买虚空彩球
     async lottery1(e) {
         let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
@@ -929,11 +929,11 @@ export class qqy extends plugin {
         if (placejson[id].place !== "SportsLottery") {
             e.reply([
                 segment.at(id), "\n",
-                `你不在体彩店周围,当前位置为：${placejson[id].place}`
+                `你不在游乐场店周围,当前位置为：${placejson[id].place}`
             ])
             return
         }
-        var msg = e.msg.replace(/(购买双色球|#)/g, "").replace(/[\n|\r]/g, "")
+        var msg = e.msg.replace(/(获取虚空彩球|#)/g, "").replace(/[\n|\r]/g, "")
         var haoma = msg.split(" ")
         var redball = haoma.slice(0, -1)
         var blueball = haoma[6]
@@ -954,7 +954,7 @@ export class qqy extends plugin {
             return e.reply(`金币不足,需要300金币`)
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         let ssqdata = `红${redball.toString()}蓝${blueball}时间${buytime}`
-        console.log(`${id}购买双色球${ssqdata}`)
+        console.log(`${id}获取虚空彩球${ssqdata}`)
         await redis.set(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
             EX: 86400
         });
@@ -966,7 +966,7 @@ export class qqy extends plugin {
         e.reply(`你选择了${ssqdata}`)
         return true;
     }
-    //看看自己的双色球
+    //看看自己的虚空彩球
     async readRBB(e) {
         let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
@@ -976,14 +976,14 @@ export class qqy extends plugin {
                 e.reply(`你还没买或已过期`)
                 break
             case 7:
-                e.reply(`你的双色球为红球${myRBB[4]},蓝球${myRBB[5]},购买时间${myRBB[6]},有效期24小时`)
+                e.reply(`你的虚空彩球为红球${myRBB[4]},蓝球${myRBB[5]},购买时间${myRBB[6]},有效期24小时`)
                 break
             default:
                 e.reply(`存在错误数据,请联系管理者[清除老婆数据]`)
         }
         return true;
     }
-    //兑换双色球
+    //兑换虚空彩球
     async useRBB(e) {
         var id = e.user_id
         var filename = e.group_id + `.json`
@@ -1331,7 +1331,6 @@ export class qqy extends plugin {
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply([
                 `很遗憾的告诉你,\n`,
-                `你被卷进一起诈骗案中\n`,
                 `你被骗的苦茶子都没了`
             ])
             return true

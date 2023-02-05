@@ -144,7 +144,7 @@ export const helpList = [{
     desc: '查看当前购买的彩票'
   }, {
     icon: 20,
-    title: '双色球兑换',
+    title: '虚空彩球兑换',
     desc: '兑换当期奖励'
   }, {
     icon: 20,
@@ -172,7 +172,7 @@ export const helpList = [{
     desc: '清除本群的时间记录,at则清除对方的'
   }, {
     icon: 40,
-    title: '#双色球开奖',
+    title: '#虚空彩球开奖',
     desc: '顾名思义'
   }]
 }]
