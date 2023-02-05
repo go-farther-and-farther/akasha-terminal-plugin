@@ -502,7 +502,8 @@ export class qqy extends plugin {
             })
         }
         //写个过滤器删掉bot和发起人
-        femaleList = femaleList.filter(item => { return item.user_id != e.user_id && item.user_id != Bot.uin })
+        femaleList = femaleList.filter(item => { return item.user_id != e.user_id })
+        femaleList = femaleList.filter(item => { return item.user_id != Bot.uin })
         var gailv = Math.round(Math.random() * 9);
         let wife = {}
 
