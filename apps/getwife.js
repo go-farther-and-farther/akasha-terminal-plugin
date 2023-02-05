@@ -178,14 +178,13 @@ export class qqy extends plugin {
             return
         }
         //-------------------------------------------------------------------
-        let lastTime = await redis.get(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime) {
-            let tips = [
+        let lastTime = await redis.ttl(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
+            e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime2}秒cd`
-            ]
-            e.reply(tips);
+                `该命令还有${lastTime/60}分钟cd`
+            ]);
             return
         }
         if (await this.is_killed(e, `wife2`, true) == true) return
@@ -281,31 +280,35 @@ export class qqy extends plugin {
             e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
-        let lastTime = await redis.get(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime) {
-            let tips = [
+        let lastTime = await redis.ttl(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
+            e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime6}秒cd`
-            ]
-            e.reply(tips);
+                `该命令还有${lastTime/60}分cd`
+            ]);
             return
         }
         var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
         var gailv = Math.round(Math.random() * 99)
         //这里用了和决斗一样的数据
         let is_win = await this.duel(e)
-
         if (is_win) {
-            await e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
+            setTimeout(() => {
+                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
+            }, 2000);
             good += 10
         }
         else {
-            await e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
+            setTimeout(() => {
+                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
+            }, 2000);
             good -= 10
         }
         if (homejson[e.at].love >= 5000) {
-            e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
+            setTimeout(() => {
+                e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他老婆的!`)
+            }, 3000);
             await this.ntrF(e, e.user_id, e.at)
         }
         else if (good > gailv)
@@ -334,12 +337,16 @@ export class qqy extends plugin {
             await redis.set(`akasha:wife-jinbi-cd:${jia}`, currentTime, {
                 EX: jbtime
             });
-            e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime}秒`)
+            setTimeout(() => {
+                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime/60}分`)
+            }, 2000);
         }
         if (homejson[jia].money >= pcj) {
             homejson[yi].money += pcj
             homejson[jia].money -= pcj
-            e.reply(`你成功清赔款${pcj}金币!`)
+            setTimeout(() => {
+                e.reply(`你成功清赔款${pcj}金币!`)
+            }, 2000);
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
     }
@@ -451,14 +458,13 @@ export class qqy extends plugin {
             e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
-        let lastTime = await redis.get(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime) {
-            let tips = [
+        let lastTime = await redis.ttl(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
+            e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime}秒cd`
-            ]
-            e.reply(tips);
+                `该命令还有${lastTime/60}分cd`
+            ]);
             return
         }
         let sex = 'female'
@@ -511,27 +517,20 @@ export class qqy extends plugin {
             if (wife.sex == 'male') {
                 sexStr = '男'
             }
-            else if (wife.sex == 'female') {
+            else{//不是男的或者未知就当女朋友
                 sexStr = '女'
             }
             console.log(wife);
-            let cp = sexStr
-            let py = ''
-            if (wife.sex == 'male') {
-                py = `他`
-            }
-            else if (wife.sex == 'female') {
-                py = `她`
-            }
-            let name = await this.people(e, 'nickname', wife.user_id)//用is_she函数获取昵称
+            let she_he = await this.people(e, 'sex', wife.user_id)//用people函数获取性别称呼
+            let name = await this.people(e, 'nickname', wife.user_id)//用people函数获取昵称
             msg = [
                 segment.at(e.user_id), "\n",
-                `${wife.nickname}答应了你哦！(*/ω＼*)`, "\n",
-                `今天你的${cp}朋友是`, "\n",
+                `${name}答应了你哦！(*/ω＼*)`, "\n",
+                `今天你的${sexStr}朋友是`, "\n",
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${wife.user_id}`), "\n",
                 `【${name}}】 (${wife.user_id}) `, "\n",
                 `来自【${e.group_name}】`, "\n",
-                `要好好对待${py}哦！`,
+                `要好好对待${she_he}哦！`,
             ]
             homejson[id].s = wife.user_id
             homejson[id].money -= 30
@@ -552,9 +551,7 @@ export class qqy extends plugin {
             });
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
-        setTimeout(() => {
-            e.reply(msg);
-        }, 3000);
+        e.reply(msg);
         return true;
     }
     //主动分手/甩掉对方
@@ -691,12 +688,12 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        let lastTime2 = await redis.get(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime2) {
+        let lastTime = await redis.ttl(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime3}秒cd`
+                `该命令还有${lastTime/60}分cd`
             ]);
             return
         }
@@ -773,12 +770,12 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
-        let lastTime5 = await redis.get(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime5) {
+        let lastTime = await redis.ttl(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime5}秒cd`
+                `该命令还有${lastTime/60}分cd`
             ]);
             return
         }
@@ -846,7 +843,7 @@ export class qqy extends plugin {
                 segment.at(id), "\n",
                 `恭喜你,你本次的行动结果为,金币至${homejson[id].money},好感度至${homejson[id].love}\n你可以选择[去下一个地方]或者[回家]\n当前剩余行动点${gifttime - placejson[id].placetime}`
             ])
-        }, 1000)
+        }, 2000)
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         if (await this.is_fw(e, homejson) == true) return
@@ -913,12 +910,12 @@ export class qqy extends plugin {
             ])
             return
         }
-        let lastTime6 = await redis.get(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime6) {
+        let lastTime = await redis.ttl(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime8}秒cd`
+                `该命令还有${lastTime/60}分cd`
             ]);
             return
         }
@@ -1109,12 +1106,12 @@ export class qqy extends plugin {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
-        let lastTime4 = await redis.get(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime4) {
+        let lastTime = await redis.ttl(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime4}秒cd`
+                `该命令还有${lastTime/60}分cd`
             ]);
             return
         }
@@ -1154,14 +1151,13 @@ export class qqy extends plugin {
     }
     //500以内可以领取低保
     async poor(e) {
-        let lastTime = await redis.get(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime) {
-            let tips = [
+        let lastTime = await redis.ttl(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2) {
+            e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令有${cdTime7}秒cd`
-            ]
-            e.reply(tips);
+                `该命令还有${lastTime/60}分cd`
+            ]);
             return
         }
         var id = e.user_id
@@ -1292,11 +1288,11 @@ export class qqy extends plugin {
     }
     //看看你是不是在关禁闭
     async is_jinbi(e) {
-        let jinbi = await redis.get(`akasha:wife-jinbi-cd:${e.group_id}:${e.user_id}`);
+        let jinbi = await redis.ttl(`akasha:wife-jinbi-cd:${e.group_id}:${e.user_id}`);
         if (jinbi) {
             e.reply([
                 segment.at(e.user_id), "\n",
-                `你已经被关进禁闭室了!!!时间到了自然放你出来`
+                `你已经被关进禁闭室了!!!时间到了自然放你出来\n你还需要被关${lastTime/60}分钟`
             ])
             return true
         }
@@ -1386,6 +1382,7 @@ export class qqy extends plugin {
         }
         else return false;
     }
+    //抢老婆决斗
     async duel(e) {
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
