@@ -896,7 +896,7 @@ export class qqy extends plugin {
             `你回到了家`
         ])
         placejson[id].place = "home"
-        placejson[id].placetime = gifttime
+        placejson[id].placetime = 0
         await akasha_data.getQQYUserPlace(id, placejson, filename, true)//保存位置
         return true;
     }
