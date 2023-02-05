@@ -1289,10 +1289,10 @@ export class qqy extends plugin {
     //看看你是不是在关禁闭
     async is_jinbi(e) {
         let jinbi = await redis.ttl(`akasha:wife-jinbi-cd:${e.group_id}:${e.user_id}`);
-        if (jinbi) {
+        if (jinbi !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
-                `你已经被关进禁闭室了!!!时间到了自然放你出来\n你还需要被关${lastTime/60}分钟`
+                `你已经被关进禁闭室了!!!时间到了自然放你出来\n你还需要被关${jinbi/60}分钟`
             ])
             return true
         }
