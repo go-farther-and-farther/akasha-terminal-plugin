@@ -333,7 +333,7 @@ export class qqy extends plugin {
         if (homejson[jia].money < pcj) {
             homejson[yi].money += homejson[jia].money
             homejson[jia].money = 0
-            await redis.set(`akasha:wife-jinbi-cd:${jia}`, currentTime, {
+            await redis.set(`akasha:wife-jinbi-cd:${e.group_id}:${jia}`, currentTime, {
                 EX: jbtime
             });
             setTimeout(() => {
