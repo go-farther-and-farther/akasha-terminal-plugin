@@ -8,12 +8,21 @@ const files = fs.readdirSync('./plugins/akasha-terminal-plugin/apps').filter(fil
 let ret = []
 
 if (Bot?.logger?.info) {
-    Bot.logger.info(chalk.green('------^-^------'))
-    Bot.logger.info(chalk.yellow(`虚空插件${Version.version}初始化~`))
-    Bot.logger.info(chalk.green('---------------'))
+    Bot.logger.info('🌱🌱🌱🌱🌱🌱🌱🌱')
+    Bot.logger.info(chalk.green(`(🍀Akasha-Terminal-Plugin🍀):"虚空插件"初始化.....`))
+    Bot.logger.info(chalk.yellow(`┎┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┒`))
+    Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`      ⋏    ┅┅┅┅┳┅┅┅┅  ┎┅┅┅┅┅┅┒ `)+chalk.yellow(`┃`))
+    Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`     / \\       ┋      ┃      ┃ `)+chalk.yellow(`┃`))
+    Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`    /───\\      ┋      ┠┅┅┅┅┅┅┚ `)+chalk.yellow(`┃`))
+    Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`   /     \\     ┋      ┃        `)+chalk.yellow(`┃`))
+    Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`  /       \\    ┋      ┃        `)+chalk.yellow(`┃`))
+    Bot.logger.info(chalk.yellow(`┖┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┚`))
+    Bot.logger.warn(chalk.red(`(🍀Akasha-Terminal-Plugin🍀):若出现README.md中未提及的问题,请联系我们!!!`))
+    Bot.logger.info(chalk.green('(🍀Akasha-Terminal-Plugin🍀):"初始化完成,祝您游玩愉快!🌴'))
+    Bot.logger.info('🌴🌴🌴🌴🌴🌴🌴🌴')
 } else {
-    console.log(`虚空插件${Version.version}初始化~`)
-}//这个改自碎月和喵喵
+    console.log(`正在载入"🌱虚空插件"~`)
+}
 
 
 if (!await redis.get(`akasha:notice:deltime`)) {
@@ -28,13 +37,13 @@ files.forEach((file) => {//forEach() 方法用于调用数组的每个元素，�
 ret = await Promise.allSettled(ret)
 
 let apps = {}
-for (let i in files) {//有点看不懂
+//遍历apps目录文件
+for (let i in files) {
     let name = files[i].replace('.js', '')
-
     if (ret[i].status != 'fulfilled') {
-        logger.error(`载入插件错误：${logger.red(name)}`)
+        logger.error(`虚空插件载入apps应用出现错误：${logger.red(name)}`)
         logger.error(ret[i].reason)
-        continue
+        continue//报错就跳过本次循环,防止报错的插件被写入
     }
     apps[name] = ret[i].value[Object.keys(ret[i].value)[0]]
 }

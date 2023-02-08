@@ -65,7 +65,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 #### 常见问题
   - xxx is not defined
   - #重置虚空配置后重启
-  
+
   - 娶群友相关功能出现cannot read ... (reading"sex"或者'nickname')
   - 有人老婆退群导致,前往data/qylp/UserHome/群号 文件自行删除ta
 

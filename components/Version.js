@@ -104,7 +104,7 @@ let Version = {
     return changelogs;
   },
   runtime() {
-    console.log(`未能找到e.runtime，请升级至最新版${isV3 ? 'V3' : 'V2'}-Yunzai以使用akasha-terminal-plugin`)
+    logger.error(`未能找到e.runtime，请升级至最新版${isV3 ? 'V3' : 'V2'}-Yunzai以使用akasha-terminal-plugin`)
     //这个是cv喵佬的，但是我没找到package.json，有点害怕报错
     //现在找到了，这个是云崽根目录的那个
   }

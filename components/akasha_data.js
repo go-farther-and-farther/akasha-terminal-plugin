@@ -28,6 +28,34 @@ async function getUser(id, json, Template, filename, is_save) {
         return json;
     }
 }
+async function getQQYUserBattle(id, json, is_save) {
+    if (!is_save) {
+        var battlefilename = `battle.json`;//文件名
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+            fs.mkdirSync(dirpath);//创建文件夹
+        }
+        if (!fs.existsSync(dirpath + "/" + battlefilename)) {//如果文件不存在
+            fs.writeFileSync(dirpath + "/" + battlefilename, JSON.stringify({//创建文件
+            }));
+        }
+        var json = JSON.parse(fs.readFileSync(dirpath + "/" + battlefilename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            var battleTemplate = {//创建该用户
+                "experience": 0,
+                "level": 0,
+                "levelname": '无等级',
+                "Privilege": 0,
+            };
+            json[id] = battleTemplate
+            fs.writeFileSync(dirpath + "/" + battlefilename, JSON.stringify(json, null, "\t"));//写入文件
+        }
+        return json;
+    }
+    else {
+        fs.writeFileSync(dirpath + "/" + battlefilename, JSON.stringify(json, null, "\t"));//写入文件
+        return json;
+    }
+}
 async function getQQYUserPlace(id, json, filename, is_save) {
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
@@ -136,4 +164,4 @@ async function getUser2(user_id, json, dirname, is_save) {
         return json
     }
 }
-export default { getUser, getQQYUserPlace, getQQYUserHome, getQQYUserHouse, getUser2 }
+export default { getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserHome, getQQYUserHouse, getUser2 }

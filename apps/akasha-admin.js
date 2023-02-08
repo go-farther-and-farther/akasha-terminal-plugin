@@ -1,6 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from "oicq";
 import fs from "fs";
+import chalk from "chalk"
 import schedule from "node-schedule";
 //项目路径
 //如果报错请删除Yunzai/data/目录中akasha文件夹
@@ -20,7 +21,7 @@ export class duel_setmaster extends plugin {//设置开挂
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '我的等级',
+			name: '虚空管理',
 			/** 功能描述 */
 			dsc: '',
 			/** https://oicqjs.github.io/oicq/#events */
@@ -30,9 +31,9 @@ export class duel_setmaster extends plugin {//设置开挂
 			rule: [
 				{
 					/** 命令正则匹配 */
-					reg: "^#(设置|移除)开挂(.*)$", //匹配消息正则，命令正则
+					reg: "^#?虚空(设置|回收)权能$", //匹配消息正则，命令正则
 					/** 执行方法 */
-					fnc: 'master'
+					fnc: 'master',
 				}
 			]
 		})
@@ -45,7 +46,7 @@ export class duel_setmaster extends plugin {//设置开挂
 	async master(e) {
 		console.log("用户命令：", e.msg);
 		if (!e.group.is_admin) { //检查是否为管理员
-			e.reply('我不是管理员，不能设置开挂啦~');
+			e.reply('我不是群管理员，不能设置开挂啦~');
 			return true;
 		}
 		if (!e.at) {
@@ -79,16 +80,16 @@ export class duel_setmaster extends plugin {//设置开挂
 		if (e.msg.includes("设置")) {
 			json[user_id2].Privilege = 1
 			fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-			console.log(`${user_id2}成为开挂`); //输出日志
+			logger.info(chalk.green(`${user_id2}被赋予权能`)); //输出日志
 			e.reply([segment.at(e.user_id),
-			`设置开挂成功\n🎉恭喜${user_id2_nickname}成为开挂`]);//发送消息
+			`设置权能成功\n🎉恭喜${user_id2_nickname}成为特权者`]);//发送消息
 			return true; //返回true 阻挡消息不再往下}
 		} else {
 			json[user_id2].Privilege = 0
 			fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
-			console.log(`${user_id2}成为开挂`); //输出日志
+			logger.info(chalk.gray(`${user_id2}被移除权能`)); //输出日志
 			e.reply([segment.at(e.user_id),
-			`移除开挂成功\n🎉恭喜${user_id2_nickname}成为开挂`]);//发送消息
+			`移除权能成功\n${user_id2_nickname}权能已被收回`]);//发送消息
 			return true; //返回true 阻挡消息不再往下
 		}
 	}

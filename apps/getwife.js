@@ -5,15 +5,7 @@ import { segment } from "oicq";
 import moment from "moment"
 import command from '../components/command.js'
 import akasha_data from '../components/akasha_data.js'
-const dirpath = "plugins/akasha-terminal-plugin/data";//文件夹路径
 const dirpath2 = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
-const filename = `battle.json`;//文件名
-var Template = {//创建该用户
-    "experience": 0,
-    "level": 0,
-    "levelname": '无等级',
-    "Privilege": 0,
-};
 let Magnification = await command.getConfig("duel_cfg", "Magnification");
 
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
@@ -178,8 +170,10 @@ export class qqy extends plugin {
             return
         }
         //-------------------------------------------------------------------
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -206,7 +200,7 @@ export class qqy extends plugin {
                 return
             }
             var gailv = Math.round(Math.random() * 9);
-            if (gailv < qqwife) {
+            if (gailv < qqwife || UserPAF) {
                 homejson[id].s = e.at
                 let user_id2_nickname = null
                 for (let msg of e.message) { //赋值给user_id2_nickname
@@ -280,8 +274,10 @@ export class qqy extends plugin {
             e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -291,6 +287,7 @@ export class qqy extends plugin {
         }
         var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
         var gailv = Math.round(Math.random() * 99)
+        if(UserPAF) return await this.ntrT()//有权能直接抢走
         //这里用了和决斗一样的数据
         let is_win = await this.duel(e)
         if (is_win) {
@@ -460,8 +457,10 @@ export class qqy extends plugin {
             e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -515,7 +514,7 @@ export class qqy extends plugin {
             break;
         }
         let msg = []
-        if (gailv < sjwife) {
+        if (gailv < sjwife || UserPAF) {
             let sexStr = ''
             if (wife.sex == 'male') {
                 sexStr = '男'
@@ -691,8 +690,10 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -775,8 +776,10 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -906,17 +909,20 @@ export class qqy extends plugin {
     }
     //买虚空彩球
     async lottery1(e) {
-        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:*`, (err, data) => { });
+        var id = e.user_id
+        let myRBB = await redis.keys(`akasha:wife-lottery1:${e.group_id}:${id}:*`, (err, data) => { });
         myRBB = myRBB.toString().split(":")
         if (myRBB.length == 7) {
             e.reply([
-                segment.at(e.user_id), "\n",
+                segment.at(id), "\n",
                 `你买过了`
             ])
             return
         }
-        let lastTime = await redis.ttl(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
+        let lastTime = await redis.ttl(`akasha:wife-lottery1-cd:${e.group_id}:${id}`);
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -924,7 +930,6 @@ export class qqy extends plugin {
             ]);
             return
         }
-        var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
@@ -957,12 +962,12 @@ export class qqy extends plugin {
         let buytime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
         let ssqdata = `红${redball.toString()}蓝${blueball}时间${buytime}`
         console.log(`${id}获取虚空彩球${ssqdata}`)
-        await redis.set(`akasha:wife-lottery1:${e.group_id}:${e.user_id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
+        await redis.set(`akasha:wife-lottery1:${e.group_id}:${id}:${redball.toString()}:${blueball}:${buytime}`, currentTime, {
             EX: 86400
         });
         homejson[id].money -= 300
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
-        await redis.set(`akasha:wife-lottery1-cd:${e.group_id}:${e.user_id}`, currentTime, {
+        await redis.set(`akasha:wife-lottery1-cd:${e.group_id}:${id}`, currentTime, {
             EX: cdTime8
         });
         e.reply(`你选择了${ssqdata}`)
@@ -1111,8 +1116,10 @@ export class qqy extends plugin {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
@@ -1156,23 +1163,25 @@ export class qqy extends plugin {
     }
     //500以内可以领取低保
     async poor(e) {
-        let lastTime = await redis.ttl(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2) {
+        var id = e.user_id
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
+        let lastTime = await redis.ttl(`akasha:wife-poor-cd:${e.group_id}:${id}`);
+        if (lastTime !== -2 && !UserPAF) {
             e.reply([
-                segment.at(e.user_id), "\n",
+                segment.at(id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
                 `该命令还有${lastTime/60}分cd`
             ]);
             return
         }
-        var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         if (homejson[id].money < 500) {
             homejson[id].money += 500
             e.reply(`成功领取500金币`)
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
-            await redis.set(`akasha:wife-poor-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            await redis.set(`akasha:wife-poor-cd:${e.group_id}:${id}`, currentTime, {
                 EX: cdTime7
             });
             return
@@ -1392,20 +1401,8 @@ export class qqy extends plugin {
         console.log("用户命令：", e.msg);
         let user_id = e.user_id;
         let user_id2 = e.at; //获取当前at的那个人
-        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-            fs.mkdirSync(dirpath);//创建文件夹
-        }
-        if (!fs.existsSync(dirpath + "/" + filename)) {//如果文件不存在
-            fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({//创建文件
-            }));
-        }
-        var json = JSON.parse(fs.readFileSync(dirpath + "/" + filename, "utf8"));//读取文件
-        if (!json.hasOwnProperty(user_id)) {//如果json中不存在该用户
-            json[e.user_id] = Template
-        }
-        if (!json.hasOwnProperty(user_id2)) {//如果json中不存在该用户
-            json[user_id2] = Template
-        }
+        var battlejson = await akasha_data.getQQYUserBattle(user_id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(user_id2, battlejson, false)
         let level = json[user_id].level
         let level2 = json[user_id2].level
         let user_id2_nickname = null

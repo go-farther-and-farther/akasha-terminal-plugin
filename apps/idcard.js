@@ -1,20 +1,9 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
-import fs from 'fs'
 import moment from "moment"
-const dirpath = "plugins/akasha-terminal-plugin/data/tset"
-var filename = `idcard.json`
-const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+import akasha_data from '../components/akasha_data.js'
 const cdTime = 60 //默认为1分钟
-if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-    fs.mkdirSync(dirpath);//创建文件夹
-}
-//如果文件不存在，创建文件
-if (!fs.existsSync(dirpath + "/" + filename)) {
-    fs.writeFileSync(dirpath + "/" + filename, JSON.stringify({
-    }))
-}
 export class idcard extends plugin {
     constructor() {
         super({
@@ -33,29 +22,28 @@ export class idcard extends plugin {
         })
     }
     async idcard(e) {//随机娶
-        let lastTime = await redis.get(`lql:idcard-cd:${e.user_id}`);
+        let lastTime = await redis.ttl(`lql:idcard-cd:${e.user_id}`);
         let masterList = cfg.masterQQ
         if (!e.at && !e.atme) {
-            e.reply(`请at你的情人哦`)
+            e.reply(`请at你想要查看的群成员`)
             return
         }
         if (e.atme || e.atall) {
             e.reply(`不可以这样！`)
             return
         }
-        if (lastTime && !masterList.includes(e.user_id)) {
-            const seconds = moment(currentTime).diff(moment(lastTime), 'seconds')
-            let tips = [
+        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
+        if (lastTime !== -2 && !UserPAF && !masterList.includes(e.user_id)) {
+            e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `冷却中：${cdTime - seconds}s`
-            ]
-            e.reply(tips);
+                `冷却中：还有${lastTime/60}分`
+            ]);
             return
         }
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
-
         var the_idcard = arrMember.filter(item => {
             return item.user_id == e.at
         })

@@ -34,8 +34,8 @@ export class akashakaijiang extends plugin {
 	 * @param e oicq传递的事件参数e
 	 */
     async redblueball(e){
-        if(!e.isMaster)
-            return
+        if(!e.isMaster) return
+        e.reply(`手动开奖成功`)
         redblueball_start();
     }
 }
@@ -58,7 +58,7 @@ async function redblueball_start() {
             console.log(`群聊${key}不存在`)
         }
     }
-    if(notice){
+    if(notice == 'T'){
         for(let mat of yzcfg.masterQQ){
             await common.relpyPrivate(mat, `娶群友小游戏虚空彩球已开奖,快去通知玩家们吧\n数据在本插件resources/qylp/lottery.json`)
         }

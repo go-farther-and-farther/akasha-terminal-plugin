@@ -37,8 +37,8 @@ wife_cfg:
   #逛街->去下一个地方
   gifttime: 5
   #虚空彩球
-  #开奖通知主人 0关 1开
-  notice: 0
+  #开奖通知主人 F关 T开
+  notice: 'F'
   #开奖通知群
   group:
     - 123456789
