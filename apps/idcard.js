@@ -32,7 +32,7 @@ export class idcard extends plugin {
             e.reply(`不可以这样！`)
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         if (lastTime !== -2 && !UserPAF && !masterList.includes(e.user_id)) {
             e.reply([

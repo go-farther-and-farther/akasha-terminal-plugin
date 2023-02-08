@@ -170,7 +170,7 @@ export class qqy extends plugin {
             return
         }
         //-------------------------------------------------------------------
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -274,7 +274,7 @@ export class qqy extends plugin {
             e.reply(`金币都没有你还有脸抢老婆?`)
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-ntr-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -457,7 +457,7 @@ export class qqy extends plugin {
             e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -690,7 +690,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-getmoney-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -776,7 +776,7 @@ export class qqy extends plugin {
             e.reply(`醒醒,你还在这里没有老婆!!`)
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-gift-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -919,7 +919,7 @@ export class qqy extends plugin {
             ])
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-lottery1-cd:${e.group_id}:${id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -1116,7 +1116,7 @@ export class qqy extends plugin {
             e.reply(`醒醒,这不是你老婆!!!`)
             return
         }
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-touch-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
@@ -1164,7 +1164,7 @@ export class qqy extends plugin {
     //500以内可以领取低保
     async poor(e) {
         var id = e.user_id
-        let battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-poor-cd:${e.group_id}:${id}`);
         if (lastTime !== -2 && !UserPAF) {
