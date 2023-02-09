@@ -1,0 +1,20 @@
+- group: 
+  list:
+    - icon: 55
+      title: "#柠檬配置更改+配置名*数值"
+      desc: "#柠檬配置更改撤回时间*30"
+    - icon: 55
+      title: "#柠檬更新"
+      desc: "更新半柠檬插件"
+
+- group: 
+  list:
+    - icon: 5
+      title: "#柠檬开启+云崽/私聊/功能名"
+      desc: "#柠檬关闭云崽"
+    - icon: 5
+      title: "#柠檬添加主人+QQ"
+      desc: "#柠檬删除主人+QQ"
+    - icon: 55
+      title: "#云崽配置状态"
+      desc: "后台打印记录可查看"
