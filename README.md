@@ -63,6 +63,9 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 </div>
 
 #### 常见问题
+  - 存档路径在哪??
+  - 本插件目录内data/qylp(娶群友)/Userxxx/群号.json; UserData(决斗); battle.json(全局)
+
   - xxx is not defined
   - #重置虚空配置后重启
 
