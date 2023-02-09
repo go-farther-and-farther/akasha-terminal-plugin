@@ -4,11 +4,11 @@ export class AlemonGetHelp extends plugin {
         super(BotApi.SuperInex.getUser({
             rule: [
                 {
-                    reg: '^#柠檬(帮助|菜单|help|列表)$',
+                    reg: '^#虚空(帮助|菜单|help|列表)$',
                     fnc: 'alemonHelp'
                 },
                 {
-                    reg: '^#柠檬管理$',
+                    reg: '^#虚空管理$',
                     fnc: 'alemonAdmin',
                 }
             ]

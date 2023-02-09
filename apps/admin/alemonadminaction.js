@@ -5,7 +5,7 @@ export class AlemonAdminAction extends plugin {
         super(BotApi.SuperInex.getUser({
             rule: [
                 {
-                    reg: '^#柠檬更新$',
+                    reg: '^#虚空更新$',
                     fnc: 'AlemonUpdata'
                 }
             ]
