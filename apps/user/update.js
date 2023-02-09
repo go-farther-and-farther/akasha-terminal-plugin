@@ -1,4 +1,4 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fetch from 'node-fetch'
 import fs from "fs";
 import { createRequire } from "module";

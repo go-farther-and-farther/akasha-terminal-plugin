@@ -1,7 +1,7 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import { segment } from "oicq";
 import fs from "fs";
-import cfg from '../../../lib/config/config.js'
+import cfg from '../../../../lib/config/config.js'
 import moment from "moment"
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 //项目路径

@@ -1,4 +1,4 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from "fs";
 //项目路径
 //如果报错请删除Yunzai/data/目录中akasha文件夹

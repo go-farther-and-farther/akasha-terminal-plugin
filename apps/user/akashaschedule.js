@@ -1,9 +1,9 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import schedule from "node-schedule"
-import common from '../../../lib/common/common.js'
+import common from '../../../../lib/common/common.js'
 import moment from "moment"
-import yzcfg from '../../../lib/config/config.js'
-import command from '../components/command.js'
+import yzcfg from '../../../../lib/config/config.js'
+import command from '../../components/command.js'
 import fs from 'fs'
 var Group = await command.getConfig("wife_cfg", "group");
 var RBBtime = Number(await command.getConfig("wife_cfg", "RBBtime"))

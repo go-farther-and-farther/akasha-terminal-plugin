@@ -1,4 +1,4 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from "fs";
 import { segment } from "oicq";
 const dirpath = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
