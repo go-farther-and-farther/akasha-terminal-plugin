@@ -18,7 +18,7 @@ if (Bot?.logger?.info) {
     Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`   /     \\     ┋      ┃        `)+chalk.yellow(`┃`))
     Bot.logger.info(chalk.yellow(`┃`)+chalk.green(`  /       \\    ┋      ┃        `)+chalk.yellow(`┃`))
     Bot.logger.info(chalk.yellow(`┖┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┚`))
-    Bot.logger.warn(chalk.red(`(🍀Akasha-Terminal-Plugin🍀):若出现README.md中未提及的问题,请联系我们!!!`))
+    Bot.logger.warn(chalk.blue(`(🍀Akasha-Terminal-Plugin🍀):若出现README.md中未提及的问题,请联系我们!!!`))
     Bot.logger.info(chalk.green('(🍀Akasha-Terminal-Plugin🍀):"初始化完成,祝您游玩愉快!🌴'))
     Bot.logger.info('🌴🌴🌴🌴🌴🌴🌴🌴')
 } else {
