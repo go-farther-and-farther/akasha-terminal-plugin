@@ -28,6 +28,26 @@ async function getUser(id, json, Template, filename, is_save) {
         return json;
     }
 }
+async function getUser2(user_id, json, dirname, is_save) {
+    if (is_save) {
+        let filename = `${user_id}.json`;
+        fs.writeFileSync(dirpath + `/${dirname}/` + filename, JSON.stringify(json, null, "\t"));
+    }
+    else {
+        let filename = `${user_id}.json`;
+        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
+            fs.mkdirSync(dirpath);//创建文件夹
+        }
+        //如果文件不存在，创建文件
+        if (!fs.existsSync(dirpath + `/${dirname}/` + filename)) {
+            fs.writeFileSync(dirpath + `/${dirname}/` + filename, JSON.stringify({
+            }));
+        }
+        //读取文件
+        var json = JSON.parse(fs.readFileSync(dirpath + `/${dirname}/` + filename, "utf8"));
+        return json
+    }
+}
 async function getQQYUserBattle(id, json, is_save) {
     if (!is_save) {
         var battlefilename = `battle.json`;//文件名
@@ -70,10 +90,10 @@ async function getQQYUserPlace(id, json, filename, is_save) {
         }
         var json = JSON.parse(fs.readFileSync(QQYplacepath + "/" + filename, "utf8"));//读取文件
         if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            let  place_template = {
+            let place_template = {
                 "place": "home",
                 "placetime": 0
-            }        
+            }
             json[id] = place_template
             fs.writeFileSync(QQYplacepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
@@ -107,9 +127,15 @@ async function getQQYUserHome(id, json, filename, is_save) {
             json[id] = home_template
             fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
+        // 转出10进制
+        json[id].money10 = parseInt(json[id].money2, 2)
+        json[id].love10 = parseInt(json[id].love2, 2)
         return json;
     }
     else {
+        // 写入二进制
+        json[id].money2 = json[id].money.toString(2)
+        json[id].love2 = json[id].love.toString(2)
         fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
     }
@@ -142,26 +168,6 @@ async function getQQYUserHouse(id, json, filename, is_save) {
     else {
         fs.writeFileSync(QQYhousepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
-    }
-}
-async function getUser2(user_id, json, dirname, is_save) {
-    if (is_save) {
-        let filename = `${user_id}.json`;
-        fs.writeFileSync(dirpath + `/${dirname}/` + filename, JSON.stringify(json, null, "\t"));
-    }
-    else {
-        let filename = `${user_id}.json`;
-        if (!fs.existsSync(dirpath)) {//如果文件夹不存在
-            fs.mkdirSync(dirpath);//创建文件夹
-        }
-        //如果文件不存在，创建文件
-        if (!fs.existsSync(dirpath + `/${dirname}/` + filename)) {
-            fs.writeFileSync(dirpath + `/${dirname}/` + filename, JSON.stringify({
-            }));
-        }
-        //读取文件
-        var json = JSON.parse(fs.readFileSync(dirpath + `/${dirname}/` + filename, "utf8"));
-        return json
     }
 }
 export default { getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserHome, getQQYUserHouse, getUser2 }

@@ -132,7 +132,6 @@ export class qqy extends plugin {
     }
     //创建存档
     async creat(e) {
-
         var id = e.user_id
         await this.creat_(e, id)
         e.reply(`好`)
