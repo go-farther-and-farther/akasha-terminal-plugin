@@ -142,7 +142,6 @@ async function getQQYUserHome(id, json, filename, is_save) {
     }
     else {
         // 写入二进制
-        let id = id.toString(2)
         json[id].money2 = json[id].money.toString(2)
         json[id].love2 = json[id].love.toString(2)
         fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
