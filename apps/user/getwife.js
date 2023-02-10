@@ -177,7 +177,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分钟cd`
+                `该命令还有${lastTime / 60}分钟cd`
             ]);
             return
         }
@@ -281,13 +281,13 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
         var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
         var gailv = Math.round(Math.random() * 99)
-        if(UserPAF) return await this.ntrT()//有权能直接抢走
+        if (UserPAF) return await this.ntrT()//有权能直接抢走
         //这里用了和决斗一样的数据
         let is_win = await this.duel(e)
         if (is_win) {
@@ -337,7 +337,7 @@ export class qqy extends plugin {
                 EX: jbtime
             });
             setTimeout(() => {
-                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime/60}分`)
+                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime / 60}分`)
             }, 5000);
         }
         if (homejson[jia].money >= pcj) {
@@ -464,7 +464,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -519,7 +519,7 @@ export class qqy extends plugin {
             if (wife.sex == 'male') {
                 sexStr = '男'
             }
-            else{//不是男的或者未知就当女朋友
+            else {//不是男的或者未知就当女朋友
                 sexStr = '女'
             }
             console.log(wife);
@@ -697,7 +697,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -706,9 +706,12 @@ export class qqy extends plugin {
             EX: cdTime3
         });
         homejson[id].money += Math.round(Math.random() * 100 + 100)
+        if (e.is_friend) { homejson[id].money += 0.2 * Math.round(Math.random() * 100 + 100) }
+        if (e.is_admin || e.is_owner) { homejson[id].money += 0.2 * Math.round(Math.random() * 100 + 100) }
+        if (e.isMaster) { homejson[id].money += 0.4 * Math.round(Math.random() * 100 + 100) }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
         setTimeout(() => {
-            e.reply(`恭喜你!现在你有${homejson[id].money}金币了!`)
+            e.reply(`恭喜你!现在你有${homejson[id].money}金币了,是管理员或者好友有金币加成哦!`)
         }, 2000);
         return true;
     }
@@ -783,7 +786,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -926,7 +929,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -1123,7 +1126,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(e.user_id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -1171,7 +1174,7 @@ export class qqy extends plugin {
             e.reply([
                 segment.at(id), "\n",
                 `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime/60}分cd`
+                `该命令还有${lastTime / 60}分cd`
             ]);
             return
         }
@@ -1306,7 +1309,7 @@ export class qqy extends plugin {
         if (jinbi !== -2) {
             e.reply([
                 segment.at(e.user_id), "\n",
-                `你已经被关进禁闭室了!!!时间到了自然放你出来\n你还需要被关${jinbi/60}分钟`
+                `你已经被关进禁闭室了!!!时间到了自然放你出来\n你还需要被关${jinbi / 60}分钟`
             ])
             return true
         }
