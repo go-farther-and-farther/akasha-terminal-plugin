@@ -128,8 +128,16 @@ async function getQQYUserHome(id, json, filename, is_save) {
             fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
         // 转出10进制
-        if (json[id].money2) json[id].money = parseInt(json[id].money2, 2)
-        if (json[id].love2) json[id].love = parseInt(json[id].love2, 2)
+        if (json[id].money2) {
+            json[id].money10 = parseInt(json[id].money2, 2)
+            if (json[id].money > json[id].money10) { json[id].money = json[id].money10 }
+            else { json[id].money = json[id].money10 }
+        }
+        if (json[id].love2) {
+            json[id].love10 = parseInt(json[id].love2, 2)
+            if (json[id].love10 > json[id].love) { json[id].love10 = json[id].love }
+            else { json[id].love = json[id].love10 }
+        }
         return json;
     }
     else {
