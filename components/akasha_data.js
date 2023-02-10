@@ -117,33 +117,40 @@ async function getQQYUserHome(id, json, filename, is_save) {
             }));
         }
         var json = JSON.parse(fs.readFileSync(QQYhomepath + "/" + filename, "utf8"));//读取文件
-        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
-            let home_template = {
-                "s": 0,
-                "wait": 0,
-                "money": 100,
-                "love": 0
+        let id_2 = id.toString(2)
+        if (!json.hasOwnProperty(id_2)) {//如果json中不存在该用户
+            if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+                let home_template = {
+                    "s": 0,
+                    "wait": 0,
+                    "money": 100,
+                    "love": 0
+                }
+                json[id_2] = home_template
             }
-            json[id] = home_template
+            else {
+                json[id_2] = json[id]
+            }
             fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         }
         // 转出10进制
-        if (json[id].money2) {
-            json[id].money10 = parseInt(json[id].money2, 2)
-            if (json[id].money > json[id].money10) { json[id].money = json[id].money10 }
-            else { json[id].money10 = json[id].money }
+        if (json[id_2].money2) {
+            json[id_2].money10 = parseInt(json[id_2].money2, 2)
+            if (json[id_2].money > json[id_2].money10) { json[id_2].money = json[id_2].money10 }
+            else { json[id_2].money10 = json[id_2].money }
         }
-        if (json[id].love2) {
-            json[id].love10 = parseInt(json[id].love2, 2)
-            if (json[id].love > json[id].love10) { json[id].love = json[id].love10 }
-            else { json[id].love10 = json[id].love }
+        if (json[id_2].love2) {
+            json[id_2].love10 = parseInt(json[id_2].love2, 2)
+            if (json[id_2].love > json[id_2].love10) { json[id_2].love = json[id_2].love10 }
+            else { json[id_2].love10 = json[id_2].love }
         }
         return json;
     }
     else {
         // 写入二进制
-        json[id].money2 = json[id].money.toString(2)
-        json[id].love2 = json[id].love.toString(2)
+        let id_2 = id.toString(2)
+        json[id_2].money2 = json[id_2].money.toString(2)
+        json[id_2].love2 = json[id_2].love.toString(2)
         fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
     }
