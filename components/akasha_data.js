@@ -131,12 +131,12 @@ async function getQQYUserHome(id, json, filename, is_save) {
         if (json[id].money2) {
             json[id].money10 = parseInt(json[id].money2, 2)
             if (json[id].money > json[id].money10) { json[id].money = json[id].money10 }
-            else { json[id].money = json[id].money10 }
+            else { json[id].money10 = json[id].money }
         }
         if (json[id].love2) {
             json[id].love10 = parseInt(json[id].love2, 2)
-            if (json[id].love10 > json[id].love) { json[id].love10 = json[id].love }
-            else { json[id].love = json[id].love10 }
+            if (json[id].love > json[id].love10) { json[id].love = json[id].love10 }
+            else { json[id].love10 = json[id].love }
         }
         return json;
     }
