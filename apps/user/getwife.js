@@ -1405,8 +1405,8 @@ export class qqy extends plugin {
         let user_id2 = e.at; //获取当前at的那个人
         var battlejson = await akasha_data.getQQYUserBattle(user_id, battlejson, false)
         var battlejson = await akasha_data.getQQYUserBattle(user_id2, battlejson, false)
-        let level = json[user_id].level
-        let level2 = json[user_id2].level
+        let level = battlejson[user_id].level
+        let level2 = battlejson[user_id2].level
         let user_id2_nickname = null
         for (let msg of e.message) { //赋值给user_id2_nickname
             if (msg.type === 'at') {
