@@ -1652,8 +1652,10 @@ export class qqy extends plugin {
         }
         //console.log(`所有人的老婆`,wifearr)
         let memberMap = await e.group.getMemberMap();
-        let arrMember = Array.from(Object.keys(memberMap))
-        arrMember = arrMember.filter(item => String(item.user_id))
+        let arrMember = []
+        for(let aaa of memberMap){
+            arrMember.push(String(aaa[1]))
+        }
         console.log(arrMember)
         //找出不在群的老婆
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
