@@ -1650,11 +1650,13 @@ export class qqy extends plugin {
             if(await homejson[data].s !== 0)
             wifearr.push(String(homejson[data].s))
         }
+        console.log(`所有人的老婆`,wifearr)
         let memberMap = await e.group.getMemberMap();
         let arrMember = []
         for(let aaa of memberMap){
             arrMember.push(String(aaa[1].user_id))
         }
+        console.log(`群成员`,arrMember)
         //找出不在群的老婆
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
         console.log(`不在的老婆`,deadwife)
@@ -1665,15 +1667,14 @@ export class qqy extends plugin {
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
         console.log(`不在群的用户`,deadid)
         //把老婆跑了的用户老婆删除
-        /*for(let shit of widedeadid){
+        for(let shit of widedeadid){
             homejson[shit].s = 0
         }
         //删掉不在群的用户
         for(let errid of deadid){
             delete(homejson[errid])
         }
-        await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        */
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
         return true
     }
 }
