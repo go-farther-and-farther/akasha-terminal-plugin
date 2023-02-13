@@ -1654,7 +1654,7 @@ export class qqy extends plugin {
         let memberMap = await e.group.getMemberMap();
         let arrMember = []
         for(let aaa of memberMap){
-            arrMember.push(String(aaa[1]))
+            arrMember.push(String(aaa[1].user_id))
         }
         console.log(arrMember)
         //找出不在群的老婆
