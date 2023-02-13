@@ -1655,15 +1655,15 @@ export class qqy extends plugin {
         let arrMember = Array.from(memberMap.values());
         //找出不在群的老婆
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
-        console.log(`不在的老婆`,deadwife)
+        //console.log(`不在的老婆`,deadwife)
         //找出这些已退群的老婆的拥有者
         let widedeadid = Object.values(homejson).some(item => deadwife.includes(item.s));
-        console.log(`这些老婆的拥有者`,widedeadid)
+        //console.log(`这些老婆的拥有者`,widedeadid)
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
-        console.log(`不在群的用户`,deadid)
+        //console.log(`不在群的用户`,deadid)
         //把老婆跑了的用户老婆删除
-        for(let shit of widedeadid){
+        /*for(let shit of widedeadid){
             homejson[shit].s = 0
         }
         //删掉不在群的用户
@@ -1671,6 +1671,7 @@ export class qqy extends plugin {
             delete(homejson[errid])
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        */
         return true
     }
 }
