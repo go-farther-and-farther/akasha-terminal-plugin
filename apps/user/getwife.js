@@ -1666,15 +1666,20 @@ export class qqy extends plugin {
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
         console.log(`不在群的用户`,deadid)
+        let chick = 0
         //把老婆跑了的用户老婆删除
         for(let shit of widedeadid){
             homejson[shit].s = 0
+            chick++
         }
         //删掉不在群的用户
+        let ikun = 0
         for(let errid of deadid){
             delete(homejson[errid])
+            ikun++
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        e.reply(`清除本群无效/错误存档成功,\n本次共错误退群存档${ikun}个,\n删除错误的老婆${chick}位`)
         return true
     }
 }

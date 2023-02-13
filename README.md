@@ -38,6 +38,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
   |时间管理   |重置群内或指定人被计入的时间     |
   |权限管理   |设置或移除指定人的特殊权限   |
   |功能管理   |手动开启一些预先设定好的功能计划   |
+  |存档管理   |一键删除错误的存档   |
 
   </details>
   <h1 align="center" class="群友老婆"><i>分群游戏◧--娶群友❤?!</i></h1>
@@ -84,7 +85,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
   - #重置虚空配置后重启
 
   - 娶群友相关功能出现cannot read ... (reading"sex"或者'nickname')
-  - 有人老婆退群导致,前往存档位置自行删除ta
+  - 有人老婆或本人退群导致,使用#虚空清除无效存档,即可
 
   - 上述方法未能解决或我有其他问题!
   - 联系我们 Q群 906539561

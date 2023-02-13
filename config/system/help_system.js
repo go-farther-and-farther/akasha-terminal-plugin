@@ -156,6 +156,10 @@ export const helpList = [{
     icon: 20,
     title: '家庭信息',
     desc: '看看家,看看资产'
+  }, {
+    icon: 20,
+    title: '虚空清除无效存档',
+    desc: '部分指令无响应时使用'
   }]
 }, {
   group: '管理命令，仅bot管理员可用',
