@@ -1645,28 +1645,23 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         let wifearr = []//所有人的的老婆
-        //找出所有人的老婆
+        //找出所有人的老婆,转为String型
         for(let data of Object.keys(homejson)){
             if(await homejson[data].s !== 0)
-            wifearr.push(homejson[data].s)
+            wifearr.push(String(homejson[data].s))
         }
         //console.log(`所有人的老婆`,wifearr)
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values())
         //找出不在群的老婆
-        let deadwife = []
-        wifearr.filter(item => {
-            if(!arrMember.includes(item))
-              deadwife.push(item)
-        })
+        let deadwife = wifearr.filter(item => !arrMember.includes(item))
         console.log(`不在的老婆`,deadwife)
-        
         //找出这些已退群的老婆的拥有者
-        let widedeadid = Object.values(homejson).some(item => deadwife.includes(item.s));
-        //console.log(`这些老婆的拥有者`,widedeadid)
+        let widedeadid = Object.keys(homejson).filter(item => deadwife.includes(item))
+        console.log(`这些老婆的拥有者`,widedeadid)
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
-        //console.log(`不在群的用户`,deadid)
+        console.log(`不在群的用户`,deadid)
         //把老婆跑了的用户老婆删除
         /*for(let shit of widedeadid){
             homejson[shit].s = 0
