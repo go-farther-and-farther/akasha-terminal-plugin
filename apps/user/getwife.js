@@ -1653,15 +1653,16 @@ export class qqy extends plugin {
         //console.log(`所有人的老婆`,wifearr)
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values())
+        console.log(arrMember)
         //找出不在群的老婆
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
-        console.log(`不在的老婆`,deadwife)
+        //console.log(`不在的老婆`,deadwife)
         //找出这些已退群的老婆的拥有者
         let widedeadid = Object.keys(homejson).filter(item => deadwife.includes(item))
-        console.log(`这些老婆的拥有者`,widedeadid)
+        //console.log(`这些老婆的拥有者`,widedeadid)
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
-        console.log(`不在群的用户`,deadid)
+        //console.log(`不在群的用户`,deadid)
         //把老婆跑了的用户老婆删除
         /*for(let shit of widedeadid){
             homejson[shit].s = 0
