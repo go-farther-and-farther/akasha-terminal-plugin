@@ -48,6 +48,10 @@ export class qqy extends plugin {
                 fnc: 'ntr'
             },
             {
+                reg: '^#?抢劫$',
+                fnc: 'Robbery'
+            },
+            {
                 reg: '^#?我愿意$',
                 fnc: 'yy'
             },
@@ -316,6 +320,75 @@ export class qqy extends plugin {
         });
         return true;
     }
+    async Robbery(e) {
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        if (e.atme || e.atall) {
+            e.reply(`6🙂`)
+            return
+        }
+        if (!e.at) {
+            e.reply(`你想抢谁的钱呢?at出来!`)
+            return
+        }
+        if (await this.is_killed(e, `ntr`, true) == true) return
+        if (homejson[id].money <= 100) {
+            e.reply("虽然但是,对方在这里没有钱啊!(￣_,￣ ),要不你给点?")
+            return
+        }
+        if (homejson[id].money >= 1000) {
+            e.reply(`你已经有钱了还抢别人的???`)
+            return
+        }
+        // if (homejson[id].money <= 0) {
+        //     e.reply(`金币都没有你还有脸抢老婆?`)
+        //     return
+        // }
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
+        let lastTime = await redis.ttl(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2 && !UserPAF) {
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `该命令还有${lastTime / 60}分cd`
+            ]);
+            return
+        }
+        // var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
+        var good = 50
+        var gailv = Math.round(Math.random() * 99)
+        if (UserPAF) return await this.ntrT2()//有权能直接抢走
+        //这里用了和决斗一样的数据
+        let is_win = await this.duel(e)
+        if (is_win) {
+            setTimeout(() => {
+                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
+            }, 2000);
+            good += 10
+        }
+        else {
+            setTimeout(() => {
+                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
+            }, 2000);
+            good -= 10
+        }
+        if (homejson[e.at].love >= 5000) {
+            setTimeout(() => {
+                e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他的钱的!`)
+            }, 3000);
+            await this.ntrF2(e, e.user_id, e.at)
+        }
+        if (good > gailv)
+            await this.ntrT2(e, e.user_id, e.at)
+        else
+            await this.ntrF2(e, e.user_id, e.at)
+        await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            EX: cdTime6
+        });
+        return true;
+    }
     //抢老婆失败时调用
     async ntrF(e, jia, yi) {
         var id = e.user_id
@@ -368,6 +441,59 @@ export class qqy extends plugin {
         homejson[jia].love = 6
         homejson[yi].s = 0
         homejson[yi].love = 0
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
+    }
+    async ntrF2(e, jia, yi) {
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
+        var jbtime = (pcj - homejson[jia].money) * 10//禁闭时间
+        setTimeout(() => {
+            e.reply([
+                segment.at(jia), "\n",
+                `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
+            ])
+        }, 4000);
+        if (homejson[jia].money < pcj) {
+            homejson[yi].money += homejson[jia].money
+            homejson[jia].money = 0
+            await redis.set(`akasha:wife-jinbi-cd:${e.group_id}:${jia}`, currentTime, {
+                EX: jbtime
+            });
+            setTimeout(() => {
+                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime / 60}分`)
+            }, 5000);
+        }
+        if (homejson[jia].money >= pcj) {
+            homejson[yi].money += pcj
+            homejson[jia].money -= pcj
+            setTimeout(() => {
+                e.reply(`你成功清赔款${pcj}金币!`)
+            }, 6000);
+        }
+        await akasha_data.getQQYUserHome(id, homejson, filename, true)
+    }
+    //抢老婆成功时调用
+    async ntrT2(e, jia, yi) {
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        if ((homejson[jia].money > (homejson[yi].love * 1.5)) && (homejson[jia].money > homejson[yi].money))
+            e.reply([
+                segment.at(yi), "\n",
+                `很遗憾!你的100块钱被人抢走了!!!`
+            ])
+        else {
+            e.reply([
+                segment.at(yi), "\n",
+                `很遗憾!由于你的疏忽,你的100块钱被人抢走了!!!`
+            ])
+        }
+        homejson[jia].money += 100
+        // homejson[jia].love = 6
+        // homejson[yi].s = 0
+        homejson[yi].money -= 1000
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
     }
     //愿意
