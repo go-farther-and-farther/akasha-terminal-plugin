@@ -52,6 +52,10 @@ export class qqy extends plugin {
                 fnc: 'Robbery'
             },
             {
+                reg: '^#?抢银行$',
+                fnc: 'Robbery2'
+            },
+            {
                 reg: '^#?我愿意$',
                 fnc: 'yy'
             },
@@ -382,6 +386,52 @@ export class qqy extends plugin {
         }
         if (good > gailv)
             await this.ntrT2(e, e.user_id, e.at)
+        else
+            await this.ntrF2(e, e.user_id, e.at)
+        await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
+            EX: cdTime6
+        });
+        return true;
+    }
+    async Robbery2(e) {
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+
+        if (homejson[id].money >= 10000) {
+            e.reply(`你已经这么有钱了还抢银行的???`)
+            return
+        }
+        // if (homejson[id].money <= 0) {
+        //     e.reply(`金币都没有你还有脸抢老婆?`)
+        //     return
+        // }
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        let UserPAF = battlejson[id].Privilege
+        let lastTime = await redis.ttl(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`);
+        if (lastTime !== -2 && !UserPAF) {
+            e.reply([
+                segment.at(e.user_id), "\n",
+                `等会儿哦！(*/ω＼*)`, "\n",
+                `该命令还有${lastTime / 60}分cd`
+            ]);
+            return
+        }
+        // var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
+        var good = 20
+        var gailv = Math.round(Math.random() * 99)
+
+
+        if (good > gailv) {
+
+            // setTimeout(() => {
+            //     e.reply([
+            //         segment.at(e.us), "\n",
+            //         `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
+            //     ])
+            // }, 4000)
+        }
+
         else
             await this.ntrF2(e, e.user_id, e.at)
         await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
