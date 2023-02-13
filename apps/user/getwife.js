@@ -1652,10 +1652,15 @@ export class qqy extends plugin {
         }
         //console.log(`所有人的老婆`,wifearr)
         let memberMap = await e.group.getMemberMap();
-        let arrMember = Array.from(memberMap.values());
+        let arrMember = Array.from(memberMap.values())
         //找出不在群的老婆
-        let deadwife = wifearr.filter(item => !arrMember.includes(item))
+        let deadwife = []
+        wifearr.filter(item => {
+            if(!arrMember.includes(item))
+              deadwife.push(item)
+        })
         console.log(`不在的老婆`,deadwife)
+        
         //找出这些已退群的老婆的拥有者
         let widedeadid = Object.values(homejson).some(item => deadwife.includes(item.s));
         //console.log(`这些老婆的拥有者`,widedeadid)
