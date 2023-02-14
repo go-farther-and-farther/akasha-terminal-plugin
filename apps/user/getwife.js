@@ -1,6 +1,7 @@
 //随便写的,大佬勿喷 初版@鸢:随机娶群友，指定娶群友
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from 'fs'
+import Config from '../../model/Config.js'
 import { segment } from "oicq";
 import moment from "moment"
 import command from '../../components/command.js'
@@ -1262,8 +1263,8 @@ export class qqy extends plugin {
                 msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
             }
         }
-        
-
+        // 转发发送
+        Config.getforwardMsg(msg,e)
         e.reply(msg);//回复消息
         return true;
     }
