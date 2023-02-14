@@ -413,15 +413,24 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         if (key == 'ntr') {
             var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
+            setTimeout(() => {
+                e.reply([
+                    segment.at(jia), "\n",
+                    `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
+                ])
+            }, 4000);
         }
-        if (key == 'Robbery') { pcj = 100 + Math.random * 100 }
+        if (key == 'Robbery') {
+            var pcj = 100 + Math.random * 100
+            setTimeout(() => {
+                e.reply([
+                    segment.at(jia), "\n",
+                    `你抢劫被抓到,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
+                ])
+            }, 4000);
+        }
         var jbtime = (pcj - homejson[jia].money) * 10//禁闭时间
-        setTimeout(() => {
-            e.reply([
-                segment.at(jia), "\n",
-                `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
-            ])
-        }, 4000);
+
         if (homejson[jia].money < pcj) {
             homejson[yi].money += homejson[jia].money
             homejson[jia].money = 0
