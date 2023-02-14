@@ -421,7 +421,7 @@ export class qqy extends plugin {
             }, 4000);
         }
         if (key == 'Robbery') {
-            var pcj = 100 + Math.random() * 100
+            var pcj = Math.round(100 + Math.random() * 100)
             setTimeout(() => {
                 e.reply([
                     segment.at(jia), "\n",
