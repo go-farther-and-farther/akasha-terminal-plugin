@@ -399,8 +399,8 @@ export class qqy extends plugin {
         //     }, 3000);
         //     await this.ntrF2(e, e.user_id, e.at)
         // }
-        if (good > gailv) { await this.ntrT2(e, e.user_id, at) }
-        else { await this.ntrF2(e, e.user_id, e.at) }
+        if (good > gailv) { await this.ntrT(e, e.user_id, at,key = 'Robbery') }
+        else { await this.ntrF(e, e.user_id, e.at,key = 'Robbery') }
         await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime6
         });
