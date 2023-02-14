@@ -48,12 +48,8 @@ export class qqy extends plugin {
                 fnc: 'ntr'
             },
             {
-                reg: '^#?抢劫$',
+                reg: '^#?(抢劫|抢银行)$',
                 fnc: 'Robbery'
-            },
-            {
-                reg: '^#?抢银行$',
-                fnc: 'Robbery2'
             },
             {
                 reg: '^#?我愿意$',
@@ -328,34 +324,43 @@ export class qqy extends plugin {
         });
         return true;
     }
-    //打劫
+    //打劫或者抢银行
     async Robbery(e) {
         var id = e.user_id
+        var at = e.at
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        let home_template = {
+            "s": 0,
+            "wait": 0,
+            "money": 10000,
+            "love": 0
+        }
+        if (!json.hasOwnProperty('银行')) homejson["银行"] = home_template
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
         }
         if (!e.at) {
-            e.reply(`你想抢谁的钱呢?at出来!`)
-            return
+            e.reply(`你想抢谁的钱呢?at出来!默认你抢银行了`)
+            var id2 = "银行"
         }
+        // 判断是不是被干掉了
         if (await this.is_killed(e, `ntr`, true) == true) return
         if (homejson[id].money <= 100) {
             e.reply("虽然但是,对方在这里没有钱啊!(￣_,￣ ),要不你给点?")
             return
         }
-        if (homejson[id].money >= 1000) {
+        if (homejson[id].money >= 5000) {
             e.reply(`你已经有钱了还抢别人的???`)
             return
         }
-        // if (homejson[id].money <= 0) {
-        //     e.reply(`金币都没有你还有脸抢老婆?`)
-        //     return
-        // }
-        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
-        let UserPAF = battlejson[id].Privilege
+        if (homejson[id].s != 0) {
+            e.reply(`你有老婆还出来抢钱，不怕她不要你了?`)
+            return
+        }
+        //var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        // let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
             e.reply([
@@ -366,91 +371,43 @@ export class qqy extends plugin {
             return
         }
         // var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
-        var good = 50
+        var good = 30
         var gailv = Math.round(Math.random() * 99)
-        if (UserPAF) return await this.ntrT2()//有权能直接抢走
+        // if (UserPAF) return await this.ntrT2()//有权能直接抢走
         //这里用了和决斗一样的数据
-        let is_win = await this.duel(e)
-        if (is_win) {
-            setTimeout(() => {
-                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
-            }, 2000);
-            good += 10
-        }
-        else {
-            setTimeout(() => {
-                e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
-            }, 2000);
-            good -= 10
-        }
-        if (homejson[e.at].love >= 5000) {
-            setTimeout(() => {
-                e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他的钱的!`)
-            }, 3000);
-            await this.ntrF2(e, e.user_id, e.at)
-        }
-        if (good > gailv)
-            await this.ntrT2(e, e.user_id, e.at)
-        else
-            await this.ntrF2(e, e.user_id, e.at)
-        await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
-            EX: cdTime6
-        });
-        return true;
-    }
-    //抢银行
-    async Robbery2(e) {
-        var id = e.user_id
-        var filename = e.group_id + `.json`
-        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-
-        if (homejson[id].money >= 10000) {
-            e.reply(`你已经这么有钱了还抢银行的???`)
-            return
-        }
-        // if (homejson[id].money <= 0) {
-        //     e.reply(`金币都没有你还有脸抢老婆?`)
-        //     return
+        // let is_win = await this.duel(e)
+        // if (is_win) {
+        //     setTimeout(() => {
+        //         e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗赢了,你的成功率为：${good}+10%`)
+        //     }, 2000);
+        //     good += 10
         // }
-        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
-        let UserPAF = battlejson[id].Privilege
-        let lastTime = await redis.ttl(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`);
-        if (lastTime !== -2 && !UserPAF) {
-            e.reply([
-                segment.at(e.user_id), "\n",
-                `等会儿哦！(*/ω＼*)`, "\n",
-                `该命令还有${lastTime / 60}分cd`
-            ]);
-            return
-        }
-        // var good = Math.round(homejson[e.user_id].money / (1.5 * homejson[e.at].love + homejson[e.at].money) * 100)
-        var good = 20
-        var gailv = Math.round(Math.random() * 99)
-
-
-        if (good > gailv) {
-
-            // setTimeout(() => {
-            //     e.reply([
-            //         segment.at(e.us), "\n",
-            //         `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
-            //     ])
-            // }, 4000)
-        }
-
-        else
-            await this.ntrF2(e, e.user_id, e.at)
+        // else {
+        //     setTimeout(() => {
+        //         e.reply(`你的金币数为：${homejson[id].money},\n对方的金币数为：${homejson[e.at].money},\n对方老婆对对方的好感度为：${homejson[e.at].love},决斗输了,你的成功率为：${good}-10%`)
+        //     }, 2000);
+        //     good -= 10
+        // }
+        // if (homejson[e.at].love >= 5000) {
+        //     setTimeout(() => {
+        //         e.reply(`他们之间已是休戚与共,伉俪情深,你是无法夺走他的钱的!`)
+        //     }, 3000);
+        //     await this.ntrF2(e, e.user_id, e.at)
+        // }
+        if (good > gailv) { await this.ntrT2(e, e.user_id, at) }
+        else { await this.ntrF2(e, e.user_id, e.at) }
         await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime6
         });
         return true;
     }
     //抢老婆失败时调用
-    async ntrF(e, jia, yi) {
+    async ntrF(e, jia, yi, key = 'ntr') {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
+        if (key == 'Robbery') pcj = 100 + Math.random * 100
         var jbtime = (pcj - homejson[jia].money) * 10//禁闭时间
         setTimeout(() => {
             e.reply([
@@ -478,78 +435,37 @@ export class qqy extends plugin {
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
     }
     //抢老婆成功时调用
-    async ntrT(e, jia, yi) {
+    async ntrT(e, jia, yi, key = 'ntr') {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if ((homejson[jia].money > (homejson[yi].love * 1.5)) && (homejson[jia].money > homejson[yi].money))
+        if (key == 'ntr') {
+            if ((homejson[jia].money > (homejson[yi].love * 1.5)) && (homejson[jia].money > homejson[yi].money))
+                e.reply([
+                    segment.at(yi), "\n",
+                    `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
+                ])
+            else {
+                e.reply([
+                    segment.at(yi), "\n",
+                    `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
+                ])
+            }
+            homejson[jia].s = homejson[yi].s
+            homejson[jia].love = 6
+            homejson[yi].s = 0
+            homejson[yi].love = 0
+        }
+        if (key == 'Robbery') {
             e.reply([
                 segment.at(yi), "\n",
-                `很遗憾!由于你老婆对你的好感并不是很高,对方又太有钱了!你的老婆被人抢走了!!!`
+                `很遗憾!由于你的疏忽,你的钱抢走了!!!`
             ])
-        else {
-            e.reply([
-                segment.at(yi), "\n",
-                `很遗憾!由于你的疏忽,你的老婆被人抢走了!!!`
-            ])
+            money = 100 + 100 * Math.random()
+            homejson[yi].money -= money
+            homejson[jia].money += money
+
         }
-        homejson[jia].s = homejson[yi].s
-        homejson[jia].love = 6
-        homejson[yi].s = 0
-        homejson[yi].love = 0
-        await akasha_data.getQQYUserHome(id, homejson, filename, true)
-    }
-    async ntrF2(e, jia, yi) {
-        var id = e.user_id
-        var filename = e.group_id + `.json`
-        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
-        var jbtime = (pcj - homejson[jia].money) * 10//禁闭时间
-        setTimeout(() => {
-            e.reply([
-                segment.at(jia), "\n",
-                `对方报警,你需要赔偿${pcj}金币,;金币不足将会被关禁闭`, "\n",
-            ])
-        }, 4000);
-        if (homejson[jia].money < pcj) {
-            homejson[yi].money += homejson[jia].money
-            homejson[jia].money = 0
-            await redis.set(`akasha:wife-jinbi-cd:${e.group_id}:${jia}`, currentTime, {
-                EX: jbtime
-            });
-            setTimeout(() => {
-                e.reply(`恭喜你,你的金币不足,因此赔光了还被关禁闭${jbtime / 60}分`)
-            }, 5000);
-        }
-        if (homejson[jia].money >= pcj) {
-            homejson[yi].money += pcj
-            homejson[jia].money -= pcj
-            setTimeout(() => {
-                e.reply(`你成功清赔款${pcj}金币!`)
-            }, 6000);
-        }
-        await akasha_data.getQQYUserHome(id, homejson, filename, true)
-    }
-    //抢老婆成功时调用
-    async ntrT2(e, jia, yi) {
-        var id = e.user_id
-        var filename = e.group_id + `.json`
-        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        if ((homejson[jia].money > (homejson[yi].love * 1.5)) && (homejson[jia].money > homejson[yi].money))
-            e.reply([
-                segment.at(yi), "\n",
-                `很遗憾!你的100块钱被人抢走了!!!`
-            ])
-        else {
-            e.reply([
-                segment.at(yi), "\n",
-                `很遗憾!由于你的疏忽,你的100块钱被人抢走了!!!`
-            ])
-        }
-        homejson[jia].money += 100
-        // homejson[jia].love = 6
-        // homejson[yi].s = 0
-        homejson[yi].money -= 1000
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
     }
     //愿意
@@ -1640,42 +1556,42 @@ export class qqy extends plugin {
         }
         return is_win;
     }
-    async delerrdata(e){
+    async delerrdata(e) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         let wifearr = []//所有人的的老婆
         //找出所有人的老婆,转为String型
-        for(let data of Object.keys(homejson)){
-            if(await homejson[data].s !== 0)
-            wifearr.push(String(homejson[data].s))
+        for (let data of Object.keys(homejson)) {
+            if (await homejson[data].s !== 0)
+                wifearr.push(String(homejson[data].s))
         }
-        console.log(`所有人的老婆`,wifearr)
+        console.log(`所有人的老婆`, wifearr)
         let memberMap = await e.group.getMemberMap();
         let arrMember = []
-        for(let aaa of memberMap){
+        for (let aaa of memberMap) {
             arrMember.push(String(aaa[1].user_id))
         }
-        console.log(`群成员`,arrMember)
+        console.log(`群成员`, arrMember)
         //找出不在群的老婆
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
-        console.log(`不在的老婆`,deadwife)
+        console.log(`不在的老婆`, deadwife)
         //找出这些已退群的老婆的拥有者
         let widedeadid = Object.keys(homejson).filter(item => deadwife.includes(item))
-        console.log(`这些老婆的拥有者`,widedeadid)
+        console.log(`这些老婆的拥有者`, widedeadid)
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
-        console.log(`不在群的用户`,deadid)
+        console.log(`不在群的用户`, deadid)
         let chick = 0
         //把老婆跑了的用户老婆删除
-        for(let shit of widedeadid){
+        for (let shit of widedeadid) {
             homejson[shit].s = 0
             chick++
         }
         //删掉不在群的用户
         let ikun = 0
-        for(let errid of deadid){
-            delete(homejson[errid])
+        for (let errid of deadid) {
+            delete (homejson[errid])
             ikun++
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
