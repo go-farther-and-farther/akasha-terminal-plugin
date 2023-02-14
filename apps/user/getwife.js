@@ -1632,7 +1632,7 @@ export class qqy extends plugin {
         let random = Math.random() * 100//禁言随机数
         //提示
         e.reply([segment.at(e.user_id),
-        `你的境界为${json[user_id].levelname}\n${user_id2_nickname}的境界为\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win}`]);//发送消息
+        `你的境界为${battlejson[user_id].levelname}\n${user_id2_nickname}的境界为${battlejson[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win}`]);//发送消息
         //判断
         let is_win = false
         if (win > random) {//判断是否成功
@@ -1640,6 +1640,7 @@ export class qqy extends plugin {
         }
         return is_win;
     }
+    //删除错误存档
     async delerrdata(e){
         var id = e.user_id
         var filename = e.group_id + `.json`
