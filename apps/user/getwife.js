@@ -364,7 +364,7 @@ export class qqy extends plugin {
             e.reply(`你有老婆还出来抢钱，不怕她不要你了?`)
             return
         }
-        //var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
+        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
         let UserPAF = battlejson[id].Privilege
         let lastTime = await redis.ttl(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`);
         if (lastTime !== -2 && !UserPAF) {
