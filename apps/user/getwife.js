@@ -342,17 +342,17 @@ export class qqy extends plugin {
             return
         }
         if (!e.at) {
-            e.reply(`你想抢谁的钱呢?at出来!默认你抢银行了`)
+            e.reply(`你想抢谁的钱呢?at出来!默认你抢银行了!`)
             var id2 = "银行"
         }
         // 判断是不是被干掉了
         if (await this.is_killed(e, `ntr`, true) == true) return
         if (homejson[id].money <= 100) {
-            e.reply("虽然但是,对方在这里没有钱啊!(￣_,￣ ),要不你给点?")
+            e.reply(`虽然但是,对方在这里没有钱(${homejson[id].money})啊!(￣_,￣ ),要不你给点?`)
             return
         }
         if (homejson[id].money >= 5000) {
-            e.reply(`你已经有钱了还抢别人的???`)
+            e.reply(`你已经有钱({${homejson[id].money})了还抢别人的???`)
             return
         }
         if (homejson[id].s != 0) {
