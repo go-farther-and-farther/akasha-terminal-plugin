@@ -336,7 +336,7 @@ export class qqy extends plugin {
             "money": 10000,
             "love": 0
         }
-        if (!json.hasOwnProperty('银行')) homejson["银行"] = home_template
+        if (!homejson.hasOwnProperty('银行')) homejson["银行"] = home_template
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
             return
