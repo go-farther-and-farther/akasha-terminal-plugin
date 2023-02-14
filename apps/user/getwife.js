@@ -343,7 +343,7 @@ export class qqy extends plugin {
         }
         if (!e.at) {
             e.reply(`你想抢谁的钱呢?at出来!默认你抢银行了!`)
-            var id2 = "银行"
+            var at = "银行"
         }
         // 判断是不是被干掉了
         if (await this.is_killed(e, `ntr`, true) == true) return
@@ -351,7 +351,7 @@ export class qqy extends plugin {
             e.reply('银行没钱了，上面拨款了！')
             homejson['银行'].money = 1000
         }
-        if (homejson[id].money <= 100) {
+        if (homejson[at].money <= 100) {
             e.reply(`虽然但是,对方在这里没有钱(${homejson[id].money})啊!(￣_,￣ ),要不你给点?`)
             return
         }
