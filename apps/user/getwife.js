@@ -1262,7 +1262,7 @@ export class qqy extends plugin {
                 var she_he = await this.people(e, 'sex', Number(i))
                 msg.push([
                     `[${namelist[i]}]`,
-                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[i]}`)
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[i]}`),
                     `和${she_he}的老婆[${namelist[homejson[i].s]}]`,
                     segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[i].s]}`)
                 ])
