@@ -411,8 +411,10 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
-        if (key == 'Robbery') pcj = 100 + Math.random * 100
+        if (key == 'ntr') {
+            var pcj = Math.round((homejson[yi].love / 10) + (homejson[jia].money / 3) + 100)//赔偿金
+        }
+        if (key == 'Robbery') { pcj = 100 + Math.random * 100 }
         var jbtime = (pcj - homejson[jia].money) * 10//禁闭时间
         setTimeout(() => {
             e.reply([
