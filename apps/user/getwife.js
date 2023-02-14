@@ -117,7 +117,7 @@ export class qqy extends plugin {
             },
             {
                 reg: '^#?(群cp|cp列表)$',
-                fnc: 'cp'
+                fnc: 'cplist'
             },
             {
                 reg: '^#?领取低保$',
@@ -1240,7 +1240,7 @@ export class qqy extends plugin {
         return true;
     }
     //查看本群所有cp
-    async cp(e) {
+    async cplist(e) {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
@@ -1262,7 +1262,23 @@ export class qqy extends plugin {
                 msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
             }
         }
-        e.reply(msg)
+        let ForwardMsg;
+        if (e.isGroup) {
+            ForwardMsg = await e.group.makeForwardMsg(msg);
+        }
+        else {
+            ForwardMsg = await e.friend.makeForwardMsg(msg);
+        }
+        // 置换合并转发中的特定文本
+        let regExp = /<summary color=\"#808080\" size=\"26\">查看(\d+)条转发消息<\/summary>/g;
+        let res = regExp.exec(ForwardMsg.data);
+        console.log(res);
+        let pcs = res[1];
+        ForwardMsg.data = ForwardMsg.data.replace(/<msg brief="\[聊天记录\]"/g, `<msg brief=\"[${brief ? brief : "聊天记录"}]\"`)
+            .replace(/<title color=\"#000000\" size=\"34\">转发的聊天记录<\/title>/g, `<title color="#000000" size="34">${title ? title : "群聊的聊天记录"}</title>`)
+            .replace(/<summary color=\"#808080\" size=\"26\">查看(\d+)条转发消息<\/summary>/g, `<summary color="#808080" size="26">${summary ? summary : `查看${pcs}条转发消息`}</summary>`);
+
+        e.reply(ForwardMsg);//回复消息
         return true;
     }
     //500以内可以领取低保
