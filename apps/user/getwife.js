@@ -1264,8 +1264,8 @@ export class qqy extends plugin {
             }
         }
         // 转发发送
-        Config.getforwardMsg(msg,e)
-        e.reply(msg);//回复消息
+        let forwardMsg = [msg]
+        Config.getforwardMsg(forwardMsg,e)
         return true;
     }
     //500以内可以领取低保
