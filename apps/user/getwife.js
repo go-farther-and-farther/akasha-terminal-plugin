@@ -1245,7 +1245,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
-        let msg = `群全部cp:\n`
+        let msg = [`群全部cp:`]
         let memberMap = await e.group.getMemberMap();
         let arrMember = Array.from(memberMap.values());
         let idlist = []
@@ -1260,11 +1260,16 @@ export class qqy extends plugin {
         for (let i of Object.keys(homejson)) {
             if (idlist.includes(homejson[i].s)) {
                 var she_he = await this.people(e, 'sex', Number(i))
-                msg = msg + `[${namelist[i]}]和${she_he}的老婆[${namelist[homejson[i].s]}]\n`
+                msg.push([
+                    `[${namelist[i]}]`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[i]}`)
+                    `和${she_he}的老婆[${namelist[homejson[i].s]}]`,
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[i].s]}`)
+                ])
             }
         }
         // 转发发送
-        let forwardMsg = [msg]
+        let forwardMsg = msg
         Config.getforwardMsg(forwardMsg,e)
         return true;
     }
