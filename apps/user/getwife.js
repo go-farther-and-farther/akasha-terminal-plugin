@@ -347,6 +347,10 @@ export class qqy extends plugin {
         }
         // 判断是不是被干掉了
         if (await this.is_killed(e, `ntr`, true) == true) return
+        if (homejson['银行'].money <= 100) {
+            e.reply('银行没钱了，上面拨款了！')
+            homejson['银行'].money = 1000
+        }
         if (homejson[id].money <= 100) {
             e.reply(`虽然但是,对方在这里没有钱(${homejson[id].money})啊!(￣_,￣ ),要不你给点?`)
             return
