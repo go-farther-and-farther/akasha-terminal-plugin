@@ -117,6 +117,10 @@ export class qqy extends plugin {
                 fnc: 'touch'
             },
             {
+                reg: '^#?开始银啪$',
+                fnc: 'fk'
+            },
+            {
                 reg: '^#?(群cp|cp列表)$',
                 fnc: 'cplist'
             },
@@ -256,6 +260,33 @@ export class qqy extends plugin {
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
         return true;
     }
+    //银啪
+    async fk(e){
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
+        if(!homejson[id].s) return e.reply(`你没有老婆,也没有小妾,你隔这开什么inpact??导管吗`)
+        if(homejson[id].s && !(inpajson[id].fuck).includes(homejson[id].s))
+          inpajson[id].fuck.push(homejson[id].s)
+        var ren = 0
+        for(let ren of inpajson[id].fuck){
+            ren++
+        }
+        let msg = []
+        if(!inpajson[id].kun){
+          inpajson[id].kun = Math.random(Math.random()*11 + 1)
+          msg.push(`你还没有牛牛,让神赐予你吧`)
+          msg.push(`恭喜你,你的牛牛初始值为${inpajson[id].kun}cm`)
+        }
+        let kunup = ren * (Math.random(Math.random()*1 + 1)/10)
+        inpajson[id].kun += kunup
+        inpajson[id].fucktime++
+        msg.push(`这是银啪剧情,目前还没写`)
+        msg.push(`你本次邀请了${ren}位群友参加银啪,\n牛牛长长了${kunup}cm,\n目前为${inpajson[id].kun}cm`)
+        await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
+        Config.getforwardMsg(msg, e)
+}
     //抢老婆
     async ntr(e) {
         var id = e.user_id
@@ -1388,6 +1419,7 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var placejson = await akasha_data.getQQYUserPlace(id, placejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
     }
     //看看你是哪些人的老婆函数
     async is_wife(e, id) {

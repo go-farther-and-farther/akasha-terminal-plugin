@@ -2,6 +2,7 @@ import fs from "fs";
 const dirpath = "plugins/akasha-terminal-plugin/data"
 const QQYpath = "plugins/akasha-terminal-plugin/data/qylp"
 const QQYhomepath = "plugins/akasha-terminal-plugin/data/qylp/UserHome"
+const QQYincapath = "plugins/akasha-terminal-plugin/data/qylp/UserYinPa"
 const QQYplacepath = "plugins/akasha-terminal-plugin/data/qylp/UserPlace"
 const QQYhousepath = "plugins/akasha-terminal-plugin/data/qylp/UserHouse"
 //这两个函数都是用来读取和保存json数据的
@@ -104,6 +105,35 @@ async function getQQYUserPlace(id, json, filename, is_save) {
         return json;
     }
 }
+async function getQQYUserxiaoqie(id, json, filename, is_save){
+    if (!is_save) {
+        if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYpath);//创建文件夹
+        }
+        if (!fs.existsSync(QQYincapath)) {//如果文件夹不存在
+            fs.mkdirSync(QQYincapath);//创建文件夹
+        }
+        if (!fs.existsSync(QQYincapath + "/" + filename)) {//如果文件不存在
+            fs.writeFileSync(QQYincapath + "/" + filename, JSON.stringify({//创建文件
+            }));
+        }
+        var json = JSON.parse(fs.readFileSync(QQYincapath + "/" + filename, "utf8"));//读取文件
+        if (!json.hasOwnProperty(id)) {//如果json中不存在该用户
+            let place_template = {
+                "fuck": [],
+                "fucktime": 0,
+                "kun": 0
+            }
+            json[id] = place_template
+            fs.writeFileSync(QQYincapath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        }
+        return json;
+    }
+    else {
+        fs.writeFileSync(QQYincapath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
+        return json;
+    }
+}
 async function getQQYUserHome(id, json, filename, is_save) {
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
@@ -178,4 +208,4 @@ async function getQQYUserHouse(id, json, filename, is_save) {
         return json;
     }
 }
-export default { getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserHome, getQQYUserHouse, getUser2 }
+export default { getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserxiaoqie, getQQYUserHome, getQQYUserHouse, getUser2 }
