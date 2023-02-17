@@ -269,10 +269,7 @@ export class qqy extends plugin {
         if(!homejson[id].s) return e.reply(`你没有老婆,也没有小妾,你隔这开什么inpact??导管吗`)
         if(homejson[id].s && !(inpajson[id].fuck).includes(homejson[id].s))
           inpajson[id].fuck.push(homejson[id].s)
-        var ren = 0
-        for(let ren of inpajson[id].fuck){
-            ren++
-        }
+        var ren = (inpajson[id].fuck).length
         let msg = []
         if(!inpajson[id].kun){
           inpajson[id].kun = Math.round(Math.random()*11 + 1)
