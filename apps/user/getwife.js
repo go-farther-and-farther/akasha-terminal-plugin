@@ -275,11 +275,11 @@ export class qqy extends plugin {
         }
         let msg = []
         if(!inpajson[id].kun){
-          inpajson[id].kun = Math.random(Math.random()*11 + 1)
+          inpajson[id].kun = Math.round(Math.random()*11 + 1)
           msg.push(`你还没有牛牛,让神赐予你吧`)
           msg.push(`恭喜你,你的牛牛初始值为${inpajson[id].kun}cm`)
         }
-        let kunup = ren * (Math.random(Math.random()*1 + 1)/10)
+        let kunup = ren * (Math.round(Math.random()*1 + 1)/10)
         inpajson[id].kun += kunup
         inpajson[id].fucktime++
         msg.push(`这是银啪剧情,目前还没写`)
