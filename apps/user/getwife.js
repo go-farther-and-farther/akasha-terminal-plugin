@@ -783,9 +783,7 @@ export class qqy extends plugin {
             //用is_she函数获取昵称
             var name = await this.people(e, 'nickname', homejson[id].s)
             //你的老婆和好感度
-            var msg_love2 = [
-                `${she_he}对你的好感度为：${homejson[id].love}\n`
-            ]
+            var msg_love2 = `${she_he}对你的好感度为：${homejson[id].love}\n`
             //两情相悦的
             if (iswife_list.includes(Number(homejson[id].s))) {
                 let mywife = homejson[id].s
@@ -827,8 +825,8 @@ export class qqy extends plugin {
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
                 msgstart,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n",
+                msg_love2,
                 msg_love3,
-                msg_love2
             ])
             msg.push(msg_love)
             msg.push(msg_house)
