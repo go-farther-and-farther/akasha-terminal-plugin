@@ -598,10 +598,6 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
         if (await this.is_killed(e, `wife`, false) == true) return
-        if (!homejson[id].s == 0) {
-            e.reply(`你似乎已经有爱人了,要不分手?`)
-            return
-        }
         if (homejson[id].money <= 30) {
             e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
             return
@@ -818,31 +814,36 @@ export class qqy extends plugin {
             msg_love = msg_love + `快去处理一下吧\n`
         }
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
-        //其他信息
-        let msg2 = msg_love3 + msg_love2 + msg_love + msg_house
         //查询银啪人员
         let inpamsg = [`可以与你银啪的有\n`]
         for(let inpa of inpajson[id].fuck){
             inpamsg.push(`${inpa}\n`)
         }
+        var msg = []
         //最后回复信息
         if (homejson[id].s !== 0) {
-            e.reply([
+            msg.push([
                 segment.at(id), "\n",
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
                 msgstart,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n",
-                msg2,
-                inpamsg
+                msg_love3,
+                msg_love2
             ])
+            msg.push(msg_love)
+            msg.push(msg_house)
+            msg.push(inpamsg)
+            Config.getforwardMsg(msg, e)
         }
         else {
-            let msg = msgstart + msg_love + msg_house
-            e.reply([
+            msg.push([
                 segment.at(id), "\n",
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
-                msg,
+                msgstart,
             ])
+            msg.push(msg_love)
+            msg.push(msg_house)
+            Config.getforwardMsg(msg, e)
         }
 
         return true;
