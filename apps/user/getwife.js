@@ -157,6 +157,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
         if (!e.at && !e.atme) {
             e.reply(`请at你的情人哦`)
             return
@@ -202,28 +203,15 @@ export class qqy extends plugin {
         else if (sex == 'female') {
             ex = '先生'
         }
-        if (!homejson[id].s == 0) {
-            e.reply(`你似乎已经有老婆了,要不分手?`)
-            return
-        }
         if (e.msg.includes("强娶")) {
             if (homejson[id].money <= 50) {
                 e.reply(`金币不足,你只剩下${homejson[id].money}金币了...还是去打工赚钱吧!`)
                 return
             }
+            if(homejson[id].s == e.at || (inpajson[id].fuck).includes(e.at))
+              return e.reply(`对方已经属于你了哦`)
             var gailv = Math.round(Math.random() * 9);
             if (gailv < qqwife || UserPAF) {
-                homejson[id].s = e.at
-                let user_id2_nickname = null
-                for (let msg of e.message) { //赋值给user_id2_nickname
-                    if (msg.type === 'at') {
-                        user_id2_nickname = msg.text//获取at的那个人的昵称
-                        break;
-                    }
-                }
-                user_id2_nickname = user_id2_nickname.replace('@', '')
-                homejson[id].money -= 50
-                homejson[id].love = Math.round(Math.random() * (40 - 10) + 10)
                 e.reply([
                     segment.at(id), "\n",
                     segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${id}`), "\n",
@@ -234,6 +222,14 @@ export class qqy extends plugin {
                 await redis.set(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
+                if (!homejson[id].s == 0) {
+                    e.reply(`你已经有老婆了,你可以纳妾!?,这位${name}就成功被你纳入了!`)
+                    inpajson[id].fuck.push(e.at)
+                }
+                else if(!homejson[id].s){
+                  homejson[id].s = e.at
+                  homejson[id].love = Math.round(Math.random() * (40 - 10) + 10)
+                }
             }
             else if (gailv >= qqwife) {
                 var sbcf = Math.round(Math.random() * (20 - 10) + 10)
@@ -243,7 +239,9 @@ export class qqy extends plugin {
                     EX: cdTime2
                 });
             }
+            homejson[id].money -= 50
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
+            await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
             return
         }
         e.reply([
@@ -517,6 +515,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
         if (await this.is_killed(e, `yy`, false) == true) return
         if (e.atme || e.atall) {
             e.reply(`6🙂`)
@@ -535,22 +534,30 @@ export class qqy extends plugin {
             e.reply(`你不是${homejson[id].wait},就不要捣乱了`)
             return
         }
-        e.reply([
-            segment.at(e.user_id), "\n",
-            segment.at(id), "\n",
-            '相亲相爱幸福永，同德同心幸福长。愿你俩情比海深！祝福你们新婚愉快，幸福美满，激情永在，白头偕老！',
-        ])
-        homejson[id].s = e.user_id
-        homejson[id].wait = 0
-        homejson[id].money += 20
-        homejson[id].love = Math.round(Math.random() * (100 - 60) + 60)
-        id = e.user_id
-        homejson[id].s = e.at
-        homejson[id].wait = 0
-        homejson[id].money += 20
-        homejson[id].love = Math.round(Math.random() * (100 - 60) + 60)
+        if (!homejson[id].s == 0) {
+            e.reply(`对方已经有老婆了,所以你成为了对方的小妾!!!`)
+            inpajson[id].fuck.push(e.user_id)
+            homejson[id].wait = 0
+        }
+        else if(!homejson[id].s){
+          e.reply([
+              segment.at(e.user_id), "\n",
+              segment.at(id), "\n",
+              '相亲相爱幸福永，同德同心幸福长。愿你俩情比海深！祝福你们新婚愉快，幸福美满，激情永在，白头偕老！',
+          ])
+          homejson[id].s = e.user_id
+          homejson[id].wait = 0
+          homejson[id].money += 20
+          homejson[id].love = Math.round(Math.random() * (100 - 60) + 60)
+          id = e.user_id
+          homejson[id].s = e.at
+          homejson[id].wait = 0
+          homejson[id].money += 20
+          homejson[id].love = Math.round(Math.random() * (100 - 60) + 60)
+          e.reply(`既然你们是两情相愿,你们现在的老婆就是彼此啦,给你们发了红包哦`)
+        }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
-        e.reply(`既然你们是两情相愿,你们现在的老婆就是彼此啦,给你们发了红包哦`)
+        await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
         return true;
     }
     //拒绝
@@ -589,6 +596,7 @@ export class qqy extends plugin {
         var id = e.user_id
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
         if (await this.is_killed(e, `wife`, false) == true) return
         if (!homejson[id].s == 0) {
             e.reply(`你似乎已经有爱人了,要不分手?`)
@@ -675,9 +683,15 @@ export class qqy extends plugin {
                 `来自【${e.group_name}】`, "\n",
                 `要好好对待${she_he}哦！`,
             ]
-            homejson[id].s = wife.user_id
-            homejson[id].money -= 30
-            homejson[id].love = Math.round(Math.random() * (70 - 1) + 1)
+            if (!homejson[id].s == 0) {
+                e.reply(`你已经有老婆了,对方成为了你的小妾!!!`)
+                inpajson[id].fuck.push(wife.user_id)
+            }
+            else if(!homejson[id].s){    
+              homejson[id].s = wife.user_id
+              homejson[id].money -= 30
+              homejson[id].love = Math.round(Math.random() * (70 - 1) + 1)
+            }
             await redis.set(`akasha:whois-my-wife-cd:${e.group_id}:${e.user_id}`, currentTime, {
                 EX: cdTime
             });
@@ -694,6 +708,7 @@ export class qqy extends plugin {
             });
         }
         await akasha_data.getQQYUserHome(id, homejson, filename, true)
+        await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
         e.reply(msg);
         return true;
     }
@@ -748,6 +763,7 @@ export class qqy extends plugin {
         //读取家庭和房子信息
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
         //如果有人被@
         if (e.at) id = e.at
         //获取你是哪些人的老婆
@@ -804,6 +820,11 @@ export class qqy extends plugin {
         else msg_love = '喜欢你但是你不喜欢的人有：\n一个也没有\n'
         //其他信息
         let msg2 = msg_love3 + msg_love2 + msg_love + msg_house
+        //查询银啪人员
+        let inpamsg = [`可以与你银啪的有\n`]
+        for(let inpa of inpajson[id].fuck){
+            inpamsg.push(`${inpa}\n`)
+        }
         //最后回复信息
         if (homejson[id].s !== 0) {
             e.reply([
@@ -811,7 +832,8 @@ export class qqy extends plugin {
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[id]}`), "\n",
                 msgstart,
                 segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${[homejson[id].s]}`), "\n",
-                msg2
+                msg2,
+                inpamsg
             ])
         }
         else {

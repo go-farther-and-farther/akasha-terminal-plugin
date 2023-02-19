@@ -74,6 +74,18 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 
   </details>
 
+  <h1 align="center"><i>面向未来🕰!</i></h1>
+  <details><summary align="center">展开说明</summary>
+
+  |将实现   |描述   |
+  |---|---|
+  |银啪   |奇妙的银啪剧情     |
+  |银啪成员管理   |不想与谁银啪?踢了ta   |
+  |商城&合成系统   |合成物品   |
+  |房屋容量   |家具?图形化房屋   |
+
+  </details>
+
 #### 常见问题
 
   <details><summary>展开</summary>
