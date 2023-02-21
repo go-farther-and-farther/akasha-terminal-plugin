@@ -1408,7 +1408,7 @@ export class qqy extends plugin {
                 ])
                 homejson[id].money -= shifu
                 homejson[id2].money += yingfu
-                homejson[id2].love += Math.round((yingfu / 10) * housejson[id].loveup)
+                homejson[id].love += Math.round((yingfu / 10) * housejson[id].loveup)
                 akasha_data.getQQYUserHome(id, homejson, filename, true)
             }
         }, 1500)
