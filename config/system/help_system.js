@@ -130,6 +130,10 @@ export const helpList = [{
     desc: '让对方失去你这个老婆'
   }, {
     icon: 20,
+    title: '退出/踢出银啪@群友',
+    desc: '退出别人的银啪队伍或把别人踢出自己的队伍'
+  }, {
+    icon: 20,
     title: '打工赚钱',
     desc: '有些事,是需要代价的'
   }, {
@@ -148,6 +152,10 @@ export const helpList = [{
     icon: 20,
     title: '抱抱@老婆',
     desc: '抱抱增加好感度'
+  }, {
+    icon: 20,
+    title: '开始银啪',
+    desc: '?'
   }, {
     icon: 20,
     title: '群cp',

@@ -65,6 +65,14 @@ export class qqy extends plugin {
                 fnc: 'breakup'
             },
             {
+                reg: '^#?踢出银啪$',
+                fnc: 'nofuck'
+            },
+            {
+                reg: '^#?退出银啪$',
+                fnc: 'fuckno'
+            },
+            {
                 reg: '^#?(家庭信息|我的(老婆|老公|对象))(.*)$',
                 fnc: 'read'
             },
@@ -748,6 +756,32 @@ export class qqy extends plugin {
         e.reply(`你不是${she_he}老婆或${she_he}根本没老婆`)
         return true;
     }
+    //移除自己的银啪成员
+    async nofuck(e){
+        if (!e.at) {
+            e.reply(`请at你不想邀请银啪的人`)
+            return
+        }
+        var id = e.user_id
+        var filename = e.group_id + `.json`
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
+        inpajson[id].fuck = (inpajson[id].fuck).filter(item => item != e.at)//去掉老婆
+        await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
+        e.reply(`${e.at}已被你踢出了银啪!`)
+    }
+    //退出他人的银啪行列
+    async fuckno(e){
+        if (!e.at) {
+            e.reply(`请at你不想加入银啪的人`)
+            return
+        }
+        var id = e.at
+        var filename = e.group_id + `.json`
+        var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
+        inpajson[id].fuck = (inpajson[id].fuck).filter(item => item != e.user_id)//去掉老婆
+        await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
+        e.reply(`你成功退出了${e.at}的银啪!`)
+    }
     //家庭信息，可以@别人
     async read(e) {
         if (e.atme || e.atall) {
@@ -817,6 +851,7 @@ export class qqy extends plugin {
         for(let inpa of inpajson[id].fuck){
             inpamsg.push(`${inpa}\n`)
         }
+        inpamsg.push(`你已经发起了${inpajson[id].fucktime}`)
         var msg = []
         //最后回复信息
         if (homejson[id].s !== 0) {

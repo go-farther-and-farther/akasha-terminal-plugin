@@ -56,6 +56,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
   |花金币   |钱不能白赚   |
   |随机事件   |处处有惊喜   |
   |查看家庭   |看看和群友构建的家   |
+  |开银啪   |牛牛冲!   |
   |更多功能   |敬请期待。或提交Issues   |
 
   </details>
@@ -80,7 +81,6 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
   |将实现   |描述   |
   |---|---|
   |银啪   |奇妙的银啪剧情     |
-  |银啪成员管理   |不想与谁银啪?踢了ta   |
   |商城&合成系统   |合成物品   |
   |房屋容量   |家具?图形化房屋   |
 
