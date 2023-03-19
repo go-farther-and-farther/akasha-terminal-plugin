@@ -1,6 +1,6 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from 'fs'
-import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+import puppeteer from '../../../../lib/puppeteer/puppeteer.js'
 export class MIX extends plugin {
     constructor() {
         super({
