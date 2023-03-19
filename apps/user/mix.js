@@ -1,8 +1,6 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from 'fs'
-const path = 'plugins/akasha-terminal-plugin/resources/qylp/mix.html'
-import puppeteer from '../../model/robot/puppeteer/puppeteer.js'
-import { segment } from "oicq";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 export class MIX extends plugin {
     constructor() {
         super({
@@ -19,7 +17,12 @@ export class MIX extends plugin {
         })
     }
     async mixbox(e){
-        var data = fs.readFileSync(path, "utf8")
-        await puppeteer.screenshot("mixbox", data)
+        var data = {
+            file: './plugins/akasha-terminal-plugin/resources/qylp/mix.html'
+        }
+        var img = await puppeteer.screenshot("mixbox", {
+            ...data
+        })
+        e.reply(img)
     }
 }
