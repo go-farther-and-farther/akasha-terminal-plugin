@@ -1420,7 +1420,7 @@ export class qqy extends plugin {
         }
         var msg = e.msg.replace(/(上交存款|#)/g, "").replace(/[\n|\r]/g, "，").trim()
         var id2 = homejson[id].s
-        var homejson = await akasha_data.getQQYUserHome(id2, homejson, filename, false)  //给老婆创建存档
+        homejson = await akasha_data.getQQYUserHome(id2, homejson, filename, false)  //给老婆创建存档
         var yingfu = Math.round(msg)
         var shifu = Math.round(yingfu * 1.1)
         e.reply([
@@ -1445,6 +1445,7 @@ export class qqy extends plugin {
                 homejson[id2].money += yingfu
                 homejson[id].love += Math.round((yingfu / 10) * housejson[id].loveup)
                 akasha_data.getQQYUserHome(id, homejson, filename, true)
+                akasha_data.getQQYUserHome(id2, homejson, filename, true)
             }
         }, 1500)
         return true;
@@ -1686,7 +1687,7 @@ export class qqy extends plugin {
         let deadwife = wifearr.filter(item => !arrMember.includes(item))
         console.log(`不在的老婆`, deadwife)
         //找出这些已退群的老婆的拥有者
-        let widedeadid = Object.keys(homejson).filter(item => deadwife.includes(item))
+        let widedeadid = Object.keys(homejson).filter(item => deadwife.includes(String(homejson[item].s)))
         console.log(`这些老婆的拥有者`, widedeadid)
         //找出不在群的用户
         let deadid = Object.keys(homejson).filter(item => !arrMember.includes(item))
