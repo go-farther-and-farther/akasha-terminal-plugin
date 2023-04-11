@@ -1,6 +1,5 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from "fs";
-import { segment } from "oicq";
 const dirpath = "plugins/akasha-terminal-plugin/data/UserData";//文件夹路径
 const dirpath2 = "plugins/akasha-terminal-plugin/resources/weapon/weapon.json";
 let Template = {//创建该用户
@@ -19,7 +18,6 @@ export class drawcard extends plugin {
             name: '虚空武器抽卡',
             /** 功能描述 */
             dsc: '',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 1000,
@@ -53,7 +51,6 @@ export class drawcard extends plugin {
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async weaponWarehouse(e) {
         var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));

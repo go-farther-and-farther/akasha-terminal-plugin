@@ -12,7 +12,6 @@ export class getconfig extends plugin {
             name: '点赞',
             /** 功能描述 */
             dsc: '',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 1000,
@@ -34,7 +33,6 @@ export class getconfig extends plugin {
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async command(e) {
         if (!e.isMaster) {

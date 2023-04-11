@@ -1,5 +1,4 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
-import { segment } from "oicq";
 import fs from "fs";
 import command from '../../components/command.js'
 //项目路径
@@ -24,7 +23,6 @@ export class duel extends plugin {//决斗
 			name: '决斗',
 			/** 功能描述 */
 			dsc: '',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 1000,
@@ -46,7 +44,6 @@ export class duel extends plugin {//决斗
 	}
 	/**
 	 * 
-	 * @param e oicq传递的事件参数e
 	 */
 	//e.msg 用户的命令消息
 	async Magnification_(e) {
@@ -68,7 +65,6 @@ export class duel extends plugin {//决斗
 	}
 	/**
 	 * 
-	 * @param e oicq传递的事件参数e
 	 */
 	//e.msg 用户的命令消息
 	async duel(e) {

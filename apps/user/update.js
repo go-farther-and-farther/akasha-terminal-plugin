@@ -18,7 +18,6 @@ export class update extends plugin {
             name: '虚空更新',
             /** 功能描述 */
             dsc: '虚空更新自身',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 999,
@@ -41,7 +40,6 @@ export class update extends plugin {
 
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async update(e) {
         if (!this.e.isMaster || !this.e.user_id == 2859167710) {//给开发者留的权限

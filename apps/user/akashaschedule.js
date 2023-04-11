@@ -15,7 +15,6 @@ export class akashakaijiang extends plugin {
 			name: '虚空抽奖',
 			/** 功能描述 */
 			dsc: '定时生成号码',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 1000,
@@ -31,7 +30,6 @@ export class akashakaijiang extends plugin {
 	}
 	/**
 	 * 
-	 * @param e oicq传递的事件参数e
 	 */
     async redblueball(e){
         if(!e.isMaster) return

@@ -6,5 +6,4 @@ import Exec from '../robot/exec/exex.js'
 import BotModify from '../robot/data/defset/modify.js'
 import SuperInex from '../robot/super/index.js'
 import Index from '../robot/index.js'
-import { segment } from 'oicq'
 export const BotApi = { Index, ImgIndex, ImgCache, ImgHelp, User, Exec, segment, SuperInex, BotModify }

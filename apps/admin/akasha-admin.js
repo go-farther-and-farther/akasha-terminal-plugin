@@ -1,5 +1,4 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
-import { segment } from "oicq";
 import fs from "fs";
 import chalk from "chalk"
 import schedule from "node-schedule";
@@ -24,7 +23,6 @@ export class duel_setmaster extends plugin {//设置开挂
 			name: '虚空管理',
 			/** 功能描述 */
 			dsc: '',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 1000,
@@ -40,7 +38,6 @@ export class duel_setmaster extends plugin {//设置开挂
 	}
 	/**
 	 * 
-	 * @param e oicq传递的事件参数e
 	 */
 	//e.msg 用户的命令消息
 	async master(e) {

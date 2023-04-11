@@ -22,7 +22,6 @@ export class duel_seelevel extends plugin {
             name: '我的等级',
             /** 功能描述 */
             dsc: '',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 1000,
@@ -42,7 +41,6 @@ export class duel_seelevel extends plugin {
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async seelevel(e) {
         let user_id = e.user_id;

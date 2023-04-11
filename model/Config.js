@@ -1,5 +1,4 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'oicq'
 import cfg from '../../../lib/config/config.js'
 import common from '../../../lib/common/common.js'
 import fs from 'fs'
@@ -87,7 +86,6 @@ class Config {
     /**
      * @description: 
      * @param {Array} message 发送的消息
-     * @param {*} e oicq
      * @return {*} 
      */
     async getforwardMsg(message, e) {

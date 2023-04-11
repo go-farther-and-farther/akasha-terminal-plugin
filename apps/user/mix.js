@@ -6,7 +6,6 @@ export class MIX extends plugin {
         super({
             name: '娶群友',
             dsc: '娶群友',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             priority: 66,
             rule: [{

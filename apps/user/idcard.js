@@ -1,6 +1,5 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import cfg from '../../../../lib/config/config.js'
-import { segment } from "oicq";
 import moment from "moment"
 import akasha_data from '../../components/akasha_data.js'
 const cdTime = 60 //默认为1分钟
@@ -9,7 +8,6 @@ export class idcard extends plugin {
         super({
             name: '查水表',
             dsc: '查水表',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             priority: 66,
             rule: [{

@@ -2,7 +2,6 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from 'fs'
 import Config from '../../model/Config.js'
-import { segment } from "oicq";
 import moment from "moment"
 import command from '../../components/command.js'
 import akasha_data from '../../components/akasha_data.js'
@@ -29,7 +28,6 @@ export class qqy extends plugin {
         super({
             name: '娶群友',
             dsc: '娶群友',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             priority: 66,
             rule: [{

@@ -1,5 +1,4 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
-import { segment } from "oicq";
 import fs from "fs";
 import cfg from '../../../../lib/config/config.js'
 import moment from "moment"
@@ -26,7 +25,6 @@ export class duel_exercise extends plugin {//修炼
             name: '修炼',
             /** 功能描述 */
             dsc: '',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 1000,
@@ -54,14 +52,12 @@ export class duel_exercise extends plugin {//修炼
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async list(e) {
         e.reply("小乘境初期\n小乘境中期\n小乘境后期\n小乘境巅峰\n大乘境初期\n大乘境中期\n大乘境后期\n大乘境巅峰\n宗师境初期\n宗师境中期\n宗师境后期\n宗师境巅峰\n至臻境初期\n至臻境中期\n至臻境后期\n至臻境巅峰\n返璞归真")
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async break(e) {
         console.log("用户命令：", e.msg); console.log("用户命令：", e.msg);
@@ -235,7 +231,6 @@ export class duel_exercise extends plugin {//修炼
     }
     /**
      * 
-     * @param e oicq传递的事件参数e
      */
     async exercise(e) {
         console.log("用户命令：", e.msg);

@@ -1,7 +1,6 @@
 import { BotApi, AlemonApi, plugin } from '../../model/api/api.js'
 import fs from 'fs'
 import lodash from 'lodash'
-import { segment } from "oicq";
 import puppeteer from '../../../../lib/puppeteer/puppeteer.js'
 import cfg from '../../../../lib/config/config.js'
 import { Cfg, Common, Data, Version, Plugin_Name, Plugin_Path } from '../../components/index.js'
@@ -14,7 +13,6 @@ export class akasha_help extends plugin {
       name: '虚空插件_帮助',
       /** 功能描述 */
       dsc: '',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
       priority: 2000,
