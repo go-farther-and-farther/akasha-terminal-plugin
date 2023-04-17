@@ -6,4 +6,4 @@ import Exec from '../robot/exec/exex.js'
 import BotModify from '../robot/data/defset/modify.js'
 import SuperInex from '../robot/super/index.js'
 import Index from '../robot/index.js'
-export const BotApi = { Index, ImgIndex, ImgCache, ImgHelp, User, Exec, uperInex, BotModify }
+export const BotApi = { Index, ImgIndex, ImgCache, ImgHelp, User, Exec, SuperInex, BotModify }
