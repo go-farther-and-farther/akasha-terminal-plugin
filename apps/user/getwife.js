@@ -11,6 +11,7 @@ let Magnification = await command.getConfig("duel_cfg", "Magnification");
 const giftpath = `plugins/akasha-terminal-plugin/resources/qylp/giftthing.json`
 const housepath = `plugins/akasha-terminal-plugin/resources/qylp/house.json`
 const lotterypath = `plugins/akasha-terminal-plugin/resources/qylp/lottery.json`
+const inpapath = `plugins/akasha-terminal-plugin/resources/qylp/inpa.json`
 const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 let cdTime = Number(await command.getConfig("wife_cfg", "sjcd")) * 60;//随机娶群友冷却
 let cdTime2 = Number(await command.getConfig("wife_cfg", "qqcd")) * 60;//强娶冷却
@@ -270,6 +271,7 @@ export class qqy extends plugin {
         var filename = e.group_id + `.json`
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var inpajson = await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, false)
+        var inpathing = JSON.parse(fs.readFileSync(inpapath, "utf8"));//读取位置资源文件
         if(!homejson[id].s) return e.reply(`你没有老婆,也没有小妾,你隔这开什么inpact??导管吗`)
         if(homejson[id].s && !(inpajson[id].fuck).includes(homejson[id].s))
           inpajson[id].fuck.push(homejson[id].s)
@@ -283,7 +285,11 @@ export class qqy extends plugin {
         let kunup = ren * (Math.round(Math.random()*1 + 1)/10)
         inpajson[id].kun += kunup
         inpajson[id].fucktime++
-        msg.push(`这是银啪剧情,目前还没写`)
+        let wifename = await this.people(e, nickname, homejson[id].s)
+        let username = await this.people(e, nickname, id)
+        let inpajq = await (inpathing.test).replace(/wife1/g, wifename)
+        inpajq = await inpajq.replace(/user/g, username)
+        msg.push(inpajq)
         msg.push(`你本次邀请了${ren}位群友参加银啪,\n牛牛长长了${kunup}cm,\n目前为${inpajson[id].kun}cm`)
         await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
         Config.getforwardMsg(msg, e)

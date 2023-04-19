@@ -96,6 +96,9 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
   - xxx is not defined
   - #重置虚空配置后重启
 
+  - cd怎么改啊,怎么改配置啊
+  - config文件夹里
+  
   - 娶群友相关功能出现cannot read ... (reading"sex"或者'nickname')
   - 有人老婆或本人退群导致,使用#虚空清除无效存档,即可
 
