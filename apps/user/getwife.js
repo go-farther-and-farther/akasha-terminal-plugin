@@ -288,6 +288,8 @@ export class qqy extends plugin {
         let wifename = await this.people(e, "nickname", homejson[id].s)
         let username = await this.people(e, "nickname", id)
         let inpajq = await inpathing.test[Math.round(Math.random() * ((Object.keys(inpathing.test)).length - 1) + 1)]
+        console.log(inpathing.test)
+        console.log(Object.keys(inpathing.test))
         console.log(inpajq)
         inpajq = await inpajq.replace(/user/g, username)
         inpajq = await inpajq.replace(/wife1/g, wifename)
