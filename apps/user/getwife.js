@@ -285,8 +285,8 @@ export class qqy extends plugin {
         let kunup = ren * (Math.round(Math.random()*1 + 1)/10)
         inpajson[id].kun += kunup
         inpajson[id].fucktime++
-        let wifename = await this.people(e, nickname, homejson[id].s)
-        let username = await this.people(e, nickname, id)
+        let wifename = await this.people(e, "nickname", homejson[id].s)
+        let username = await this.people(e, "nickname", id)
         let inpajq = await (inpathing.test).replace(/wife1/g, wifename)
         inpajq = await inpajq.replace(/user/g, username)
         msg.push(inpajq)
