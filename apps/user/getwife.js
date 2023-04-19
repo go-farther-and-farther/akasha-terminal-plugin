@@ -287,8 +287,10 @@ export class qqy extends plugin {
         inpajson[id].fucktime++
         let wifename = await this.people(e, "nickname", homejson[id].s)
         let username = await this.people(e, "nickname", id)
-        let inpajq = await (inpathing.test).replace(/wife1/g, wifename)
+        let inpajq = await inpathing.test[Math.round(Math.random() * ((Object.keys(inpathing.test)).length - 1) + 1)]
+        console.log(inpajq)
         inpajq = await inpajq.replace(/user/g, username)
+        inpajq = await inpajq.replace(/wife1/g, wifename)
         msg.push(inpajq)
         msg.push(`你本次邀请了${ren}位群友参加银啪,\n牛牛长长了${kunup}cm,\n目前为${inpajson[id].kun}cm`)
         await akasha_data.getQQYUserxiaoqie(id, inpajson, filename, true)
