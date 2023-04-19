@@ -287,7 +287,7 @@ export class qqy extends plugin {
         inpajson[id].fucktime++
         let wifename = await this.people(e, "nickname", homejson[id].s)
         let username = await this.people(e, "nickname", id)
-        let inpajq = await inpathing.test[Math.round(Math.random() * ((Object.keys(inpathing.test)).length - 1) + 1)]
+        let inpajq = await inpathing.test[Object.keys(inpathing.test)[Math.round(Math.random() * ((Object.keys(inpathing.test)).length - 1) + 1)]]
         console.log(inpathing.test)
         console.log(Object.keys(inpathing.test))
         console.log(inpajq)
