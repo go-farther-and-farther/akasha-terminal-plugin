@@ -5,7 +5,6 @@ import lodash from 'lodash'
 import puppeteer from 'puppeteer'
 /*事件监听*/
 import chokidar from 'chokidar'
-import { segment } from 'oicq'
 class Puppeteer {
   constructor() {
     /*puppeteer实例保存*/
