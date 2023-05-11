@@ -923,11 +923,13 @@ export class qqy extends plugin {
     //看房
     async gethouse(e) {
         var housething = JSON.parse(fs.readFileSync(housepath, "utf8"));//读取文件
-        var msg = '欢迎光临\n请过目\n'
+        var msg = []
+        msg.push('欢迎光临,请过目:')
+        var house = []
         for (let i of Object.keys(housething)) {
-            msg += `id: ${i}\n${housething[i].name}\n容量: ${housething[i].space}\n价格: ${housething[i].price}\n好感增幅: ${housething[i].loveup}\n`
+            msg.push(`id: ${i}\n${housething[i].name}\n容量: ${housething[i].space}\n价格: ${housething[i].price}\n好感增幅: ${housething[i].loveup}\n`)
         }
-        e.reply(msg)
+        Config.getforwardMsg(msg,e)
         return true
     }
     //买房,可以给别人买
