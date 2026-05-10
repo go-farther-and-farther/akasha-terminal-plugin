@@ -106,6 +106,7 @@ export class duel extends plugin {//决斗
 		if (user_id == user_id2) { //判定是否为提出者
 			if (e.sender.role == "owner" || e.sender.role == "admin") {
 				e.reply(`请不要这样，我也很难的啦！`)
+				return true
 			}
 			e.group.muteMember(e.user_id, 60);
 			e.reply([segment.at(e.user_id), `\n...好吧，成全你`]);
@@ -114,6 +115,7 @@ export class duel extends plugin {//决斗
 		if (e.atme) {//@的人是bot
 			if (e.sender.role == "owner" || e.sender.role == "admin") {
 				e.reply(`请不要这样，我也很难的啦！`)
+				return true
 			}
 			e.group.muteMember(e.user_id, 60);
 			e.reply([segment.at(e.user_id), `\n你什么意思？举办了`]);
@@ -177,7 +179,7 @@ export class duel extends plugin {//决斗
 		let random_time2 = Math.round(Math.random() * 4) + 1//禁言时间
 		//提示
 		e.reply([segment.at(e.user_id),
-		`你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}${json[user_id2].levelname}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
+		`你的境界为${json[user_id].levelname}\n你的三星武器数量为${num13}四星武器数量为${num14}五星武器数量为${num15}\n${user_id2_nickname}的境界为${json[user_id2].levelname}\n${user_id2_nickname}的三星武器数量为${num23}四星武器数量为${num24}五星武器数量为${num25}\n决斗开始!战斗力意义系数${Magnification},境界差${win_level},你的获胜概率是${win},挑战败者将被禁言1~5分钟,被挑战失败者禁言被1~3分钟`]);//发送消息
 		//判断
 		if (json[user_id].Privilege == 1 || e.sender.role == "owner" || e.sender.role == "admin") {
 			setTimeout(() => {//延迟3秒

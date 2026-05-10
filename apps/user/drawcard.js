@@ -7,10 +7,11 @@ let Template = {//创建该用户
 };
 let exerciseCD = {};
 let Cool_time = 5;
-var weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8"));
-let num3 = weapon[`3星数量`]
-let num4 = weapon[`4星数量`]
-let num5 = weapon[`5星数量`]
+var weapon = {};
+try { weapon = JSON.parse(fs.readFileSync(dirpath2, "utf8")); } catch (e) { console.error('[drawcard] 读取weapon.json失败:', e.message); }
+let num3 = weapon[`3星数量`] || 0
+let num4 = weapon[`4星数量`] || 0
+let num5 = weapon[`5星数量`] || 0
 export class drawcard extends plugin {
     constructor() {
         super({

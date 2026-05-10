@@ -442,7 +442,7 @@ export class qqy extends plugin {
         //     await this.ntrF2(e, e.user_id, e.at)
         // }
         if (good > gailv) { await this.ntrT(e, e.user_id, at, 'Robbery') }
-        else { await this.ntrF(e, e.user_id, e.at, 'Robbery') }
+        else { await this.ntrF(e, e.user_id, at, 'Robbery') }
         await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
             EX: cdTime7
         });
@@ -940,6 +940,10 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         var msg = e.msg.replace(/(买房|#)/g, "").replace(/[\n|\r]/g, "，").trim()
+        if (!housething.hasOwnProperty(msg) || msg === '__proto__' || msg === 'constructor' || msg === 'prototype') {
+            e.reply(`无效的房屋ID`)
+            return
+        }
         if (homejson[id].money < housething[msg].price) {
             e.reply(`金币不足`)
             return
@@ -962,6 +966,10 @@ export class qqy extends plugin {
         var homejson = await akasha_data.getQQYUserHome(id, homejson, filename, false)
         var housejson = await akasha_data.getQQYUserHouse(id, housejson, filename, false)
         var msg = e.msg.replace(/(住所改名|#)/g, "").replace(/[\n|\r]/g, "，").trim()
+        if (!msg || msg.length > 20) {
+            e.reply(`住所名称无效，长度需在1-20个字符之间`)
+            return
+        }
         var shifu = housejson[id].space * 10
         if (homejson[id].money < shifu) {
             e.reply(`金币不足,需要${shifu}金币`)
