@@ -6,7 +6,9 @@
 
 [![访问量](https://profile-counter.glitch.me/akasha-terminal-plugin/count.svg)](https://gitee.com/go-farther-and-farther/akasha-terminal-plugin)
 
-[Yunzai-Bot V3](https://github.com/Le-niao/Yunzai-Bot) 群内小游戏插件包
+群内小游戏插件包
+
+> **注意**: 原 [Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot) 仓库已删除，本插件仍可配合各类 Yunzai-Bot 衍生版本使用。
 
 </div>
 
@@ -182,6 +184,10 @@ wife_cfg:
 2. @越追越远 && @尘封 提供了决斗功能
 3. @越追越远 && @尘封 提供了娶群友功能
 4. @长楠 && @尘封 提供了娶群友事件资源
+
+## 衍生版本
+
+[trss-akasha-terminal-plugin](https://github.com/wbndm1234/trss-akasha-terminal-plugin) — 适配 TRSS-Yunzai / 喵崽的独立开发版，新增 SQLite 数据库存储、Web 管理界面、MySQL 同步等功能。
 
 ## 发电成员
 
