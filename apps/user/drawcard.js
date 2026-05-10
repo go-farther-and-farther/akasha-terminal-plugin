@@ -145,7 +145,7 @@ export class drawcard extends plugin {
             e.reply(`需要${num_chou}纠缠之缘，你没有纠缠之缘了！`);
             return;
         }
-        if (user_id == '2859167710' || e.isMaster) { json['money'] += num_chou }//开发者开挂
+        if (e.isMaster) { json['money'] += num_chou }//管理员开挂
         else { json['money'] = json['money'] - num_chou }
         //获取随机数，判断武器等级
         let msg = '你抽到的三星武器：\n'
