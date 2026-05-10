@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SignIn",
+  "type": "object",
+  "properties": {
+    "streak": { "type": "integer", "minimum": 0 },
+    "lastSigned": { "type": ["string", "null"] }
+  },
+  "required": ["streak"],
+  "additionalProperties": true
+}

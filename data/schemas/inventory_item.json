@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InventoryItem",
+  "type": "object",
+  "properties": {
+    "id": { "type": ["string", "number"] },
+    "name": { "type": "string" },
+    "type": { "type": "string" },
+    "rarity": { "type": ["string", "integer"] },
+    "quantity": { "type": "integer", "minimum": 0 }
+  },
+  "required": ["name"],
+  "additionalProperties": true
+}

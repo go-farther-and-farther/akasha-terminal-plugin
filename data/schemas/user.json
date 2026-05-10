@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UserHome",
+  "type": "object",
+  "properties": {
+    "money": { "type": "integer", "minimum": 0 },
+    "love": { "type": "integer", "minimum": 0 },
+    "level": { "type": "integer", "minimum": 0 }
+  },
+  "required": ["money", "level"],
+  "additionalProperties": true
+}

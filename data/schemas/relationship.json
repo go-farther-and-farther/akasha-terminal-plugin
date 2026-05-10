@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Relationship",
+  "type": "object",
+  "properties": {
+    "partnerId": { "type": ["string", "null"] },
+    "status": { "type": "string" },
+    "startTs": { "type": ["integer", "null"] },
+    "meta": { "type": "object" }
+  },
+  "required": ["status"],
+  "additionalProperties": true
+}

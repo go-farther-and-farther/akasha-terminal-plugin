@@ -5,6 +5,7 @@ import { Data, Version } from './components/index.js'
 import chalk from 'chalk'//用粉笔写；用白垩粉擦
 import { initializeFileLockSystem, getFileLockSystemStatus } from './components/FileLockInitializer.js'
 import { get as getCache, set as setCache } from './components/cache.js'
+import { getSQLiteStatus, getSQLiteWarning } from './components/sqlite_manager.js'
 
 if (!global.segment) {
   try {
@@ -52,6 +53,19 @@ if (Bot?.logger?.info) {
         Bot.logger.warn(chalk.yellow(`(🍀Akasha-Terminal-Plugin🍀): 将使用传统文件操作模式`))
     }
 
+    // 初始化SQLite
+    try {
+        const sqliteStatus = getSQLiteStatus()
+        if (!sqliteStatus.available) {
+            const sqliteWarning = getSQLiteWarning()
+            Bot.logger.warn(chalk.yellow(`(🍀Akasha-Terminal-Plugin🍀): ${sqliteWarning}`))
+        } else {
+            Bot.logger.info(chalk.green(`(🍀Akasha-Terminal-Plugin🍀): SQLite 后端可用`))
+        }
+    } catch (error) {
+        Bot.logger.warn(chalk.yellow(`(🍀Akasha-Terminal-Plugin🍀): SQLite 状态检查失败，将以兼容模式运行`))
+    }
+
     Bot.logger.warn(chalk.blue(`(🍀Akasha-Terminal-Plugin🍀):若出现README.md中未提及的问题,请联系我们!!!`))
     Bot.logger.info(chalk.green('(🍀Akasha-Terminal-Plugin🍀):"初始化完成,祝您游玩愉快!🌴'))
     Bot.logger.info('🌴🌴🌴🌴🌴🌴🌴🌴')
@@ -67,6 +81,16 @@ if (Bot?.logger?.info) {
     } catch (error) {
         console.error('文件锁系统初始化异常:', error)
         console.warn('将使用传统文件操作模式')
+    }
+    try {
+        const sqliteStatus = getSQLiteStatus()
+        if (!sqliteStatus.available) {
+            console.warn(getSQLiteWarning())
+        } else {
+            console.log('SQLite 后端可用')
+        }
+    } catch (error) {
+        console.warn('SQLite 状态检查失败，将以兼容模式运行')
     }
 }
 

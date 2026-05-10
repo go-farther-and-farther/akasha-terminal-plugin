@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workshop",
+  "type": "object",
+  "properties": {
+    "level": { "type": "integer", "minimum": 1 },
+    "slots": { "type": "integer", "minimum": 1 },
+    "data": { "type": "object" }
+  },
+  "required": ["level", "slots"],
+  "additionalProperties": true
+}

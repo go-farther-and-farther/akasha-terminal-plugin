@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import YAML from 'yaml'
+import { plugin } from '../../model/api/api.js'
 const _defpath = `./plugins/akasha-terminal-plugin/config/akasha.config.def.yaml`;
 const configyamlpath = `./plugins/akasha-terminal-plugin/config/akasha.config.yaml`;
 const configyamlbackpath = `./plugins/akasha-terminal-plugin/config/akasha.config.back.yaml`;
@@ -56,12 +57,13 @@ export class getconfig extends plugin {
         }
         if (!fs.existsSync(configyamlpath)) {
             e.reply(`${configyamlpath}不存在。`)
+            return true
         }
-        if (e.isPrivate) {
-            e.friend.sendFile(configyamlpath)
-        }
-        if (e.isGroup) {
-            e.group.fs.upload(configyamlpath)
+        try {
+            let content = fs.readFileSync(configyamlpath, 'utf8')
+            e.reply(`虚空配置文件内容：\n${content}`)
+        } catch (err) {
+            e.reply(`读取配置失败：${err.message}`)
         }
     }
 }

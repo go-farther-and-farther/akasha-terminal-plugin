@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SynthesisRecord",
+  "type": "object",
+  "properties": {
+    "ts": { "type": "integer" },
+    "item": { "type": "string" },
+    "result": { "type": "string" },
+    "success": { "type": "boolean" }
+  },
+  "required": ["item", "result", "success"],
+  "additionalProperties": true
+}

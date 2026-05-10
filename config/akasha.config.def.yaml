@@ -45,3 +45,50 @@ wife_cfg:
     - 123123123
   #开奖时间,单位(24制-时0到23)
   RBBtime: 20
+
+# ============ 以下为 LIN 合并配置 ============
+
+# 点赞 设置
+thumbUp_cfg:
+  # 是否自动点赞,1为是0为否
+  thumuppen: 1
+  # 点赞人群，friend和master
+  crowd : master
+# 复读的设置 一个是触发需要的次数，open是复读，open2是打断施法
+Auto:
+  def_num: 3
+  def_fdopen: false
+  def_ddopen2: true
+# ai 设置:初始概率,每次改变量,只关注@,默认接口,开关
+ai_cfg:
+  def_gailv: 100
+  def_local_gailv: 50
+  def_onlyReplyAt : true
+  def_ai_now : 1
+  ai_api:
+  - http://api.qingyunke.com/api.php?key=free&appid=0&msg= #青云客
+  - https://api.ownthink.com/bot?appid=xiaosi&userid=user&spoken= #思知ai
+  - http://ovooa.com/API/kuake/api.php?msg= #夸克ai（科普问答的）
+  - http://fuyhi.top/api/xiaoai_ts/api.php?msg= #小爱ai
+  - http://fuyhi.top/api/peiliao/api.php?msg= #小源ai
+  - http://xiaobai.klizi.cn/API/other/xiaoai.php?data=&msg= #小白ai
+  - http://www.tuling123.com/openapi/api?key=d8dee202a87940bd866332938dd9ec52&info= #图灵ai
+  - http://api.xn--7gqa009h.top/api/xlny_1?msg= #韩国妹妹
+  ai_name:
+  - 青云客ai
+  - 思知ai
+  - 夸克ai
+  - 小爱ai
+  - 小源ai
+  - 小白ai
+  - 图灵ai
+  - 韩国妹妹ai
+  ai_nick:
+  - 菲菲
+  - 小思
+  - 夸克宝宝
+  - 小爱
+  - 小源
+  - 琪琪
+  - api机器人
+  - 小纤

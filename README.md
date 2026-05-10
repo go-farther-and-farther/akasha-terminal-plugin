@@ -6,9 +6,9 @@
 
 [![访问量](https://profile-counter.glitch.me/akasha-terminal-plugin/count.svg)](https://gitee.com/go-farther-and-farther/akasha-terminal-plugin)
 
-群内小游戏插件包
+群内游戏 / AI / 工具 多功能插件包
 
-> **注意**: 原 [Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot) 仓库已删除，本插件仍可配合各类 Yunzai-Bot 衍生版本使用。
+适配 [TRSS-Yunzai](https://gitee.com/trss/Trss-Yunzai) v3 及衍生版本
 
 </div>
 
@@ -17,7 +17,18 @@
 在 Yunzai-Bot 根目录执行：
 
 ```bash
+# Gitee（推荐国内）
 git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin
+
+# GitHub
+git clone --depth 1 https://github.com/go-farther-and-farther/akasha-terminal-plugin.git ./plugins/akasha-terminal-plugin
+```
+
+安装依赖：
+
+```bash
+cd plugins/akasha-terminal-plugin
+pnpm i
 ```
 
 重启 Bot 后生效。
@@ -32,7 +43,7 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 | `#虚空重置配置` | 重置配置文件为默认值（会备份原配置） |
 | `#虚空配置` | 查看当前配置文件 |
 
-## 指令一览
+## 功能一览
 
 ### 娶群友（分群数据）
 
@@ -54,16 +65,11 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 | `#买房+编号` | 购买房屋（可@他人代买） |
 | `#住所改名+名称` | 修改住所名称 |
 | `#逛街` | 与老婆逛街触发随机事件 |
-| `#进去看看` | 进入当前地点 |
-| `#去下一个地方` | 换一个地点 |
-| `#回家` | 结束逛街 |
-| `#开始银啪` | 开启银啪活动 |
-| `#踢出银啪 @某人` | 将某人踢出银啪 |
-| `#退出银啪 @某人` | 退出某人的银啪 |
+| `#进去看看` / `#去下一个地方` / `#回家` | 逛街地点操作 |
+| `#开始银啪` / `#踢出银啪 @某人` / `#退出银啪 @某人` | 银啪活动 |
 | `#上交存款+数量` | 上交金币 |
 | `#获取虚空彩球 红球x6 蓝球` | 购买彩票 |
-| `#我的彩票` | 查看已购彩票 |
-| `#虚空彩球兑换` | 兑换彩票奖金 |
+| `#我的彩票` / `#虚空彩球兑换` | 彩票相关 |
 | `#虚空清除无效存档` | 清除退群用户的数据 |
 
 ### 御前决斗（全局数据）
@@ -75,19 +81,53 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 | `#睡觉` / `#早睡` | 睡觉获取内力（会触发禁言） |
 | `#服用丹药` | 管理员专用，获取100内力 |
 | `#闭关突破` | 消耗内力突破境界 |
-| `#决斗境界列表` | 查看全部37级境界 |
-| `#我的境界` | 查看当前境界和距下次突破所需内力 |
-| `#我的等级` | 查看等级和经验 |
+| `#决斗境界列表` / `#我的境界` / `#我的等级` | 查看境界/等级 |
 | `#签到` / `#做委托` | 获取纠缠之缘 |
-| `#抽武器` / `#祈愿` | 单抽武器 |
-| `#十连抽武器` | 十连抽武器 |
-| `#武器库` | 查看武器库总量 |
-| `#我的武器` | 查看已拥有的武器 |
+| `#抽武器` / `#祈愿` / `#十连抽武器` | 武器抽卡 |
+| `#武器库` / `#我的武器` | 查看武器 |
 | `#查水表 @某人` | 查看群成员信息 |
-| `#设置战斗力意义系数+数值` | 管理员设置决斗系数(1-3) |
 | `#虚空设置权能 @某人` | 管理员设置/移除特殊权限 |
 
-### 境界系统
+### AI 对话
+
+| 指令 | 说明 |
+|------|------|
+| 直接发消息 | 按概率触发AI回复（支持8个免费接口轮换） |
+| `#ai概率+数值` | 设置AI触发概率 (0-100) |
+| `#本地概率+数值` | 设置本地词库触发概率 |
+| `#ai设置接口+编号` | 切换AI接口 |
+| `#ai状态` | 查看当前AI配置 |
+| `#开启/关闭引用` | AI回复是否引用原消息 |
+| `#只关注@消息` / `#关注所有消息` | 群聊回复模式 |
+
+### 工具功能
+
+| 指令 | 说明 |
+|------|------|
+| `#百度一下+内容` | 百度搜索 |
+| `#历史上的今天` | 历史事件 |
+| `#微博热搜` | 微博热搜榜 |
+| `#网易云热评` | 网易云热评 |
+| `#疯狂星期四` | KFC 文案 |
+| `#看书+关键词` | 搜索小说 |
+| `#天气+城市` | 天气查询 |
+| `成语接龙` / `我接+成语` / `结束成语接龙` | 成语接龙游戏 |
+| `多人诗词接龙` / `我接+诗句` / `结束诗词接龙` | 诗词接龙游戏 |
+| `#查权重 @某人` | 查QQ权重 |
+| `#设置/修改昵称+名称` | 修改机器人昵称 |
+| `#设置/修改头像+图片` | 修改机器人头像 |
+
+### 系统管理
+
+| 指令 | 说明 |
+|------|------|
+| `#虚空帮助` / `#游戏规则` | 查看帮助 |
+| `#虚空合成台` | 查看合成台 |
+| `#虚空信息` | 查看插件信息 |
+| `#发送报错` / `#发送日志` | 获取错误/命令日志 |
+| `#备份报错` | 备份并清空错误日志 |
+
+## 境界系统
 
 共37个等级 + 无限返璞归真：
 
@@ -104,19 +144,32 @@ git clone --depth 1 https://gitee.com/go-farther-and-farther/akasha-terminal-plu
 | 混沌境 | Lv.33-36 | 1700 ~ 2260 |
 | 返璞归真 | Lv.36+ | 每重+200 |
 
-### 其他
+## 数据存储
 
-| 指令 | 说明 |
+支持三种后端，按优先级自动回退：**SQLite > MySQL > JSON 文件**
+
+| 后端 | 说明 |
 |------|------|
-| `#虚空帮助` | 查看帮助菜单 |
-| `#虚空合成台` | 查看合成台 |
-| `#虚空信息` | 查看插件信息 |
+| SQLite | 默认，零配置，数据存 `data/akasha.sqlite` |
+| MySQL | 可选，修改 `config/mysql_config.json` 启用 |
+| JSON | 兜底，SQLite 不可用时自动使用 |
+
+### 数据文件说明
+
+| 路径 | 说明 |
+|------|------|
+| `data/akasha.sqlite` | SQLite 数据库（决斗/家庭/位置/房屋等） |
+| `data/battle.json` | 决斗全局数据（JSON 模式） |
+| `data/UserData/qq号.json` | 武器抽卡个人数据 |
+| `data/qylp/UserHome/群号.json` | 娶群友家庭数据 |
+| `data/ai.json` | AI 对话配置 |
+| `data/poem/` | 诗词接龙数据 |
 
 ## 配置说明
 
 配置文件位于 `config/akasha.config.yaml`，首次使用会自动生成。
 
-<details><summary>配置项说明</summary>
+<details><summary>完整配置项</summary>
 
 ```yaml
 # 决斗系统
@@ -143,20 +196,26 @@ wife_cfg:
   group:                  # 开奖通知群列表
     - 123456789
   RBBtime: 20             # 开奖时间 (24制)
+
+# AI 对话
+ai_cfg:
+  def_gailv: 100          # AI触发概率 (%)
+  def_local_gailv: 50     # 本地词库概率 (%)
+  def_onlyReplyAt: true   # 群聊是否只回复@消息
+  def_ai_now: 1           # 默认AI接口编号
+  ai_api:                 # AI接口列表
+    - http://api.qingyunke.com/api.php?key=free&appid=0&msg=
+    - https://api.ownthink.com/bot?appid=xiaosi&userid=user&spoken=
+    # ... 更多接口见配置文件
+
+# 自动功能
+Auto:
+  def_num: 3              # 复读触发次数
+  def_fdopen: false       # 自动复读开关
+  def_ddopen2: true       # 打断复读开关
 ```
 
 </details>
-
-## 数据存储
-
-| 路径 | 说明 |
-|------|------|
-| `data/battle.json` | 决斗全局数据（等级、内力） |
-| `data/UserData/qq号.json` | 武器抽卡个人数据 |
-| `data/qylp/UserHome/群号.json` | 娶群友家庭数据 |
-| `data/qylp/UserPlace/群号.json` | 娶群友位置数据 |
-| `data/qylp/UserHouse/群号.json` | 娶群友房屋数据 |
-| `data/qylp/UserYinPa/群号.json` | 娶群友银啪数据 |
 
 ## 常见问题
 
@@ -178,16 +237,23 @@ wife_cfg:
 
 </details>
 
+<details><summary>SQLite 不可用</summary>
+
+执行以下命令重新构建：
+```bash
+cd plugins/akasha-terminal-plugin
+npm run install-sqlite
+```
+SQLite 不可用时会自动回退到 JSON 文件存储，不影响使用。
+
+</details>
+
 ## 参与贡献
 
 1. @越追越远 提供了 plugin 框架
 2. @越追越远 && @尘封 提供了决斗功能
 3. @越追越远 && @尘封 提供了娶群友功能
 4. @长楠 && @尘封 提供了娶群友事件资源
-
-## 衍生版本
-
-[trss-akasha-terminal-plugin](https://github.com/wbndm1234/trss-akasha-terminal-plugin) — 适配 TRSS-Yunzai / 喵崽的独立开发版，新增 SQLite 数据库存储、Web 管理界面、MySQL 同步等功能。
 
 ## 发电成员
 
