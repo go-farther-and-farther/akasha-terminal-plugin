@@ -75,8 +75,8 @@ export class drawcard extends plugin {
             for (let i = 1; i <= num3; i++) {
                 msg = msg + `\n${weapon[3][i]}`
             }
-            e.reply(msg)
         }
+        e.reply(msg)
     }
     async signin(e) {
         let user_id = e.user_id;
@@ -104,6 +104,14 @@ export class drawcard extends plugin {
             if (e.msg.includes('开挂') && e.isMaster) {
                 json['money'] += 100
                 e.reply(`你获得了100颗纠缠之缘，你现在的纠缠之缘数量是${json['money']}`)
+                exerciseCD[user_id] = true;
+                exerciseCD[user_id] = setTimeout(() => {
+                    if (exerciseCD[user_id]) {
+                        delete exerciseCD[user_id];
+                    }
+                }, Cool_time * 1000 * 60);
+                fs.writeFileSync(dirpath + "/" + filename, JSON.stringify(json, null, "\t"));
+                return
             }
             json['money']++
             e.reply(`获得了一颗纠缠之缘，你还有${json['money']}颗纠缠之缘`)
@@ -218,8 +226,8 @@ export class drawcard extends plugin {
                 if (weapon[3][i])
                     msg = msg + `\n${weapon[3][i]} 数量：${json[3][i]}`
             }
-            e.reply(msg)
         }
+        e.reply(msg)
         return
     }
 }

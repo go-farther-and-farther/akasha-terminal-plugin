@@ -399,7 +399,7 @@ export class qqy extends plugin {
             return
         }
         if (homejson[id].money >= 5000) {
-            e.reply(`你已经有钱({${homejson[id].money})了还抢别人的???`)
+            e.reply(`你已经有钱(${homejson[id].money})了还抢别人的???`)
             return
         }
         if (homejson[id].s != 0) {
@@ -444,7 +444,7 @@ export class qqy extends plugin {
         if (good > gailv) { await this.ntrT(e, e.user_id, at, 'Robbery') }
         else { await this.ntrF(e, e.user_id, e.at, 'Robbery') }
         await redis.set(`akasha:wife-Robbery-cd:${e.group_id}:${e.user_id}`, currentTime, {
-            EX: cdTime6
+            EX: cdTime7
         });
         return true;
     }
@@ -1237,7 +1237,7 @@ export class qqy extends plugin {
                 case 6:
                     if (myB == trueB) {
                         e.reply(`恭喜你!!!获得一等奖50万金币!!!`)
-                        homejson[id].money += 5000000
+                        homejson[id].money += 500000
                     }
                     else {
                         homejson[id].money += 200000

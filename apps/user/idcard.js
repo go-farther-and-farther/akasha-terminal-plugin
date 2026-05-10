@@ -3,6 +3,7 @@ import cfg from '../../../../lib/config/config.js'
 import moment from "moment"
 import akasha_data from '../../components/akasha_data.js'
 const cdTime = 60 //默认为1分钟
+const currentTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 export class idcard extends plugin {
     constructor() {
         super({
@@ -30,8 +31,8 @@ export class idcard extends plugin {
             e.reply(`不可以这样！`)
             return
         }
-        var battlejson = await akasha_data.getQQYUserBattle(id, battlejson, false)
-        let UserPAF = battlejson[id].Privilege
+        var battlejson = await akasha_data.getQQYUserBattle(e.at, battlejson, false)
+        let UserPAF = battlejson[e.at] ? battlejson[e.at].Privilege : 0
         if (lastTime !== -2 && !UserPAF && !masterList.includes(e.user_id)) {
             e.reply([
                 segment.at(e.user_id), "\n",
