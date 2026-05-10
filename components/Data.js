@@ -1,8 +1,13 @@
 import lodash from 'lodash'
 import fs from 'fs'
+import { getFileLockIntegration } from './FileLockIntegration.js'
+import { get as getCache, setWithEX as setCacheWithEX } from './cache.js'
 
 const _path = process.cwd()
 const plugin = 'akasha-terminal-plugin'
+
+// 获取文件锁集成实例
+const fileLockIntegration = getFileLockIntegration()
 const getRoot = (root = '') => {
   if (root === 'root' || root === 'yunzai') {
     root = `${_path}/`
@@ -39,14 +44,14 @@ let Data = {
   * */
   readJSON(file = '', root = '') {
     root = getRoot(root)
-    if (fs.existsSync(`${root}/${file}`)) {
-      try {
-        return JSON.parse(fs.readFileSync(`${root}/${file}`, 'utf8'))
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    return {}
+    const filePath = `${root}/${file}`
+    return fileLockIntegration.readJSONSync(filePath, {})
+  },
+
+  async readJSONAsync(file = '', root = '') {
+    root = getRoot(root)
+    const filePath = `${root}/${file}`
+    return await fileLockIntegration.readJSON(filePath, {})
   },
 
   /*
@@ -56,16 +61,27 @@ let Data = {
     // 检查并创建目录
     Data.createDir(file, root, true)
     root = getRoot(root)
-    delete data._res
-    return fs.writeFileSync(`${root}/${file}`, JSON.stringify(data, null, space))
+    const filePath = `${root}/${file}`
+    if (data && typeof data === 'object') {
+      delete data._res
+    }
+    return fileLockIntegration.writeJSONSync(filePath, data, { space })
+  },
+
+  async writeJSONAsync(file, data, space = '\t', root = '') {
+    // 检查并创建目录
+    Data.createDir(file, root, true)
+    root = getRoot(root)
+    const filePath = `${root}/${file}`
+    if (data && typeof data === 'object') {
+      delete data._res
+    }
+    return await fileLockIntegration.writeJSON(filePath, data, { space })
   },
 
   async getCacheJSON(key) {
     try {
-      let txt = await redis.get(key)
-      if (txt) {
-        return JSON.parse(txt)
-      }
+      return await getCache(key) || {}
     } catch (e) {
       console.log(e)
     }
@@ -73,7 +89,7 @@ let Data = {
   },
 
   async setCacheJSON(key, data, EX = 3600 * 24 * 90) {
-    await redis.set(key, JSON.stringify(data), { EX })
+    return await setCacheWithEX(key, data, EX)
   },
 
   async importModule(file, root = '') {

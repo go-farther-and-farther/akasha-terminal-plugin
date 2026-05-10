@@ -229,7 +229,7 @@ export class qqy extends plugin {
                 await redis.set(`akasha:whois-my-wife2-cd:${e.group_id}:${e.user_id}`, currentTime, {
                     EX: cdTime2
                 });
-                if (!homejson[id].s == 0) {
+                if (homejson[id].s != 0) {
                     e.reply(`你已经有老婆了,你可以纳妾!?,这位${name}就成功被你纳入了!`)
                     inpajson[id].fuck.push(e.at)
                 }
@@ -519,7 +519,7 @@ export class qqy extends plugin {
                 segment.at(yi), "\n",
                 `很遗憾!由于你的疏忽,你的钱抢走了!!!`
             ])
-            money = 100 + 100 * Math.random()
+            var money = 100 + 100 * Math.random()
             homejson[yi].money -= money
             homejson[jia].money += money
 
@@ -550,7 +550,7 @@ export class qqy extends plugin {
             e.reply(`你不是${homejson[id].wait},就不要捣乱了`)
             return
         }
-        if (!homejson[id].s == 0) {
+        if (homejson[id].s != 0) {
             e.reply(`对方已经有老婆了,所以你成为了对方的小妾!!!`)
             inpajson[id].fuck.push(e.user_id)
             homejson[id].wait = 0
@@ -695,7 +695,7 @@ export class qqy extends plugin {
                 `来自【${e.group_name}】`, "\n",
                 `要好好对待${she_he}哦！`,
             ]
-            if (!homejson[id].s == 0) {
+            if (homejson[id].s != 0) {
                 e.reply(`你已经有老婆了,对方成为了你的小妾!!!`)
                 inpajson[id].fuck.push(wife.user_id)
             }
@@ -738,7 +738,7 @@ export class qqy extends plugin {
             let she_he = await this.people(e, 'sex', homejson[id].s)//用is_she函数判断下这个人是男是女
             homejson[id].s = 0
             homejson[id].love = 0
-            homejson[id].money - homejson[id].money / 5
+            homejson[id].money -= homejson[id].money / 5
             await akasha_data.getQQYUserHome(id, homejson, filename, true)
             e.reply(`成功分手!,${she_he}对你的好感荡然无存!现在你可以去娶下一个老婆了(呸!渣男..￣へ￣)`)
             return
@@ -832,7 +832,7 @@ export class qqy extends plugin {
                 msgstart = `两心靠近是情缘,更是吸引;\n两情相悦是喜欢,更是眷恋。\n和你两情相悦的人是${name},\n`,
                     msg_love3 = `你对${she_he}的好感为${homejson[mywife].love}\n`
                 //把喜欢你的人从这个数组去除
-                iswife_list.slice(iswife_list.indexOf(homejson[id].s), 1)
+                iswife_list.splice(iswife_list.indexOf(homejson[id].s), 1)
             }
             //不是两情相悦的的
             else {
@@ -847,7 +847,7 @@ export class qqy extends plugin {
         //对msg_love处理
         //喜欢你的人
         let msg_love = '喜欢你但是你不喜欢的人有：\n'
-        if (!iswife_list.length == 0) {
+        if (iswife_list.length != 0) {
             var notlqxyk = iswife_list.filter(item => item != Number(homejson[id].s))//去掉老婆
             for (let i of notlqxyk)
                 msg_love = msg_love + `${i}\n好感度为：${homejson[i].love}\n`

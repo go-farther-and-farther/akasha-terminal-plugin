@@ -53,7 +53,8 @@ export class duel extends plugin {//决斗
 		}
 		let msg = e.msg.replace("设置", "").trim()
 		msg = msg.replace("战斗力意义系数", "").trim()
-		if (typeof (msg) == 'number') {
+		let number = Number(msg)
+		if (!isNaN(number)) {
 			if (number > 3 || number < 1) {
 				e.reply(`战斗力意义系数应该是1~3之间`)
 			} else {

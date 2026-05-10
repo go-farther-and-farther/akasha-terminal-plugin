@@ -5,6 +5,12 @@ const QQYhomepath = "plugins/akasha-terminal-plugin/data/qylp/UserHome"
 const QQYincapath = "plugins/akasha-terminal-plugin/data/qylp/UserYinPa"
 const QQYplacepath = "plugins/akasha-terminal-plugin/data/qylp/UserPlace"
 const QQYhousepath = "plugins/akasha-terminal-plugin/data/qylp/UserHouse"
+
+function isValidId(id) {
+    return id && id !== '0' && id !== 0 && id !== 'undefined' && id !== 'null' &&
+        !(typeof id === 'string' && id.length < 5)
+}
+
 //这两个函数都是用来读取和保存json数据的
 async function getUser(id, json, Template, filename, is_save) {
     /*if (filename.indexOf(".json") == -1) {//如果文件名不包含.json
@@ -50,6 +56,10 @@ async function getUser2(user_id, json, dirname, is_save) {
     }
 }
 async function getQQYUserBattle(id, json, is_save) {
+    if (!isValidId(id)) {
+        console.warn(`[getQQYUserBattle] 无效的用户ID: ${id}`);
+        return {};
+    }
     if (!is_save) {
         var battlefilename = `battle.json`;//文件名
         if (!fs.existsSync(dirpath)) {//如果文件夹不存在
@@ -78,6 +88,10 @@ async function getQQYUserBattle(id, json, is_save) {
     }
 }
 async function getQQYUserPlace(id, json, filename, is_save) {
+    if (!isValidId(id)) {
+        console.warn(`[getQQYUserPlace] 无效的用户ID: ${id}`);
+        return {};
+    }
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
             fs.mkdirSync(QQYpath);//创建文件夹
@@ -106,6 +120,10 @@ async function getQQYUserPlace(id, json, filename, is_save) {
     }
 }
 async function getQQYUserxiaoqie(id, json, filename, is_save){
+    if (!isValidId(id)) {
+        console.warn(`[getQQYUserxiaoqie] 无效的用户ID: ${id}`);
+        return {};
+    }
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
             fs.mkdirSync(QQYpath);//创建文件夹
@@ -135,6 +153,10 @@ async function getQQYUserxiaoqie(id, json, filename, is_save){
     }
 }
 async function getQQYUserHome(id, json, filename, is_save) {
+    if (!isValidId(id)) {
+        console.warn(`[getQQYUserHome] 无效的用户ID: ${id}`);
+        return {};
+    }
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
             fs.mkdirSync(QQYpath);//创建文件夹
@@ -158,12 +180,12 @@ async function getQQYUserHome(id, json, filename, is_save) {
         }
         fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         // 转出10进制
-        if (json[id].money2) {
+        if (json[id] && json[id].money2) {
             json[id].money10 = parseInt(json[id].money2, 2)
             if (json[id].money > json[id].money10) { json[id].money = json[id].money10 }
             else { json[id].money10 = json[id].money }
         }
-        if (json[id].love2) {
+        if (json[id] && json[id].love2) {
             json[id].love10 = parseInt(json[id].love2, 2)
             if (json[id].love > json[id].love10) { json[id].love = json[id].love10 }
             else { json[id].love10 = json[id].love }
@@ -172,13 +194,21 @@ async function getQQYUserHome(id, json, filename, is_save) {
     }
     else {
         // 写入二进制
-        json[id].money2 = json[id].money.toString(2)
-        json[id].love2 = json[id].love.toString(2)
+        if (!json || !json[id]) {
+            json = json || {}
+            json[id] = { s: 0, wait: 0, money: 100, love: 0 }
+        }
+        json[id].money2 = Number(json[id].money || 0).toString(2)
+        json[id].love2 = Number(json[id].love || 0).toString(2)
         fs.writeFileSync(QQYhomepath + "/" + filename, JSON.stringify(json, null, "\t"));//写入文件
         return json;
     }
 }
 async function getQQYUserHouse(id, json, filename, is_save) {
+    if (!isValidId(id)) {
+        console.warn(`[getQQYUserHouse] 无效的用户ID: ${id}`);
+        return {};
+    }
     if (!is_save) {
         if (!fs.existsSync(QQYpath)) {//如果文件夹不存在
             fs.mkdirSync(QQYpath);//创建文件夹
@@ -208,4 +238,32 @@ async function getQQYUserHouse(id, json, filename, is_save) {
         return json;
     }
 }
-export default { getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserxiaoqie, getQQYUserHome, getQQYUserHouse, getUser2 }
+async function saveQQYUserBattle(id, json) {
+    if (!isValidId(id)) return json;
+    return await getQQYUserBattle(id, json, true)
+}
+
+async function saveQQYUserHome(id, json, filename) {
+    if (!isValidId(id)) return json;
+    return await getQQYUserHome(id, json, filename, true)
+}
+
+async function saveQQYUserPlace(id, json, filename) {
+    if (!isValidId(id)) return json;
+    return await getQQYUserPlace(id, json, filename, true)
+}
+
+async function saveQQYUserHouse(id, json, filename) {
+    if (!isValidId(id)) return json;
+    return await getQQYUserHouse(id, json, filename, true)
+}
+
+async function saveQQYUserxiaoqie(id, json, filename) {
+    if (!isValidId(id)) return json;
+    return await getQQYUserxiaoqie(id, json, filename, true)
+}
+
+export default {
+    getUser, getQQYUserBattle, getQQYUserPlace, getQQYUserxiaoqie, getQQYUserHome, getQQYUserHouse, getUser2,
+    saveQQYUserBattle, saveQQYUserHome, saveQQYUserPlace, saveQQYUserHouse, saveQQYUserxiaoqie
+}
